@@ -221,6 +221,100 @@ button {
 }
 .creator-actions { display: flex; justify-content: center; gap: 1.5rem; }
 
+/* Rabbit Preview Styles */
+.rabbit-container {
+    position: relative;
+    width: 140px;
+    height: 200px;
+}
+.rabbit-ear {
+    position: absolute;
+    width: 28px;
+    height: 70px;
+    border-radius: 50% 50% 40% 40%;
+    top: 0;
+}
+.rabbit-ear-left { left: 30px; transform: rotate(-10deg); }
+.rabbit-ear-right { right: 30px; transform: rotate(10deg); }
+.rabbit-ear-inner {
+    position: absolute;
+    width: 12px;
+    height: 45px;
+    background: #ffb6c1;
+    border-radius: 50%;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.rabbit-head {
+    position: absolute;
+    width: 100px;
+    height: 90px;
+    border-radius: 50%;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.rabbit-body {
+    position: absolute;
+    width: 90px;
+    height: 80px;
+    border-radius: 50% 50% 45% 45%;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.rabbit-eyes {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+    font-size: 1.2rem;
+    z-index: 10;
+}
+.rabbit-nose {
+    position: absolute;
+    top: 112px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 8px;
+    background: #ffb6c1;
+    border-radius: 50%;
+    z-index: 10;
+}
+.rabbit-mouth {
+    position: absolute;
+    top: 118px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    z-index: 10;
+}
+.rabbit-cheeks {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5;
+}
+.rabbit-cheek {
+    width: 16px;
+    height: 10px;
+    background: rgba(255, 150, 150, 0.4);
+    border-radius: 50%;
+}
+.rabbit-accessory {
+    position: absolute;
+    z-index: 15;
+    font-size: 1.3rem;
+}
+
 /* Date Select Screen */
 #screen-dateselect {
     background: 
@@ -654,55 +748,52 @@ button {
     <!-- CHARACTER CREATOR SCREEN -->
     <div id="screen-creator" class="screen">
         <div class="creator-container">
-            <h2 class="screen-title">CREATE YOUR AVATAR</h2>
+            <h2 class="screen-title">BUILD YOUR PLAYBOY BUNNY</h2>
             <div class="creator-layout">
                 <div class="preview-panel">
                     <div class="preview-frame">
                         <div id="avatar-preview" class="avatar-preview">
-                            <div class="avatar-layer" id="layer-skin"></div>
-                            <div class="avatar-layer" id="layer-outfit"></div>
-                            <div class="avatar-layer" id="layer-mouth"></div>
-                            <div class="avatar-layer" id="layer-eyes"></div>
+                            <!-- Rabbit will be rendered here by updatePreview() -->
                         </div>
                     </div>
                     <p class="preview-label">Your Date Night Look</p>
                 </div>
                 <div class="options-panel">
                     <div class="option-group">
-                        <label class="option-label">Skin Tone</label>
+                        <label class="option-label">Fur Tone</label>
                         <div class="option-row" id="skin-options">
-                            <button class="swatch selected" data-option="skin" data-value="0" style="background: #FFDFC4"></button>
-                            <button class="swatch" data-option="skin" data-value="1" style="background: #F0C08A"></button>
-                            <button class="swatch" data-option="skin" data-value="2" style="background: #CD9A6D"></button>
-                            <button class="swatch" data-option="skin" data-value="3" style="background: #8D5524"></button>
-                            <button class="swatch" data-option="skin" data-value="4" style="background: #4A2912"></button>
+                            <button class="swatch selected" data-option="skin" data-value="0" style="background: #C1E1C1"></button>
+                            <button class="swatch" data-option="skin" data-value="1" style="background: #E2B887"></button>
+                            <button class="swatch" data-option="skin" data-value="2" style="background: #C79A6B"></button>
+                            <button class="swatch" data-option="skin" data-value="3" style="background: #F4C6CF"></button>
+                            <button class="swatch" data-option="skin" data-value="4" style="background: #C7D7E5"></button>
                         </div>
                     </div>
                     <div class="option-group">
                         <label class="option-label">Eyes</label>
                         <div class="option-row" id="eye-options">
-                            <button class="icon-btn selected" data-option="eyes" data-value="0">👁️</button>
-                            <button class="icon-btn" data-option="eyes" data-value="1">◉</button>
-                            <button class="icon-btn" data-option="eyes" data-value="2">◠</button>
-                            <button class="icon-btn" data-option="eyes" data-value="3">✿</button>
+                            <button class="icon-btn selected" data-option="eyes" data-value="0">◕◕</button>
+                            <button class="icon-btn" data-option="eyes" data-value="1">◉◉</button>
+                            <button class="icon-btn" data-option="eyes" data-value="2">≧≦</button>
+                            <button class="icon-btn" data-option="eyes" data-value="3">♥♥</button>
                         </div>
                     </div>
                     <div class="option-group">
                         <label class="option-label">Mouth</label>
                         <div class="option-row" id="mouth-options">
-                            <button class="icon-btn selected" data-option="mouth" data-value="0">‿</button>
-                            <button class="icon-btn" data-option="mouth" data-value="1">―</button>
-                            <button class="icon-btn" data-option="mouth" data-value="2">◡</button>
-                            <button class="icon-btn" data-option="mouth" data-value="3">👄</button>
+                            <button class="icon-btn selected" data-option="mouth" data-value="0">ω</button>
+                            <button class="icon-btn" data-option="mouth" data-value="1">︿</button>
+                            <button class="icon-btn" data-option="mouth" data-value="2">○</button>
+                            <button class="icon-btn" data-option="mouth" data-value="3">з</button>
                         </div>
                     </div>
                     <div class="option-group">
-                        <label class="option-label">Outfit</label>
+                        <label class="option-label">Accessory</label>
                         <div class="option-row" id="outfit-options">
-                            <button class="outfit-btn selected" data-option="outfit" data-value="0">👔</button>
-                            <button class="outfit-btn" data-option="outfit" data-value="1">👗</button>
-                            <button class="outfit-btn" data-option="outfit" data-value="2">🧥</button>
-                            <button class="outfit-btn" data-option="outfit" data-value="3">👕</button>
+                            <button class="outfit-btn selected" data-option="outfit" data-value="0">🎀</button>
+                            <button class="outfit-btn" data-option="outfit" data-value="1">🎩</button>
+                            <button class="outfit-btn" data-option="outfit" data-value="2">🌸</button>
+                            <button class="outfit-btn" data-option="outfit" data-value="3">⭐</button>
                         </div>
                     </div>
                 </div>
@@ -1766,17 +1857,59 @@ function showScreen(id) {
     document.getElementById(id).classList.add('active');
 }
 
-// ===== CHARACTER CREATOR =====
+// ===== CHARACTER CREATOR - RABBIT PREVIEW =====
 function updatePreview() {
-    const skins = ['#FFDFC4', '#F0C08A', '#CD9A6D', '#8D5524', '#4A2912'];
-    const eyes = ['👁️', '◉', '◠', '✿'];
-    const mouths = ['‿', '―', '◡', '👄'];
-    const outfits = ['👔', '👗', '🧥', '👕'];
+    const furColors = ['#C1E1C1', '#E2B887', '#C79A6B', '#F4C6CF', '#C7D7E5'];
+    const eyeStyles = ['◕ ◕', '◉ ◉', '≧ ≦', '♥ ♥'];
+    const mouthStyles = ['ω', '︿', '○', 'з'];
+    const accessories = ['🎀', '🎩', '🌸', '⭐'];
+    const accessoryPositions = [
+        { top: '12px', left: '85px' },   // Bow - on right ear
+        { top: '0px', left: '50%', transform: 'translateX(-50%)' },  // Top hat - center top
+        { top: '95px', right: '15px' },  // Flower - by cheek
+        { top: '130px', left: '50%', transform: 'translateX(-50%)' } // Star - on chest
+    ];
     
-    document.getElementById('layer-skin').innerHTML = '<div style="width:80px;height:100px;background:'+skins[State.appearance.skin]+';border-radius:40px 40px 20px 20px;"></div>';
-    document.getElementById('layer-eyes').innerHTML = '<span style="position:absolute;top:30%;font-size:1.5rem;">'+eyes[State.appearance.eyes]+' '+eyes[State.appearance.eyes]+'</span>';
-    document.getElementById('layer-mouth').innerHTML = '<span style="position:absolute;top:55%;font-size:1.5rem;">'+mouths[State.appearance.mouth]+'</span>';
-    document.getElementById('layer-outfit').innerHTML = '<span style="position:absolute;top:75%;font-size:2rem;">'+outfits[State.appearance.outfit]+'</span>';
+    const fur = furColors[State.appearance.skin];
+    const eyes = eyeStyles[State.appearance.eyes];
+    const mouth = mouthStyles[State.appearance.mouth];
+    const accessory = accessories[State.appearance.outfit];
+    const accPos = accessoryPositions[State.appearance.outfit];
+    
+    // Build accessory style string
+    let accStyle = 'position:absolute;z-index:15;font-size:1.3rem;';
+    if (accPos.top) accStyle += 'top:' + accPos.top + ';';
+    if (accPos.left) accStyle += 'left:' + accPos.left + ';';
+    if (accPos.right) accStyle += 'right:' + accPos.right + ';';
+    if (accPos.transform) accStyle += 'transform:' + accPos.transform + ';';
+    
+    const preview = document.getElementById('avatar-preview');
+    preview.innerHTML = `
+        <div class="rabbit-container">
+            <!-- Ears -->
+            <div class="rabbit-ear rabbit-ear-left" style="background:${fur}">
+                <div class="rabbit-ear-inner"></div>
+            </div>
+            <div class="rabbit-ear rabbit-ear-right" style="background:${fur}">
+                <div class="rabbit-ear-inner"></div>
+            </div>
+            <!-- Head -->
+            <div class="rabbit-head" style="background:${fur}"></div>
+            <!-- Body -->
+            <div class="rabbit-body" style="background:${fur}"></div>
+            <!-- Face -->
+            <div class="rabbit-eyes">${eyes}</div>
+            <div class="rabbit-nose"></div>
+            <div class="rabbit-mouth">${mouth}</div>
+            <!-- Cheek blush -->
+            <div class="rabbit-cheeks">
+                <div class="rabbit-cheek"></div>
+                <div class="rabbit-cheek"></div>
+            </div>
+            <!-- Accessory -->
+            <div class="rabbit-accessory" style="${accStyle}">${accessory}</div>
+        </div>
+    `;
 }
 
 // ===== GAME LOGIC =====
