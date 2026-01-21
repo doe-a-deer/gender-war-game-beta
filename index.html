@@ -225,7 +225,7 @@ button {
 .rabbit-container {
     position: relative;
     width: 160px;
-    height: 200px;
+    height: 210px;
 }
 .rabbit-silhouette {
     width: 100%;
@@ -241,17 +241,17 @@ button {
 }
 .rabbit-eyes {
     position: absolute;
-    top: 85px;
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 20px;
+    gap: 24px;
     font-size: 1.1rem;
     z-index: 10;
 }
 .rabbit-nose {
     position: absolute;
-    top: 108px;
+    top: 102px;
     left: 50%;
     transform: translateX(-50%);
     width: 8px;
@@ -262,7 +262,7 @@ button {
 }
 .rabbit-mouth {
     position: absolute;
-    top: 112px;
+    top: 107px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.9rem;
@@ -270,7 +270,7 @@ button {
 }
 .rabbit-cheeks {
     position: absolute;
-    top: 100px;
+    top: 95px;
     left: 50%;
     transform: translateX(-50%);
     width: 100px;
@@ -1857,50 +1857,23 @@ function updatePreview() {
     if (accPos.right) accStyle += 'right:' + accPos.right + ';';
     if (accPos.transform) accStyle += 'transform:' + accPos.transform + ';';
     
-    const preview = document.getElementById('avatar-preview');
+   const preview = document.getElementById('avatar-preview');
     preview.innerHTML = `
         <div class="rabbit-container">
-            <svg viewBox="0 0 200 280" class="rabbit-silhouette">
-                <path fill="${fur}" d="
-                    M70 75 
-                    C65 70 60 45 62 25 
-                    C64 10 72 5 80 8 
-                    C88 11 92 25 90 45
-                    C89 55 88 65 90 75
-                    
-                    M130 75
-                    C132 65 131 55 130 45
-                    C128 25 132 11 140 8
-                    C148 5 156 10 158 25
-                    C160 45 155 70 150 75
-                    
-                    M100 60
-                    C60 60 40 85 40 115
-                    C40 145 55 165 70 175
-                    C50 180 35 195 35 220
-                    C35 255 60 275 100 275
-                    C140 275 165 255 165 220
-                    C165 195 150 180 130 175
-                    C145 165 160 145 160 115
-                    C160 85 140 60 100 60
-                    
-                    M30 200
-                    C20 195 15 205 18 215
-                    C21 225 30 230 40 225
-                    C45 222 45 215 42 210
-                    C40 205 35 202 30 200
-                    
-                    M170 200
-                    C180 195 185 205 182 215
-                    C179 225 170 230 160 225
-                    C155 222 155 215 158 210
-                    C160 205 165 202 170 200
-                    
-                    M95 50
-                    C92 45 95 40 100 40
-                    C105 40 108 45 105 50
-                    C103 53 97 53 95 50
-                "/>
+            <svg viewBox="0 0 200 260" class="rabbit-silhouette">
+                <ellipse cx="65" cy="45" rx="18" ry="45" fill="${fur}"/>
+                <ellipse cx="135" cy="45" rx="18" ry="45" fill="${fur}"/>
+                <circle cx="100" cy="75" r="8" fill="${fur}"/>
+                <circle cx="92" cy="72" r="5" fill="${fur}"/>
+                <circle cx="108" cy="72" r="5" fill="${fur}"/>
+                <ellipse cx="100" cy="115" rx="50" ry="45" fill="${fur}"/>
+                <ellipse cx="100" cy="190" rx="55" ry="60" fill="${fur}"/>
+                <ellipse cx="38" cy="175" rx="15" ry="12" fill="${fur}"/>
+                <ellipse cx="162" cy="175" rx="15" ry="12" fill="${fur}"/>
+                <ellipse cx="70" cy="245" rx="18" ry="10" fill="${fur}"/>
+                <ellipse cx="130" cy="245" rx="18" ry="10" fill="${fur}"/>
+                <ellipse cx="65" cy="50" rx="8" ry="25" fill="#ffb6c1" opacity="0.5"/>
+                <ellipse cx="135" cy="50" rx="8" ry="25" fill="#ffb6c1" opacity="0.5"/>
             </svg>
             <div class="rabbit-face">
                 <div class="rabbit-eyes">${eyes}</div>
