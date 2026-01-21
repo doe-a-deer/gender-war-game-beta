@@ -681,7 +681,15 @@ const INCEL_ROUTE = {
         dateExpression: 'angry',
         choices: [
             { label: "Let's just order food.", nextId: 'incel_menu' },
-            { label: "I'm going to leave now.", nextId: 'ending_immediate_leave' }
+            { label: "I'm going to leave now.", nextId: 'incel_buffer_friction' }
+        ]
+    },
+    'incel_buffer_friction': {
+        speaker: 'WAITER',
+        text: "Good evening, can I get you two start— oh. Is everything okay here?",
+        choices: [
+            { label: "We're done.", nextId: 'ending_immediate_leave' },
+            { label: "*already grabbing coat*", nextId: 'ending_immediate_leave' }
         ]
     },
     'incel_apology': {
@@ -805,15 +813,31 @@ const FEMCEL_ROUTE = {
         speaker: 'FEMCEL', text: "Not even going to fight for it? That's either low effort or low income. Both are icks. A man who wanted me would stay and order the tasting menu.",
         choices: [
             { label: "I'll stay if you want me to.", nextId: 'femcel_menu' },
-            { label: "Okay, bye then.", nextId: 'ending_mutual_disinterest' }
+            { label: "Okay, bye then.", nextId: 'femcel_buffer_friction_exit' }
+        ]
+    },
+    'femcel_buffer_friction_exit': {
+        speaker: 'WAITER',
+        text: "Good evening, can I start you off with— leaving already?",
+        choices: [
+            { label: "Just the exit, thanks.", nextId: 'ending_mutual_disinterest' },
+            { label: "*already walking away*", nextId: 'ending_mutual_disinterest' }
         ]
     },
     'femcel_derek': {
         speaker: 'FEMCEL', text: "Your car reflects your ambition. My ex drove a BMW but leased it. LEASED. The deception. I deserve a man who owns assets. Preferably appreciating ones.",
         dateExpression: 'angry',
         choices: [
-            { label: "I could cover the $47.", nextId: 'ending_bought_closure', effects: { money: -47 }, receiptLines: [{ label: "Proving financial stability", cost: 47 }] },
+            { label: "I could cover the $47.", nextId: 'femcel_buffer_friction_closure', effects: { money: -47 }, receiptLines: [{ label: "Proving financial stability", cost: 47 }] },
             { label: "Let's talk about something else.", nextId: 'femcel_menu' }
+        ]
+    },
+    'femcel_buffer_friction_closure': {
+        speaker: 'WAITER',
+        text: "I'll just... give you two a moment. *steps back*",
+        choices: [
+            { label: "We're having a moment.", nextId: 'ending_bought_closure' },
+            { label: "*slides card across table*", nextId: 'ending_bought_closure' }
         ]
     },
     'femcel_not_derek': {
@@ -821,7 +845,15 @@ const FEMCEL_ROUTE = {
         dateExpression: 'smirk',
         choices: [
             { label: "I literally don't know Derek.", nextId: 'femcel_menu' },
-            { label: "Maybe I AM Derek.", nextId: 'ending_derek_reveal' }
+            { label: "Maybe I AM Derek.", nextId: 'femcel_buffer_friction_reveal' }
+        ]
+    },
+    'femcel_buffer_friction_reveal': {
+        speaker: 'WAITER',
+        text: "Ma'am, please, the other guests are— ma'am?",
+        choices: [
+            { label: "This doesn't concern you.", nextId: 'ending_derek_reveal' },
+            { label: "*chaos escalates*", nextId: 'ending_derek_reveal' }
         ]
     },
     'femcel_impressed': {
