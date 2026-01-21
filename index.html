@@ -84,10 +84,26 @@ button {
 
 /* Title Screen */
 #screen-title {
-    background: 
-        radial-gradient(ellipse at 30% 20%, rgba(255, 77, 109, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        #1a1216;
+    background: #1a1216;
+    position: relative;
+    overflow: hidden;
+}
+.title-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    object-fit: cover;
+    opacity: 0.25;
+}
+.title-container {
+    position: relative;
+    z-index: 1;
 }
 .title-container { text-align: center; padding: 2rem; }
 .title-decoration {
@@ -708,9 +724,12 @@ button {
     </style>
 </head>
 <body>
-    <!-- TITLE SCREEN -->
-    <div id="screen-title" class="screen active">
-        <div class="title-container">
+   <!-- TITLE SCREEN -->
+<div id="screen-title" class="screen active">
+    <video class="title-video" autoplay loop muted playsinline>
+        <source src="sprites/title_bg.mp4" type="video/mp4">
+    </video>
+    <div class="title-container">
             <div class="title-decoration"></div>
             <h1 class="game-title">GENDER WAR</h1>
             <p class="game-subtitle">A Dating Disaster Simulator</p>
