@@ -739,6 +739,39 @@ button {
         </div>
     </div>
 
+    <!-- PART 2 DATE SELECTION SCREEN -->
+    <div id="screen-dateselect2" class="screen">
+        <div class="dateselect-container">
+            <h2 class="screen-title">ROUND TWO</h2>
+            <p class="screen-subtitle">Word travels fast. Choose your next disaster.</p>
+            <div class="date-cards">
+                <div class="date-card">
+                    <div class="card-portrait" style="background: linear-gradient(135deg, #3d5a80, #293241); border: 3px solid #98c1d9;">🥺</div>
+                    <h3 class="card-name">THE ALLY</h3>
+                    <p class="card-bio">"I've done the work. I go to therapy. I process. Why are you being defensive?"</p>
+                    <ul class="card-traits">
+                        <li>🧘 Hobby: Men's circle breathwork</li>
+                        <li>📖 Last read: Bell Hooks (for clout)</li>
+                        <li>🚩 Vibe: Weaponized vulnerability</li>
+                    </ul>
+                    <button class="btn-select-date" data-route="performative" data-part="2">Date Him</button>
+                </div>
+                <div class="date-card">
+                    <div class="card-portrait" style="background: linear-gradient(135deg, #e0aaff, #9d4edd); border: 3px solid #c77dff;">💅</div>
+                    <h3 class="card-name">THE BOP</h3>
+                    <p class="card-bio">"Sorry what? *looks up from phone* Oh yeah I'm listening. My Uber is 3 min away btw."</p>
+                    <ul class="card-traits">
+                        <li>📱 Hobby: Being perceived</li>
+                        <li>💬 Last text: "omg sorry just saw this" (3 weeks ago)</li>
+                        <li>🚩 Vibe: Attention as currency</li>
+                    </ul>
+                    <button class="btn-select-date" data-route="bop" data-part="2">Date Her</button>
+                </div>
+            </div>
+            <button id="btn-back-ending" class="btn-secondary">← Back</button>
+        </div>
+    </div>
+
     <!-- GAME SCREEN -->
     <div id="screen-game" class="screen">
         <div class="stats-hud">
@@ -793,7 +826,8 @@ button {
                 </div>
             </div>
             <div class="ending-actions">
-                <button id="btn-play-again" class="btn-primary">Play Again</button>
+                <button id="btn-next-date" class="btn-primary hidden">🔥 Next Date (Part 2)</button>
+                <button id="btn-play-again" class="btn-secondary">Play Again</button>
                 <button id="btn-new-date" class="btn-secondary">Choose Different Date</button>
                 <button id="btn-new-char" class="btn-secondary">New Character</button>
             </div>
@@ -1107,14 +1141,447 @@ const FEMCEL_ROUTE = {
     }
 };
 
+// ===== PART 2: PERFORMATIVE MALE ROUTE =====
+const PERFORMATIVE_ROUTE = {
+    'performative_start': {
+        speaker: 'PERFORMATIVE',
+        text: "*stands up, opens arms for hug* Hey! So good to finally meet you. {RUMOR} Anyway, I just want to say—I really appreciate you showing up. Vulnerability is so important.",
+        choices: [
+            { label: "Nice to meet you too.", nextId: 'performative_nice' },
+            { label: "We just met, no hug.", nextId: 'performative_no_hug' },
+            { label: "What do you mean you 'heard'?", nextId: 'performative_heard' }
+        ]
+    },
+    'performative_nice': {
+        speaker: 'PERFORMATIVE',
+        text: "I love that energy. Positive vibes only, you know? I've been doing a lot of work on myself lately. Therapy, journaling, breathwork. I'm basically a different person than I was six months ago.",
+        choices: [
+            { label: "That's great.", nextId: 'performative_menu' },
+            { label: "What were you like before?", nextId: 'performative_before' }
+        ]
+    },
+    'performative_no_hug': {
+        speaker: 'PERFORMATIVE',
+        text: "*steps back, hands up* Totally valid. Boundaries. I respect that. *pauses* Though I do think physical touch is how humans connect, but I'm not going to push. That would be toxic.",
+        choices: [
+            { label: "Thanks for understanding.", nextId: 'performative_menu' },
+            { label: "You're still talking about it.", nextId: 'performative_still_talking', effects: { patience: -1 } }
+        ]
+    },
+    'performative_heard': {
+        speaker: 'PERFORMATIVE',
+        text: "Oh, just... the apps, you know? People talk. Nothing bad! I just heard you were... *air quotes* intense. Which I think is great. Women should take up space.",
+        choices: [
+            { label: "I'm not 'intense.'", nextId: 'performative_intense', effects: { patience: -1 } },
+            { label: "Let's just order.", nextId: 'performative_menu' }
+        ]
+    },
+    'performative_before': {
+        speaker: 'PERFORMATIVE',
+        text: "Oh man, I was a mess. Total nice guy syndrome. But I've deconstructed all that. Now I lead with empathy. I actually cry now. Like, a lot. It's beautiful.",
+        choices: [
+            { label: "That's... good?", nextId: 'performative_menu' },
+            { label: "Crying isn't a personality.", nextId: 'performative_crying', effects: { patience: -1 } }
+        ]
+    },
+    'performative_still_talking': {
+        speaker: 'PERFORMATIVE',
+        text: "Wow. Okay. I'm sensing some defensiveness. That's okay. We all have armor. I just hope you can let me in eventually. No pressure though. *intense eye contact*",
+        choices: [
+            { label: "Can we order food?", nextId: 'performative_menu' },
+            { label: "Please stop analyzing me.", nextId: 'performative_analyzing' }
+        ]
+    },
+    'performative_intense': {
+        speaker: 'PERFORMATIVE',
+        text: "I hear you. And I validate that. Maybe 'intense' was the wrong word. You just seem like someone who... knows what she wants. Which intimidates lesser men. Not me though.",
+        choices: [
+            { label: "Okay, menu time.", nextId: 'performative_menu' }
+        ]
+    },
+    'performative_crying': {
+        speaker: 'PERFORMATIVE',
+        text: "*hurt expression* That's... I'm going to be honest, that felt dismissive. I'm sharing something vulnerable and you're minimizing it. Is this a pattern for you?",
+        choices: [
+            { label: "I didn't mean—", nextId: 'performative_menu', effects: { patience: -1 } },
+            { label: "I'm leaving.", nextId: 'performative_buffer_exit' }
+        ]
+    },
+    'performative_analyzing': {
+        speaker: 'PERFORMATIVE',
+        text: "I'm not analyzing, I'm just... attuned. Emotional intelligence is my superpower. But if you need me to mask that, I can try. For you.",
+        choices: [
+            { label: "Just... menu.", nextId: 'performative_menu' },
+            { label: "That's manipulative.", nextId: 'performative_manipulative' }
+        ]
+    },
+    'performative_manipulative': {
+        speaker: 'PERFORMATIVE',
+        text: "*deep breath* Okay. I'm going to sit with that accusation. *long pause* I think you might be projecting. But I forgive you. Growth isn't linear.",
+        choices: [
+            { label: "ORDER. FOOD. NOW.", nextId: 'performative_menu' },
+            { label: "I can't do this.", nextId: 'performative_buffer_exit' }
+        ]
+    },
+    'performative_buffer_exit': {
+        speaker: 'WAITER',
+        text: "Can I get you two anything or— oh, is everything okay?",
+        choices: [
+            { label: "Just the check for... nothing.", nextId: 'ending_performative_escape' },
+            { label: "*already standing*", nextId: 'ending_performative_escape' }
+        ]
+    },
+    'performative_menu': {
+        speaker: 'WAITER',
+        text: "Good evening. What can I get you started with?",
+        choices: [
+            { label: "Wine, please.", nextId: 'performative_wine', effects: { money: -15 }, receiptLines: [{ label: 'Wine (coping)', cost: 15 }] },
+            { label: "Just water.", nextId: 'performative_water' },
+            { label: "Something strong.", nextId: 'performative_strong', effects: { money: -20 }, receiptLines: [{ label: 'Double whiskey (medicinal)', cost: 20 }] }
+        ]
+    },
+    'performative_wine': {
+        speaker: 'PERFORMATIVE',
+        text: "Nice choice. I'm doing a dry month actually. For clarity. But you do you. No judgment. *clearly judging*",
+        choices: [
+            { label: "Cool.", nextId: 'performative_topic' },
+            { label: "You're judging.", nextId: 'performative_judging' }
+        ]
+    },
+    'performative_water': {
+        speaker: 'PERFORMATIVE',
+        text: "Hydration! Love it. I do cold plunges every morning. Wim Hof method. It's really helped me access my emotions. Have you tried breathwork?",
+        choices: [
+            { label: "No.", nextId: 'performative_topic' },
+            { label: "I'm not interested in breathwork.", nextId: 'performative_breathwork' }
+        ]
+    },
+    'performative_strong': {
+        speaker: 'PERFORMATIVE',
+        text: "Whoa. Rough day? You know, alcohol is actually a depressant. I can recommend some adaptogens if you want to regulate without substances.",
+        choices: [
+            { label: "I'm fine.", nextId: 'performative_topic' },
+            { label: "Please don't.", nextId: 'performative_please_dont' }
+        ]
+    },
+    'performative_judging': {
+        speaker: 'PERFORMATIVE',
+        text: "I'm not judging! I'm observing. There's a difference. My therapist says I have highly developed pattern recognition. It's a gift and a curse.",
+        choices: [
+            { label: "Okay.", nextId: 'performative_topic' }
+        ]
+    },
+    'performative_breathwork': {
+        speaker: 'PERFORMATIVE',
+        text: "Totally valid. Not everyone is ready to heal. I just hope you find what works for you. Whenever you're ready. No timeline.",
+        choices: [
+            { label: "I don't need to heal.", nextId: 'performative_topic', effects: { patience: -1 } }
+        ]
+    },
+    'performative_please_dont': {
+        speaker: 'PERFORMATIVE',
+        text: "*wounded* I'm just trying to help. But okay. Walls up. I see you. I still see you though. Behind the armor.",
+        choices: [
+            { label: "Please just talk normally.", nextId: 'performative_topic' }
+        ]
+    },
+    'performative_topic': {
+        speaker: 'PERFORMATIVE',
+        text: "So what do you do for self-care? I do yoga, meditation, men's group on Thursdays. We cry and drum. It's incredibly healing.",
+        choices: [
+            { label: "I watch TV.", nextId: 'ending_performative_tv' },
+            { label: "That sounds nice.", nextId: 'ending_performative_nice' },
+            { label: "Men's group? Like Fight Club?", nextId: 'ending_performative_fight' }
+        ]
+    },
+    'ending_performative_escape': {
+        speaker: 'PERFORMATIVE',
+        text: "*calls after you* I hope you find peace! I'll be here if you ever want to process this! *posts Instagram story about 'honoring my journey'*",
+        isEnding: true,
+        endingTitle: 'SELF-CARE SPEEDRUN',
+        endingText: 'You escaped before he could recommend his therapist.',
+        receiptLines: [{ label: 'Emotional labor (his)', cost: 0 }, { label: 'Your sanity (preserved)', cost: 0 }]
+    },
+    'ending_performative_tv': {
+        speaker: 'PERFORMATIVE',
+        text: "*long pause* TV. Okay. That's... valid. Dissociation can be a coping mechanism. Have you considered why you might be numbing? *reaches for your hand*",
+        isEnding: true,
+        endingTitle: 'PATHOLOGIZED',
+        endingText: 'He diagnosed your Netflix habit as trauma.',
+        receiptLines: [{ label: 'Wine', cost: 15 }, { label: 'Unsolicited therapy', cost: 0 }]
+    },
+    'ending_performative_nice': {
+        speaker: 'PERFORMATIVE',
+        text: "*beaming* Right? Men need spaces to be vulnerable. I'm basically the only emotionally evolved one in my friend group. It's lonely at the top of consciousness.",
+        isEnding: true,
+        endingTitle: 'ENLIGHTENED',
+        endingText: 'He talked about himself for 3 more hours. You learned nothing.',
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Time (wasted)', cost: 0 }, { label: 'His self-image (reinforced)', cost: 0 }]
+    },
+    'ending_performative_fight': {
+        speaker: 'PERFORMATIVE',
+        text: "*offended* Fight Club is toxic masculinity. We PROCESS. We hold space. Last week Marcus cried about his dad for 90 minutes and we just... witnessed him.",
+        isEnding: true,
+        endingTitle: 'WITNESSED',
+        endingText: 'You will never get those 90 minutes back. Neither will Marcus.',
+        receiptLines: [{ label: 'Drink', cost: 20 }, { label: 'Secondhand processing', cost: 0 }]
+    }
+};
+
+// ===== PART 2: BOP ROUTE =====
+const BOP_ROUTE = {
+    'bop_start': {
+        speaker: 'BOP',
+        text: "*looking at phone, looks up, smiles* Oh hey! Sorry, just finishing a— *phone buzzes* one sec. *texts* Okay hi! {RUMOR} So like, what's your vibe?",
+        choices: [
+            { label: "My vibe?", nextId: 'bop_vibe' },
+            { label: "Should I wait until you're done?", nextId: 'bop_wait' },
+            { label: "Where did you hear that?", nextId: 'bop_hear' }
+        ]
+    },
+    'bop_vibe': {
+        speaker: 'BOP',
+        text: "Yeah like... *phone buzzes* sorry— like what are you about? I'm a Gemini rising Scorpio moon so I need intellectual stimulation but also chaos, you know?",
+        choices: [
+            { label: "I don't know my chart.", nextId: 'bop_chart' },
+            { label: "I'm about food. Can we order?", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_wait': {
+        speaker: 'BOP',
+        text: "*laughs* Oh you're like... direct. That's cute. No I'm here, I'm present. *phone lights up* It's just my group chat, they're SO funny. Okay what were you saying?",
+        choices: [
+            { label: "I didn't say anything yet.", nextId: 'bop_nothing' },
+            { label: "Let's just order.", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_hear': {
+        speaker: 'BOP',
+        text: "Oh my god, everyone talks. Like, the dating scene is so small. *phone buzzes* Hold on— *voice note plays audibly* OMG. Sorry. My friend is going through it. Where were we?",
+        choices: [
+            { label: "Rumors about me.", nextId: 'bop_rumors' },
+            { label: "Nowhere. Menu?", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_chart': {
+        speaker: 'BOP',
+        text: "Wait you DON'T? Okay we have to do your chart. What time were you born? *already opening app* This is so important for compatibility.",
+        choices: [
+            { label: "I don't know.", nextId: 'bop_dont_know' },
+            { label: "Can we eat first?", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_nothing': {
+        speaker: 'BOP',
+        text: "Oh. *giggles* Right. Well say something! I hate awkward silences. Tell me something interesting about yourself. You have like thirty seconds go.",
+        choices: [
+            { label: "I'm hungry.", nextId: 'bop_menu' },
+            { label: "That's a lot of pressure.", nextId: 'bop_pressure' }
+        ]
+    },
+    'bop_rumors': {
+        speaker: 'BOP',
+        text: "It's nothing bad! Just like... you're intense? Or like, you have boundaries? Which is actually really hot in theory. *phone buzzes* Sorry one sec—",
+        choices: [
+            { label: "I'll wait.", nextId: 'bop_wait_2' },
+            { label: "MENU.", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_dont_know': {
+        speaker: 'BOP',
+        text: "Text your mom! She'll know. Moms remember everything. My mom has my birth chart framed. It's a lot but also goals?",
+        choices: [
+            { label: "I'm not texting my mom.", nextId: 'bop_menu', effects: { patience: -1 } }
+        ]
+    },
+    'bop_pressure': {
+        speaker: 'BOP',
+        text: "Aw no pressure! I just have like... a lot going on so I need to know if this is worth my time, you know? Not in a mean way. In an honest way.",
+        choices: [
+            { label: "Fair enough.", nextId: 'bop_menu' },
+            { label: "Is this worth MY time?", nextId: 'bop_your_time' }
+        ]
+    },
+    'bop_wait_2': {
+        speaker: 'BOP',
+        text: "*texts for 45 seconds* Okay sorry my ex is being weird. Not like EX ex, just like... we still talk. It's mature. Anyway! Food?",
+        choices: [
+            { label: "Sure.", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_your_time': {
+        speaker: 'BOP',
+        text: "*surprised* Oh wow. Okay. *puts phone face down* That was kind of hot actually. Most guys just let me walk all over them. Okay you have my attention. For now.",
+        choices: [
+            { label: "Let's order.", nextId: 'bop_menu' }
+        ]
+    },
+    'bop_menu': {
+        speaker: 'WAITER',
+        text: "What can I get you?",
+        choices: [
+            { label: "Whatever's fast.", nextId: 'bop_fast', effects: { money: -18 }, receiptLines: [{ label: 'Quick appetizer', cost: 18 }] },
+            { label: "Wine for the table.", nextId: 'bop_wine', effects: { money: -35 }, receiptLines: [{ label: 'Nice wine (impressively)', cost: 35 }] },
+            { label: "Just water.", nextId: 'bop_water' }
+        ]
+    },
+    'bop_fast': {
+        speaker: 'BOP',
+        text: "Efficient. I like it. My schedule is insane so I respect people who value time. *phone rings* Oh my god I have to take this— *walks away*",
+        choices: [
+            { label: "*waits*", nextId: 'bop_wait_call' },
+            { label: "*leaves*", nextId: 'bop_buffer_exit' }
+        ]
+    },
+    'bop_wine': {
+        speaker: 'BOP',
+        text: "Ooh nice choice. My last date ordered the house wine. I knew it wouldn't work. You can tell a lot about someone from what they order. *phone buzzes but she ignores it*",
+        choices: [
+            { label: "You ignored your phone.", nextId: 'bop_ignored' },
+            { label: "What does my order say?", nextId: 'bop_order_meaning' }
+        ]
+    },
+    'bop_water': {
+        speaker: 'BOP',
+        text: "Just water? *looks at you* Are you like... broke? Or healthy? I can't tell. Both are valid. One is more attractive though.",
+        choices: [
+            { label: "Healthy.", nextId: 'bop_healthy' },
+            { label: "Does it matter?", nextId: 'bop_matter' }
+        ]
+    },
+    'bop_wait_call': {
+        speaker: 'BOP',
+        text: "*returns after 10 minutes* Sorry! Crisis averted. My friend needed advice. I'm like the therapist of my group. Anyway where were we? Oh right, you.",
+        choices: [
+            { label: "I was just sitting here.", nextId: 'ending_bop_sitting' },
+            { label: "Tell me about you.", nextId: 'ending_bop_about' }
+        ]
+    },
+    'bop_buffer_exit': {
+        speaker: 'WAITER',
+        text: "Will your date be returning or— oh, you're leaving too?",
+        choices: [
+            { label: "She made her choice.", nextId: 'ending_bop_ghost' },
+            { label: "*already gone*", nextId: 'ending_bop_ghost' }
+        ]
+    },
+    'bop_ignored': {
+        speaker: 'BOP',
+        text: "*surprised* Oh. Yeah. I guess I did. *looks at you* Weird. I never do that. What are you doing to me? *actually present for the first time*",
+        choices: [
+            { label: "Just being here.", nextId: 'ending_bop_present' },
+            { label: "Mind control.", nextId: 'ending_bop_joke' }
+        ]
+    },
+    'bop_order_meaning': {
+        speaker: 'BOP',
+        text: "It says you're confident. Generous. Maybe trying to impress me. *smiles* It's working a little. Don't tell anyone I said that.",
+        choices: [
+            { label: "Your secret's safe.", nextId: 'ending_bop_secret' }
+        ]
+    },
+    'bop_healthy': {
+        speaker: 'BOP',
+        text: "Healthy. Okay. I respect that. *phone buzzes, she looks at it, looks back at you* Actually you know what, this can wait. Tell me something real.",
+        choices: [
+            { label: "Like what?", nextId: 'ending_bop_real' }
+        ]
+    },
+    'bop_matter': {
+        speaker: 'BOP',
+        text: "*pauses* Does it matter? *tilts head* I... don't know actually. That's a good question. Usually money stuff matters to me but you asked it weird.",
+        choices: [
+            { label: "Weird how?", nextId: 'ending_bop_weird' }
+        ]
+    },
+    'ending_bop_ghost': {
+        speaker: 'PLAYER',
+        text: "She's still on the phone when you walk out. She might not notice for another hour.",
+        isEnding: true,
+        endingTitle: 'MUTUAL GHOSTING',
+        endingText: 'Neither of you texted. Both of you were relieved.',
+        receiptLines: [{ label: 'Appetizer (untouched)', cost: 18 }, { label: 'Time (unvalued)', cost: 0 }]
+    },
+    'ending_bop_sitting': {
+        speaker: 'BOP',
+        text: "Wow that sounded bitter. *laughs* Okay I deserve that. I'm a lot. I know I'm a lot. Most people can't handle it. *shrugs* Their loss usually.",
+        isEnding: true,
+        endingTitle: 'SELF-AWARE CHAOS',
+        endingText: 'She knows what she is. She will not change.',
+        receiptLines: [{ label: 'Appetizer', cost: 18 }, { label: 'Honesty (rare)', cost: 0 }]
+    },
+    'ending_bop_about': {
+        speaker: 'BOP',
+        text: "*actually pauses* Me? *phone buzzes, she silences it* Nobody asks that. They just react to me. *genuine smile* Okay. What do you want to know?",
+        isEnding: true,
+        endingTitle: 'BREAKTHROUGH?',
+        endingText: 'For one moment, she was actually curious about being known. The phone buzzed 47 more times.',
+        receiptLines: [{ label: 'Appetizer', cost: 18 }, { label: 'Momentary connection', cost: 0 }]
+    },
+    'ending_bop_present': {
+        speaker: 'BOP',
+        text: "*puts phone in purse* Just... being here. God that's annoying. Why is that working? *laughs* Okay fine. You have my attention. Actually.",
+        isEnding: true,
+        endingTitle: 'NOTIFICATION SILENCED',
+        endingText: 'She put the phone away. This may be the first time ever. It will probably not last.',
+        receiptLines: [{ label: 'Wine (shared)', cost: 35 }, { label: 'Presence (rare)', cost: 0 }]
+    },
+    'ending_bop_joke': {
+        speaker: 'BOP',
+        text: "*laughs* Mind control. Okay, funny. I like funny. My ex wasn't funny. He was hot but like, zero personality. You're like the opposite. Wait that came out wrong—",
+        isEnding: true,
+        endingTitle: 'BACKHANDED',
+        endingText: 'She tried to compliment you. It was objectively an insult. She did not notice.',
+        receiptLines: [{ label: 'Wine', cost: 35 }, { label: 'Ego damage', cost: 0 }]
+    },
+    'ending_bop_secret': {
+        speaker: 'BOP',
+        text: "*smiles genuinely* I like you. That's weird. I usually don't like people until the third date. *phone buzzes* Ugh. *silences it* Where were we?",
+        isEnding: true,
+        endingTitle: 'UNEXPECTED',
+        endingText: 'Against all odds, you got a second date. She was only on her phone 60% of the time.',
+        receiptLines: [{ label: 'Wine', cost: 35 }, { label: 'Second date (pending)', cost: 0 }]
+    },
+    'ending_bop_real': {
+        speaker: 'BOP',
+        text: "Like... anything. *leans in* Everyone performs for me. It's exhausting. I just want someone to be weird and normal at the same time. Is that you?",
+        isEnding: true,
+        endingTitle: 'BENEATH THE SURFACE',
+        endingText: 'Under the chaos, she wanted connection. Her phone remained silent for almost five minutes.',
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Vulnerability (glimpse)', cost: 0 }]
+    },
+    'ending_bop_weird': {
+        speaker: 'BOP',
+        text: "Like you actually don't care about impressing me? Which is... impressive? God, that's messed up. *laughs at herself* I need therapy.",
+        isEnding: true,
+        endingTitle: 'SELF-DIAGNOSIS',
+        endingText: 'She realized something about herself. She will forget it by tomorrow.',
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Growth (temporary)', cost: 0 }]
+    }
+};
+
 // ===== GAME STATE =====
 const State = {
     appearance: { skin: 0, eyes: 0, mouth: 0, outfit: 0 },
     route: null,
+    part: 1,
     nodeId: null,
     money: 100,
     patience: 10,
-    receipt: []
+    receipt: [],
+    runLog: [],
+    reputation: {
+        score: 0,
+        tags: {
+            leftEarly: 0,
+            stayedTooLong: 0,
+            boundarySetter: 0,
+            humorDeflect: 0,
+            engagedInSpreadsheet: 0,
+            highSpend: 0,
+            chaosAgent: 0
+        }
+    }
 };
 
 // ===== SCREEN MANAGEMENT =====
@@ -1137,19 +1604,34 @@ function updatePreview() {
 }
 
 // ===== GAME LOGIC =====
-function startGame(route) {
+function startGame(route, part) {
     State.route = route;
+    State.part = part || 1;
     State.money = 100;
     State.patience = 10;
     State.receipt = [];
+    State.runLog = [];
     updateStats();
     showScreen('screen-game');
-    document.getElementById('sprite-left').textContent = route === 'incel' ? '😤' : '😏';
-    renderNode(route === 'incel' ? 'incel_start' : 'femcel_start');
+    
+    var startNode;
+    if (State.part === 1) {
+        document.getElementById('sprite-left').textContent = route === 'incel' ? '😤' : '😏';
+        startNode = route === 'incel' ? 'incel_start' : 'femcel_start';
+    } else {
+        document.getElementById('sprite-left').textContent = route === 'performative' ? '🥺' : '💅';
+        startNode = route === 'performative' ? 'performative_start' : 'bop_start';
+    }
+    renderNode(startNode);
 }
 
 function renderNode(nodeId) {
-    var routes = State.route === 'incel' ? INCEL_ROUTE : FEMCEL_ROUTE;
+    var routes;
+    if (State.part === 1) {
+        routes = State.route === 'incel' ? INCEL_ROUTE : FEMCEL_ROUTE;
+    } else {
+        routes = State.route === 'performative' ? PERFORMATIVE_ROUTE : BOP_ROUTE;
+    }
     var node = routes[nodeId];
     if (!node) return;
     
@@ -1161,18 +1643,32 @@ function renderNode(nodeId) {
         return;
     }
     
+    // Handle {RUMOR} placeholder for Part 2 start nodes
+    var displayText = node.text;
+    if (displayText.indexOf('{RUMOR}') >= 0) {
+        displayText = displayText.replace('{RUMOR}', getRumorLine());
+    }
+    
     document.getElementById('speaker-name').textContent = node.speaker;
-    document.getElementById('dialogue-text').textContent = node.text;
+    document.getElementById('dialogue-text').textContent = displayText;
     
     var left = document.getElementById('sprite-left');
     var right = document.getElementById('sprite-right');
     
     if (node.speaker === 'WAITER') {
         left.textContent = '🧑‍🍳';
-    } else if (State.route === 'incel') {
-        left.textContent = node.dateExpression === 'angry' ? '😠' : '😤';
+    } else if (State.part === 1) {
+        if (State.route === 'incel') {
+            left.textContent = node.dateExpression === 'angry' ? '😠' : '😤';
+        } else {
+            left.textContent = node.dateExpression === 'smirk' ? '😏' : '🙄';
+        }
     } else {
-        left.textContent = node.dateExpression === 'smirk' ? '😏' : '🙄';
+        if (State.route === 'performative') {
+            left.textContent = node.dateExpression === 'hurt' ? '😢' : '🥺';
+        } else {
+            left.textContent = node.dateExpression === 'present' ? '😊' : '💅';
+        }
     }
     right.textContent = node.playerExpression === 'concerned' ? '😰' : '🙂';
     
@@ -1188,6 +1684,7 @@ function renderNode(nodeId) {
                 btn.className = 'choice-btn';
                 btn.textContent = choice.label;
                 btn.onclick = function() {
+                    logChoice(nodeId, choice.label, choice.effects);
                     if (choice.effects) {
                         if (choice.effects.money) State.money += choice.effects.money;
                         if (choice.effects.patience) State.patience += choice.effects.patience;
@@ -1212,6 +1709,14 @@ function updateStats() {
 function showEnding(node) {
     document.getElementById('ending-title').textContent = node.endingTitle || 'DATE OVER';
     document.getElementById('ending-text').textContent = node.endingText || 'Well, that happened.';
+    
+    // Compute reputation only for Part 1
+    if (State.part === 1) {
+        computeReputationFromRunLog();
+        document.getElementById('btn-next-date').classList.remove('hidden');
+    } else {
+        document.getElementById('btn-next-date').classList.add('hidden');
+    }
     
     var items = document.getElementById('receipt-items');
     items.innerHTML = '';
@@ -1243,6 +1748,86 @@ function showEnding(node) {
     showScreen('screen-ending');
 }
 
+// ===== REPUTATION SYSTEM =====
+function logChoice(nodeId, choiceLabel, effects) {
+    State.runLog.push({
+        nodeId: nodeId,
+        choice: choiceLabel,
+        effects: effects || {},
+        timestamp: Date.now()
+    });
+}
+
+function computeReputationFromRunLog() {
+    var log = State.runLog;
+    var rep = State.reputation;
+    var totalSpend = 0;
+    
+    for (var i = 0; i < State.receipt.length; i++) {
+        totalSpend += State.receipt[i].cost;
+    }
+    
+    // Check ending type
+    var lastNode = State.nodeId;
+    if (lastNode.indexOf('immediate_leave') >= 0 || lastNode.indexOf('escape') >= 0 || lastNode.indexOf('mutual_disinterest') >= 0) {
+        rep.tags.leftEarly += 1;
+        rep.score -= 1;
+    }
+    
+    // Check spending
+    if (totalSpend >= 40) {
+        rep.tags.highSpend += 1;
+        rep.score += 1;
+    }
+    
+    // Analyze choices
+    for (var j = 0; j < log.length; j++) {
+        var choice = log[j].choice.toLowerCase();
+        
+        if (choice.indexOf('sorry') >= 0 || choice.indexOf('thank you') >= 0 || choice.indexOf('i\'ll stay') >= 0) {
+            rep.tags.stayedTooLong += 1;
+        }
+        if (choice.indexOf('leave') >= 0 || choice.indexOf('bye') >= 0 || choice.indexOf('can\'t do this') >= 0) {
+            rep.tags.boundarySetter += 1;
+            rep.score += 1;
+        }
+        if (choice.indexOf('derek') >= 0 || choice.indexOf('millionaire') >= 0 || choice.indexOf('poor decisions') >= 0 || choice.indexOf('chaos') >= 0) {
+            rep.tags.humorDeflect += 1;
+            rep.tags.chaosAgent += 1;
+        }
+        if (choice.indexOf('spreadsheet') >= 0 || choice.indexOf('algorithm') >= 0 || choice.indexOf('show me') >= 0) {
+            rep.tags.engagedInSpreadsheet += 1;
+            rep.score -= 1;
+        }
+    }
+}
+
+function getRumorLine() {
+    var tags = State.reputation.tags;
+    var rumors = [];
+    
+    if (tags.leftEarly >= 2) rumors.push("I heard you ghost people mid-date.");
+    else if (tags.leftEarly >= 1) rumors.push("I heard you leave dates early.");
+    
+    if (tags.boundarySetter >= 2) rumors.push("I heard you're like... intense about boundaries.");
+    else if (tags.boundarySetter >= 1) rumors.push("I heard you're guarded.");
+    
+    if (tags.highSpend >= 2) rumors.push("I heard you throw money around.");
+    else if (tags.highSpend >= 1) rumors.push("I heard you're generous.");
+    
+    if (tags.humorDeflect >= 2) rumors.push("I heard you never take anything seriously.");
+    else if (tags.humorDeflect >= 1) rumors.push("I heard you're funny or whatever.");
+    
+    if (tags.chaosAgent >= 2) rumors.push("I heard you cause scenes.");
+    
+    if (tags.engagedInSpreadsheet >= 1) rumors.push("I heard you... entertained some weird stuff.");
+    
+    if (rumors.length === 0) {
+        return "I heard you're new to this.";
+    }
+    return rumors[Math.floor(Math.random() * rumors.length)];
+}
+
 // ===== PHONE PROFILE DATA =====
 const PHONE_PROFILES = {
     incel: {
@@ -1258,6 +1843,20 @@ const PHONE_PROFILES = {
         age: '26',
         bio: '"High value woman seeking high value man. 6 figures minimum. If you can\'t afford the lifestyle, don\'t waste my time. Venmo requests are a red flag."',
         tags: ['Luxury', 'Brunch', 'Manifestation', 'Cat mom', 'No 50/50']
+    },
+    performative: {
+        photo: '🥺',
+        name: 'BRENDAN',
+        age: '29',
+        bio: '"Emotionally evolved. Feminist ally. I cry and I\'m proud of it. Looking for someone ready to do the work. My love language is processing."',
+        tags: ['Therapy', 'Breathwork', 'Men\'s group', 'Journaling', 'Vulnerability']
+    },
+    bop: {
+        photo: '💅',
+        name: 'MADISON',
+        age: '24',
+        bio: '"Chaotic but make it fashion. 200k followers. If you can\'t handle me at my busiest you don\'t deserve me at my... also busiest. DM for collabs."',
+        tags: ['Content', 'Astrology', 'Main character', 'Hot girl walks', 'Situationships']
     }
 };
 
@@ -1292,11 +1891,15 @@ window.onload = function() {
     document.getElementById('btn-confirm-creator').onclick = function() { showScreen('screen-dateselect'); };
     document.getElementById('btn-back-creator').onclick = function() { showScreen('screen-creator'); };
     
-    // Date selection
+    // Date selection (Part 1)
     var dateButtons = document.querySelectorAll('.btn-select-date');
     for (var i = 0; i < dateButtons.length; i++) {
         (function(btn) {
-            btn.onclick = function() { startGame(btn.getAttribute('data-route')); };
+            btn.onclick = function() {
+                var route = btn.getAttribute('data-route');
+                var part = parseInt(btn.getAttribute('data-part')) || 1;
+                startGame(route, part);
+            };
         })(dateButtons[i]);
     }
     
@@ -1324,9 +1927,13 @@ window.onload = function() {
     document.getElementById('btn-return-select').onclick = function() { document.getElementById('menu-modal').classList.add('hidden'); showScreen('screen-title'); };
     
     // Ending buttons
-    document.getElementById('btn-play-again').onclick = function() { startGame(State.route); };
+    document.getElementById('btn-play-again').onclick = function() { startGame(State.route, State.part); };
     document.getElementById('btn-new-date').onclick = function() { showScreen('screen-dateselect'); };
     document.getElementById('btn-new-char').onclick = function() { showScreen('screen-creator'); updatePreview(); };
+    document.getElementById('btn-next-date').onclick = function() { showScreen('screen-dateselect2'); };
+    
+    // Part 2 back button
+    document.getElementById('btn-back-ending').onclick = function() { showScreen('screen-ending'); };
     
     // Phone overlay
     document.getElementById('btn-phone').onclick = openPhone;
