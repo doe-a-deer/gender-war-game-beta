@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender War Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Crimson+Pro:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: #1a1216;
+    color: #fff8f0;
+    line-height: 1.6;
+}
+
+/* SCREEN ROUTING */
+.screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.hidden { display: none !important; }
+
+/* Buttons */
+button {
+    font-family: 'Special Elite', monospace;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 150ms ease;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #ff4d6d, #ff6b8a);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+}
+.btn-secondary {
+    background: transparent;
+    color: #b8a9a0;
+    border: 1px solid #6b5a52;
+}
+.btn-secondary:hover {
+    border-color: #fff8f0;
+    color: #fff8f0;
+}
+.btn-modal {
+    width: 100%;
+    background: #2a1f24;
+    color: #fff8f0;
+    border: 1px solid #6b5a52;
+    margin-bottom: 0.5rem;
+}
+.btn-modal:hover {
+    background: #ff4d6d;
+    border-color: #ff4d6d;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+.pulse { animation: pulse 2s infinite; }
+
+/* Title Screen */
+#screen-title {
+    background: 
+        radial-gradient(ellipse at 30% 20%, rgba(255, 77, 109, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        #1a1216;
+}
+.title-container { text-align: center; padding: 2rem; }
+.title-decoration {
+    width: 200px;
+    height: 2px;
+    margin: 1.5rem auto;
+    background: linear-gradient(90deg, transparent, #ff4d6d, transparent);
+}
+.game-title {
+    font-family: 'Special Elite', monospace;
+    font-size: clamp(3rem, 10vw, 6rem);
+    letter-spacing: 8px;
+    color: #fff8f0;
+    text-shadow: 0 0 40px rgba(255, 77, 109, 0.5), 0 0 80px rgba(255, 77, 109, 0.3);
+    margin-bottom: 0.5rem;
+}
+.game-subtitle {
+    font-size: 1.2rem;
+    color: #b8a9a0;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+.title-warning {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: #6b5a52;
+}
+
+/* Creator Screen */
+#screen-creator {
+    background: #1a1216;
+    padding: 1.5rem;
+}
+.creator-container { width: 100%; max-width: 900px; }
+.screen-title {
+    font-family: 'Special Elite', monospace;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 4px;
+}
+.creator-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+@media (max-width: 700px) {
+    .creator-layout { grid-template-columns: 1fr; }
+}
+.preview-panel { display: flex; flex-direction: column; align-items: center; }
+.preview-frame {
+    width: 200px;
+    height: 280px;
+    background: #2a1f24;
+    border: 3px solid #6b5a52;
+    border-radius: 8px;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+.avatar-preview {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.avatar-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+.preview-label {
+    margin-top: 1rem;
+    font-style: italic;
+    color: #b8a9a0;
+}
+.options-panel { display: flex; flex-direction: column; gap: 1.5rem; }
+.option-group {
+    background: #2a1f24;
+    padding: 1rem;
+    border-radius: 8px;
+}
+.option-label {
+    display: block;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.85rem;
+    color: #b8a9a0;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.option-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.swatch {
+    width: 40px;
+    height: 40px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 150ms ease;
+    padding: 0;
+}
+.swatch:hover, .swatch.selected {
+    border-color: #ffd700;
+    transform: scale(1.1);
+}
+.icon-btn, .outfit-btn {
+    width: 50px;
+    height: 50px;
+    background: #1a1216;
+    border: 2px solid #6b5a52;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 150ms ease;
+    padding: 0;
+}
+.icon-btn:hover, .icon-btn.selected,
+.outfit-btn:hover, .outfit-btn.selected {
+    border-color: #ff4d6d;
+    background: rgba(255, 77, 109, 0.2);
+}
+.creator-actions { display: flex; justify-content: center; gap: 1.5rem; }
+
+/* Date Select Screen */
+#screen-dateselect {
+    background: 
+        radial-gradient(ellipse at 20% 50%, rgba(255, 77, 109, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 50%, rgba(78, 205, 196, 0.1) 0%, transparent 40%),
+        #1a1216;
+    padding: 1.5rem;
+}
+.dateselect-container { width: 100%; max-width: 1000px; text-align: center; }
+.screen-subtitle { color: #b8a9a0; margin-bottom: 2rem; font-style: italic; }
+.date-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+.date-card {
+    background: #2a1f24;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid #6b5a52;
+    transition: all 300ms ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.date-card:hover {
+    border-color: #ff4d6d;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(255, 77, 109, 0.2);
+}
+.card-portrait {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 3rem;
+}
+.incel-portrait { background: linear-gradient(135deg, #4a5568, #2d3748); border: 3px solid #e53e3e; }
+.femcel-portrait { background: linear-gradient(135deg, #553c9a, #44337a); border: 3px solid #d53f8c; }
+.card-name {
+    font-family: 'Special Elite', monospace;
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+}
+.card-bio {
+    font-size: 0.95rem;
+    color: #b8a9a0;
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+.card-traits { list-style: none; text-align: left; font-size: 0.85rem; margin-bottom: 1rem; }
+.card-traits li { padding: 0.25rem 0; color: #b8a9a0; }
+.btn-select-date {
+    font-family: 'Special Elite', monospace;
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    border: 2px solid #ff4d6d;
+    color: #ff4d6d;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 150ms ease;
+}
+.btn-select-date:hover {
+    background: #ff4d6d;
+    color: white;
+}
+
+/* Game Screen */
+#screen-game {
+    position: relative;
+    background: linear-gradient(180deg, #1a0a0f 0%, #2a1520 30%, #3a2030 60%, #1a0a0f 100%);
+}
+#screen-game.active {
+    display: block;
+}
+.stats-hud {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+.stat { display: flex; align-items: center; gap: 0.25rem; font-family: 'Space Mono', monospace; font-size: 0.9rem; }
+.stat-icon { font-size: 1.2rem; }
+.stat-label { color: #b8a9a0; }
+.stat-value { color: #ffd700; font-weight: bold; }
+.sprite-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 5%;
+    padding-bottom: 220px;
+    z-index: 10;
+}
+.sprite-placeholder {
+    width: 180px;
+    height: 300px;
+    background: #2a1f24;
+    border: 2px dashed #6b5a52;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    transition: opacity 150ms ease;
+}
+.dialogue-container {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    z-index: 50;
+}
+.dialogue-box {
+    background: rgba(15, 10, 12, 0.95);
+    border: 2px solid #ff4d6d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+.speaker-name {
+    font-family: 'Special Elite', monospace;
+    font-size: 1rem;
+    color: #ff4d6d;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+}
+.dialogue-text { font-size: 1.1rem; line-height: 1.7; color: #fff8f0; min-height: 60px; }
+.choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 900px;
+    margin: 1rem auto 0;
+}
+.choice-btn {
+    font-family: 'Crimson Pro', Georgia, serif;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 77, 109, 0.1);
+    border: 1px solid #ff4d6d;
+    border-radius: 4px;
+    color: #fff8f0;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
+    transition: all 150ms ease;
+}
+.choice-btn:hover {
+    background: rgba(255, 77, 109, 0.3);
+    transform: translateX(4px);
+}
+.btn-menu {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #6b5a52;
+    border-radius: 4px;
+    color: #b8a9a0;
+    cursor: pointer;
+    z-index: 60;
+    font-size: 0.9rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+.btn-menu:hover { border-color: #fff8f0; color: #fff8f0; }
+
+/* Ending Screen */
+#screen-ending {
+    background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 50%), #1a1216;
+    padding: 1.5rem;
+}
+.ending-container { width: 100%; max-width: 500px; text-align: center; }
+.ending-header { margin-bottom: 2rem; }
+.ending-title { font-family: 'Special Elite', monospace; font-size: 2rem; letter-spacing: 4px; margin-bottom: 1rem; }
+.ending-text { color: #b8a9a0; font-style: italic; font-size: 1.1rem; }
+.receipt-container { margin-bottom: 2rem; }
+.receipt {
+    background: #f5f0e1;
+    color: #2c2416;
+    font-family: 'Space Mono', monospace;
+    padding: 1.5rem;
+    border-radius: 4px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.receipt-header { text-align: center; margin-bottom: 1rem; }
+.receipt-restaurant { font-size: 1rem; font-weight: bold; }
+.receipt-tagline { font-size: 0.75rem; color: #8b4513; }
+.receipt-divider { color: #8b4513; font-size: 0.7rem; letter-spacing: -1px; margin: 0.5rem 0; }
+.receipt-items { margin: 1rem 0; }
+.receipt-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.25rem 0; }
+.receipt-item-label { flex: 1; padding-right: 1rem; }
+.receipt-item-cost { text-align: right; white-space: nowrap; }
+.receipt-footer { text-align: center; }
+.receipt-total, .receipt-balance { font-weight: bold; font-size: 1rem; }
+.receipt-balance { color: #ff3333; }
+.receipt-balance.positive { color: green; }
+.receipt-message { font-size: 0.75rem; font-style: italic; margin-top: 1rem; color: #8b4513; }
+.ending-actions { display: flex; flex-direction: column; gap: 1rem; }
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal.hidden { display: none; }
+.modal-content {
+    background: #2a1f24;
+    border: 2px solid #ff4d6d;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 350px;
+    position: relative;
+    text-align: center;
+}
+.btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #b8a9a0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+}
+.btn-close:hover { color: #ff4d6d; }
+.modal-title { font-family: 'Special Elite', monospace; letter-spacing: 3px; margin-bottom: 1.5rem; }
+.modal-buttons { display: flex; flex-direction: column; }
+    </style>
+</head>
+<body>
+    <!-- TITLE SCREEN -->
+    <div id="screen-title" class="screen active">
+        <div class="title-container">
+            <div class="title-decoration"></div>
+            <h1 class="game-title">GENDER WAR</h1>
+            <p class="game-subtitle">A Dating Disaster Simulator</p>
+            <div class="title-decoration"></div>
+            <button id="btn-start" class="btn-primary pulse">START GAME</button>
+            <p class="title-warning">⚠️ No refunds on emotional damage ⚠️</p>
+        </div>
+    </div>
+
+    <!-- CHARACTER CREATOR SCREEN -->
+    <div id="screen-creator" class="screen">
+        <div class="creator-container">
+            <h2 class="screen-title">CREATE YOUR AVATAR</h2>
+            <div class="creator-layout">
+                <div class="preview-panel">
+                    <div class="preview-frame">
+                        <div id="avatar-preview" class="avatar-preview">
+                            <div class="avatar-layer" id="layer-skin"></div>
+                            <div class="avatar-layer" id="layer-outfit"></div>
+                            <div class="avatar-layer" id="layer-mouth"></div>
+                            <div class="avatar-layer" id="layer-eyes"></div>
+                        </div>
+                    </div>
+                    <p class="preview-label">Your Date Night Look</p>
+                </div>
+                <div class="options-panel">
+                    <div class="option-group">
+                        <label class="option-label">Skin Tone</label>
+                        <div class="option-row" id="skin-options">
+                            <button class="swatch selected" data-option="skin" data-value="0" style="background: #FFDFC4"></button>
+                            <button class="swatch" data-option="skin" data-value="1" style="background: #F0C08A"></button>
+                            <button class="swatch" data-option="skin" data-value="2" style="background: #CD9A6D"></button>
+                            <button class="swatch" data-option="skin" data-value="3" style="background: #8D5524"></button>
+                            <button class="swatch" data-option="skin" data-value="4" style="background: #4A2912"></button>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label">Eyes</label>
+                        <div class="option-row" id="eye-options">
+                            <button class="icon-btn selected" data-option="eyes" data-value="0">👁️</button>
+                            <button class="icon-btn" data-option="eyes" data-value="1">◉</button>
+                            <button class="icon-btn" data-option="eyes" data-value="2">◠</button>
+                            <button class="icon-btn" data-option="eyes" data-value="3">✿</button>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label">Mouth</label>
+                        <div class="option-row" id="mouth-options">
+                            <button class="icon-btn selected" data-option="mouth" data-value="0">‿</button>
+                            <button class="icon-btn" data-option="mouth" data-value="1">―</button>
+                            <button class="icon-btn" data-option="mouth" data-value="2">◡</button>
+                            <button class="icon-btn" data-option="mouth" data-value="3">👄</button>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label">Outfit</label>
+                        <div class="option-row" id="outfit-options">
+                            <button class="outfit-btn selected" data-option="outfit" data-value="0">👔</button>
+                            <button class="outfit-btn" data-option="outfit" data-value="1">👗</button>
+                            <button class="outfit-btn" data-option="outfit" data-value="2">🧥</button>
+                            <button class="outfit-btn" data-option="outfit" data-value="3">👕</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="creator-actions">
+                <button id="btn-back-title" class="btn-secondary">← Back</button>
+                <button id="btn-confirm-creator" class="btn-primary">Confirm Look →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATE SELECTION SCREEN -->
+    <div id="screen-dateselect" class="screen">
+        <div class="dateselect-container">
+            <h2 class="screen-title">CHOOSE YOUR DISASTER</h2>
+            <p class="screen-subtitle">Select your date for tonight's regrettable evening</p>
+            <div class="date-cards">
+                <div class="date-card">
+                    <div class="card-portrait incel-portrait">😤</div>
+                    <h3 class="card-name">THE INCEL</h3>
+                    <p class="card-bio">"Actually, you should feel lucky I even swiped right."</p>
+                    <ul class="card-traits">
+                        <li>🎮 Hobby: "Studying" female psychology</li>
+                        <li>📚 Last read: 4chan /r9k/</li>
+                        <li>🚩 Vibe: Weaponized self-pity</li>
+                    </ul>
+                    <button class="btn-select-date" data-route="incel">Date Him</button>
+                </div>
+                <div class="date-card">
+                    <div class="card-portrait femcel-portrait">😏</div>
+                    <h3 class="card-name">THE FEMCEL</h3>
+                    <p class="card-bio">"Men are trash but I'm still here hoping one will prove me wrong."</p>
+                    <ul class="card-traits">
+                        <li>📖 Hobby: Writing poetry about her ex</li>
+                        <li>🎵 Playlist: Breakup songs (never dated)</li>
+                        <li>🚩 Vibe: Preemptive bitterness</li>
+                    </ul>
+                    <button class="btn-select-date" data-route="femcel">Date Her</button>
+                </div>
+            </div>
+            <button id="btn-back-creator" class="btn-secondary">← Change Look</button>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="screen-game" class="screen">
+        <div class="stats-hud">
+            <div class="stat">
+                <span class="stat-icon">💰</span>
+                <span class="stat-label">Money:</span>
+                <span class="stat-value" id="stat-money">$100</span>
+            </div>
+            <div class="stat">
+                <span class="stat-icon">😤</span>
+                <span class="stat-label">Patience:</span>
+                <span class="stat-value" id="stat-patience">10</span>
+            </div>
+        </div>
+        <div class="sprite-layer">
+            <div class="sprite-placeholder" id="sprite-left">😤</div>
+            <div class="sprite-placeholder" id="sprite-right">🙂</div>
+        </div>
+        <div class="dialogue-container">
+            <div class="dialogue-box">
+                <div class="speaker-name" id="speaker-name">???</div>
+                <div class="dialogue-text" id="dialogue-text">Loading...</div>
+            </div>
+            <div class="choices-container" id="choices-container"></div>
+        </div>
+        <button id="btn-menu" class="btn-menu">☰ Menu</button>
+    </div>
+
+    <!-- ENDING SCREEN -->
+    <div id="screen-ending" class="screen">
+        <div class="ending-container">
+            <div class="ending-header">
+                <h2 class="ending-title" id="ending-title">DATE OVER</h2>
+                <p class="ending-text" id="ending-text">How did it go?</p>
+            </div>
+            <div class="receipt-container">
+                <div class="receipt">
+                    <div class="receipt-header">
+                        <p class="receipt-restaurant">✦ LE DISASTER CAFÉ ✦</p>
+                        <p class="receipt-tagline">Where Romance Goes To Die</p>
+                        <p class="receipt-divider">================================</p>
+                    </div>
+                    <div class="receipt-items" id="receipt-items"></div>
+                    <div class="receipt-footer">
+                        <p class="receipt-divider">================================</p>
+                        <p class="receipt-total">TOTAL: <span id="receipt-total">$0</span></p>
+                        <p class="receipt-balance">REMAINING: <span id="receipt-balance">$0</span></p>
+                        <p class="receipt-divider">--------------------------------</p>
+                        <p class="receipt-message" id="receipt-message">Thank you for dining with us!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="ending-actions">
+                <button id="btn-play-again" class="btn-primary">Play Again</button>
+                <button id="btn-new-date" class="btn-secondary">Choose Different Date</button>
+                <button id="btn-new-char" class="btn-secondary">New Character</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENU MODAL -->
+    <div id="menu-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="btn-close-menu" class="btn-close">✕</button>
+            <h3 class="modal-title">PAUSE</h3>
+            <div class="modal-buttons">
+                <button id="btn-resume" class="btn-modal">Resume</button>
+                <button id="btn-restart" class="btn-modal">Restart Date</button>
+                <button id="btn-return-select" class="btn-modal">Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ===== DIALOGUE DATA =====
+const INCEL_ROUTE = {
+    'incel_start': {
+        speaker: 'INCEL', text: "*doesn't stand up when you arrive* You're late. I've been here for 47 minutes. I tracked it.",
+        dateExpression: 'neutral', playerExpression: 'concerned',
+        choices: [
+            { label: "I'm actually 5 minutes early...", nextId: 'incel_early', effects: { patience: -1 } },
+            { label: "Sorry, traffic was bad.", nextId: 'incel_apology' },
+            { label: "Have you considered that clocks can be wrong?", nextId: 'incel_clocks', effects: { patience: -2 } }
+        ]
+    },
+    'incel_early': {
+        speaker: 'INCEL', text: "Typical female manipulation tactics. Gaslighting me about time itself. I expected nothing less.",
+        dateExpression: 'angry',
+        choices: [
+            { label: "Let's just look at the menu.", nextId: 'incel_menu' },
+            { label: "You know what, I'm leaving.", nextId: 'ending_immediate_leave' }
+        ]
+    },
+    'incel_apology': {
+        speaker: 'INCEL', text: "At least you acknowledge it. Most females wouldn't even do that. You're... acceptable. For now.",
+        choices: [
+            { label: "Thank you?", nextId: 'incel_menu' },
+            { label: "Please stop saying 'females'.", nextId: 'incel_females' }
+        ]
+    },
+    'incel_clocks': {
+        speaker: 'INCEL', text: "Oh, so now you're an expert on horology? Let me guess, you learned that from some Chad who collects watches?",
+        dateExpression: 'angry',
+        choices: [
+            { label: "Who is Chad?", nextId: 'incel_chad' },
+            { label: "Can we please just order food?", nextId: 'incel_menu' }
+        ]
+    },
+    'incel_chad': {
+        speaker: 'INCEL', text: "You don't know who— You know what, never mind. The fact that you don't know proves my point.",
+        dateExpression: 'angry',
+        choices: [{ label: "I'm going to need a drink for this.", nextId: 'incel_menu', effects: { patience: -1 } }]
+    },
+    'incel_females': {
+        speaker: 'INCEL', text: "'Female' is the scientific term. What, do you want me to use some made-up woke word?",
+        dateExpression: 'angry',
+        choices: [
+            { label: "'Woman' works fine.", nextId: 'incel_menu', effects: { patience: -1 } },
+            { label: "Let's just look at the menu.", nextId: 'incel_menu' }
+        ]
+    },
+    'incel_menu': {
+        speaker: 'WAITER', text: "Good evening! Can I get you two started with some drinks?",
+        choices: [
+            { label: "I'll have a glass of wine.", nextId: 'incel_after_order', effects: { money: -12 }, receiptLines: [{ label: 'House Wine (escape juice)', cost: 12 }] },
+            { label: "Just water, please.", nextId: 'incel_after_order' },
+            { label: "The strongest thing you have.", nextId: 'incel_after_order', effects: { money: -18 }, receiptLines: [{ label: 'Quadruple Whiskey', cost: 18 }] }
+        ]
+    },
+    'incel_after_order': {
+        speaker: 'INCEL', text: "So... I've been working on a spreadsheet about optimal dating strategies. Want to see my data?",
+        choices: [
+            { label: "Sure, show me the spreadsheet.", nextId: 'incel_spreadsheet' },
+            { label: "How about we just talk normally?", nextId: 'incel_normal_talk' },
+            { label: "I need to use the restroom.", nextId: 'ending_bathroom_escape' }
+        ]
+    },
+    'incel_spreadsheet': {
+        speaker: 'INCEL', text: "*pulls out laptop* See, I've categorized all my matches by height, income potential, and likelihood of responding. You're in the 'surprisingly replied' column.",
+        choices: [
+            { label: "I... I'm honored?", nextId: 'ending_spreadsheet' },
+            { label: "This is actually unhinged.", nextId: 'ending_unhinged' }
+        ]
+    },
+    'incel_normal_talk': {
+        speaker: 'INCEL', text: "Normal? You mean like the mindless small talk that Chad uses? Fine. What's your favorite... color?",
+        dateExpression: 'angry',
+        choices: [
+            { label: "Blue.", nextId: 'ending_unexpected' },
+            { label: "This isn't working.", nextId: 'ending_honest_exit' }
+        ]
+    },
+    'ending_immediate_leave': {
+        speaker: 'PLAYER', text: "You stand up, grab your coat, and walk out before the breadsticks even arrive.",
+        isEnding: true, endingTitle: 'SPEED RUN', endingText: 'You set a new personal record for fastest date exit. 47 seconds.',
+        receiptLines: [{ label: 'Valet tip (for running)', cost: 5 }]
+    },
+    'ending_bathroom_escape': {
+        speaker: 'PLAYER', text: "You excuse yourself, climb out the bathroom window, and contemplate your life choices in the parking lot.",
+        isEnding: true, endingTitle: 'THE CLASSIC', endingText: 'The bathroom window escape: a time-honored tradition.',
+        receiptLines: [{ label: 'Dignity (lost)', cost: 0 }, { label: 'Window cleaning fee', cost: 25 }]
+    },
+    'ending_spreadsheet': {
+        speaker: 'INCEL', text: "*eyes light up* Wait, you're actually interested? This is... unprecedented. I need to update my data.",
+        isEnding: true, endingTitle: 'DATA POINT', endingText: 'You are now a footnote in his research.',
+        receiptLines: [{ label: 'Appetizer (never arrived)', cost: 15 }]
+    },
+    'ending_unhinged': {
+        speaker: 'INCEL', text: "Unhinged? UNHINGED? This is SCIENCE. You just proved exactly why—",
+        isEnding: true, endingTitle: 'THE MELTDOWN', endingText: "He's still yelling about data integrity as security escorts him out.",
+        receiptLines: [{ label: 'Table damage deposit', cost: 50 }]
+    },
+    'ending_unexpected': {
+        speaker: 'INCEL', text: "Blue? That's... that's my favorite too. *long pause* Do you want to split the chicken tenders?",
+        isEnding: true, endingTitle: 'PLOT TWIST', endingText: 'Against all odds, you found common ground over chicken tenders.',
+        receiptLines: [{ label: 'Chicken tenders (shared)', cost: 14 }, { label: 'Hope (restored)', cost: 0 }]
+    },
+    'ending_honest_exit': {
+        speaker: 'PLAYER', text: "I appreciate you coming out, but I don't think we're compatible. Good luck with your spreadsheet.",
+        isEnding: true, endingTitle: 'THE ADULT', endingText: 'You left with dignity intact.',
+        receiptLines: [{ label: 'Water (dignity intact)', cost: 0 }]
+    }
+};
+
+const FEMCEL_ROUTE = {
+    'femcel_start': {
+        speaker: 'FEMCEL', text: "*already on phone when you arrive* Oh. You actually showed up. That's... suspicious.",
+        playerExpression: 'concerned',
+        choices: [
+            { label: "Why would I not show up?", nextId: 'femcel_suspicious' },
+            { label: "Nice to meet you too.", nextId: 'femcel_sarcasm' },
+            { label: "Should I leave?", nextId: 'femcel_leave_offer' }
+        ]
+    },
+    'femcel_suspicious': {
+        speaker: 'FEMCEL', text: "My ex Derek ghosted me 47 times. FORTY-SEVEN. I keep a spreadsheet. So forgive me if I'm cautious.",
+        dateExpression: 'smirk',
+        choices: [
+            { label: "That's... a lot of times to get back together.", nextId: 'femcel_derek' },
+            { label: "I'm not Derek.", nextId: 'femcel_not_derek' }
+        ]
+    },
+    'femcel_sarcasm': {
+        speaker: 'FEMCEL', text: "Sarcasm? I respect that. Most men just cry when I'm mean to them. *puts phone away* Okay, you have my attention.",
+        dateExpression: 'smirk',
+        choices: [
+            { label: "I'll try to keep it.", nextId: 'femcel_menu' },
+            { label: "I don't need your attention.", nextId: 'femcel_impressed' }
+        ]
+    },
+    'femcel_leave_offer': {
+        speaker: 'FEMCEL', text: "Wow, not even gonna fight for it? That's either mature or deeply suspicious.",
+        choices: [
+            { label: "I'll stay if you want me to.", nextId: 'femcel_menu' },
+            { label: "Okay, bye then.", nextId: 'ending_mutual_disinterest' }
+        ]
+    },
+    'femcel_derek': {
+        speaker: 'FEMCEL', text: "I know what I deserve, and I deserve closure. He still owes me $47 from a Taco Bell order.",
+        dateExpression: 'angry',
+        choices: [
+            { label: "I could cover the $47.", nextId: 'ending_bought_closure', effects: { money: -47 }, receiptLines: [{ label: "Derek's Taco Bell debt", cost: 47 }] },
+            { label: "Let's talk about something else.", nextId: 'femcel_menu' }
+        ]
+    },
+    'femcel_not_derek': {
+        speaker: 'FEMCEL', text: "*squints* That's exactly what Derek would say. He also had two eyes and a face. Just like you. Coincidence?",
+        dateExpression: 'smirk',
+        choices: [
+            { label: "I literally don't know Derek.", nextId: 'femcel_menu' },
+            { label: "Maybe I AM Derek.", nextId: 'ending_derek_reveal' }
+        ]
+    },
+    'femcel_impressed': {
+        speaker: 'FEMCEL', text: "*actually puts phone down* Okay. I didn't expect that. You might actually be interesting.",
+        dateExpression: 'smirk',
+        choices: [{ label: "I have my moments.", nextId: 'femcel_menu' }]
+    },
+    'femcel_menu': {
+        speaker: 'WAITER', text: "Good evening! What can I get you started with?",
+        choices: [
+            { label: "A bottle of wine to share?", nextId: 'femcel_wine', effects: { money: -30 }, receiptLines: [{ label: 'Wine (trust exercise)', cost: 30 }] },
+            { label: "I'll just have water.", nextId: 'femcel_water' },
+            { label: "Two of your strongest cocktails.", nextId: 'femcel_cocktails', effects: { money: -28 }, receiptLines: [{ label: 'Survival cocktails x2', cost: 28 }] }
+        ]
+    },
+    'femcel_wine': {
+        speaker: 'FEMCEL', text: "Sharing? Bold. Derek always ordered separate checks. Said it was 'maintaining boundaries.'",
+        choices: [
+            { label: "I'm trying to have a nice dinner.", nextId: 'ending_nice_dinner' },
+            { label: "Maybe I'm just not Derek.", nextId: 'ending_not_derek_win' }
+        ]
+    },
+    'femcel_water': {
+        speaker: 'FEMCEL', text: "Water? You're either very healthy or very boring. My cat Empress Livia only drinks distilled water.",
+        dateExpression: 'smirk',
+        choices: [
+            { label: "Tell me about Empress Livia.", nextId: 'ending_cat_person' },
+            { label: "Can we talk about something other than Derek and your cat?", nextId: 'ending_harsh_truth' }
+        ]
+    },
+    'femcel_cocktails': {
+        speaker: 'FEMCEL', text: "Finally, someone who understands that sobriety is for people without trauma. *clinks glass* To bad decisions.",
+        dateExpression: 'smirk',
+        choices: [
+            { label: "To bad decisions!", nextId: 'ending_chaos' },
+            { label: "To... new beginnings?", nextId: 'ending_hopeful' }
+        ]
+    },
+    'ending_mutual_disinterest': {
+        speaker: 'PLAYER', text: "You both shrug and go your separate ways. The most amicable non-date in history.",
+        isEnding: true, endingTitle: 'THE NON-EVENT', endingText: 'Sometimes the best date is the one that never happens.',
+        receiptLines: [{ label: 'Parking validation', cost: 0 }]
+    },
+    'ending_bought_closure': {
+        speaker: 'FEMCEL', text: "*stares at you* You... you paid off Derek's debt? *tears up* No one has ever done that for me.",
+        isEnding: true, endingTitle: 'CLOSURE PURCHASED', endingText: 'You bought her emotional freedom for $47.',
+        receiptLines: [{ label: "Derek's debt", cost: 47 }, { label: 'Emotional baggage (cleared)', cost: 0 }]
+    },
+    'ending_derek_reveal': {
+        speaker: 'FEMCEL', text: "WHAT. *stands up* DEREK?! *entire restaurant turns* I KNEW IT. FORTY-EIGHT TIMES NOW.",
+        isEnding: true, endingTitle: 'PLOT TWIST', endingText: "You weren't Derek. But the chaos was worth it.",
+        receiptLines: [{ label: 'Scene caused', cost: 0 }, { label: 'Restaurant ban', cost: 0 }]
+    },
+    'ending_nice_dinner': {
+        speaker: 'FEMCEL', text: "*pauses* That's... actually nice. I don't know how to respond to sincerity. Want to try the bread?",
+        isEnding: true, endingTitle: 'CAUTIOUS OPTIMISM', endingText: 'Against all expectations, you had an almost-normal dinner.',
+        receiptLines: [{ label: 'Wine (shared)', cost: 30 }, { label: 'Glimmer of hope', cost: 0 }]
+    },
+    'ending_not_derek_win': {
+        speaker: 'FEMCEL', text: "*long pause* Maybe you're right. Maybe not everyone is Derek. *whispers* Don't make me regret this.",
+        isEnding: true, endingTitle: 'PROGRESS', endingText: 'You proved that not everyone is Derek.',
+        receiptLines: [{ label: 'Wine (shared)', cost: 30 }, { label: 'Second date (tentative)', cost: 0 }]
+    },
+    'ending_cat_person': {
+        speaker: 'FEMCEL', text: "*eyes light up* SHE'S A PERSIAN CALICO WITH HETEROCHROMIA— *three hours later* —and that's why she only eats organic salmon.",
+        isEnding: true, endingTitle: 'CAT CONVERT', endingText: 'You learned more about cats than you ever wanted.',
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Cat facts (unlimited)', cost: 0 }]
+    },
+    'ending_harsh_truth': {
+        speaker: 'FEMCEL', text: "*stunned silence* Did you just... set a boundary? I... respect that? This is confusing.",
+        isEnding: true, endingTitle: 'REALITY CHECK', endingText: "She'll think about this for weeks.",
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Hard truths', cost: 0 }]
+    },
+    'ending_chaos': {
+        speaker: 'FEMCEL', text: "*four cocktails later* AND THEN HE SAID— *you both get kicked out* Best date I've ever had.",
+        isEnding: true, endingTitle: 'BEAUTIFUL DISASTER', endingText: "You got banned from the restaurant together. That's basically bonding.",
+        receiptLines: [{ label: 'Cocktails (many)', cost: 56 }, { label: 'Lifelong memory', cost: 0 }]
+    },
+    'ending_hopeful': {
+        speaker: 'FEMCEL', text: "*softens* New beginnings? That's... really optimistic. *small smile* Okay. I'll try.",
+        isEnding: true, endingTitle: 'CAUTIOUS HOPE', endingText: 'Against all odds, you both agreed to try.',
+        receiptLines: [{ label: 'Cocktails x2', cost: 28 }, { label: 'Future (uncertain but hopeful)', cost: 0 }]
+    }
+};
+
+// ===== GAME STATE =====
+const State = {
+    appearance: { skin: 0, eyes: 0, mouth: 0, outfit: 0 },
+    route: null,
+    nodeId: null,
+    money: 100,
+    patience: 10,
+    receipt: []
+};
+
+// ===== SCREEN MANAGEMENT =====
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// ===== CHARACTER CREATOR =====
+function updatePreview() {
+    const skins = ['#FFDFC4', '#F0C08A', '#CD9A6D', '#8D5524', '#4A2912'];
+    const eyes = ['👁️', '◉', '◠', '✿'];
+    const mouths = ['‿', '―', '◡', '👄'];
+    const outfits = ['👔', '👗', '🧥', '👕'];
+    
+    document.getElementById('layer-skin').innerHTML = '<div style="width:80px;height:100px;background:'+skins[State.appearance.skin]+';border-radius:40px 40px 20px 20px;"></div>';
+    document.getElementById('layer-eyes').innerHTML = '<span style="position:absolute;top:30%;font-size:1.5rem;">'+eyes[State.appearance.eyes]+' '+eyes[State.appearance.eyes]+'</span>';
+    document.getElementById('layer-mouth').innerHTML = '<span style="position:absolute;top:55%;font-size:1.5rem;">'+mouths[State.appearance.mouth]+'</span>';
+    document.getElementById('layer-outfit').innerHTML = '<span style="position:absolute;top:75%;font-size:2rem;">'+outfits[State.appearance.outfit]+'</span>';
+}
+
+// ===== GAME LOGIC =====
+function startGame(route) {
+    State.route = route;
+    State.money = 100;
+    State.patience = 10;
+    State.receipt = [];
+    updateStats();
+    showScreen('screen-game');
+    document.getElementById('sprite-left').textContent = route === 'incel' ? '😤' : '😏';
+    renderNode(route === 'incel' ? 'incel_start' : 'femcel_start');
+}
+
+function renderNode(nodeId) {
+    var routes = State.route === 'incel' ? INCEL_ROUTE : FEMCEL_ROUTE;
+    var node = routes[nodeId];
+    if (!node) return;
+    
+    State.nodeId = nodeId;
+    
+    if (node.isEnding) {
+        if (node.receiptLines) State.receipt = State.receipt.concat(node.receiptLines);
+        showEnding(node);
+        return;
+    }
+    
+    document.getElementById('speaker-name').textContent = node.speaker;
+    document.getElementById('dialogue-text').textContent = node.text;
+    
+    var left = document.getElementById('sprite-left');
+    var right = document.getElementById('sprite-right');
+    
+    if (node.speaker === 'WAITER') {
+        left.textContent = '🧑‍🍳';
+    } else if (State.route === 'incel') {
+        left.textContent = node.dateExpression === 'angry' ? '😠' : '😤';
+    } else {
+        left.textContent = node.dateExpression === 'smirk' ? '😏' : '🙄';
+    }
+    right.textContent = node.playerExpression === 'concerned' ? '😰' : '🙂';
+    
+    left.style.opacity = node.speaker === 'PLAYER' ? '0.5' : '1';
+    right.style.opacity = node.speaker === 'PLAYER' ? '1' : '0.5';
+    
+    var container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    if (node.choices) {
+        for (var i = 0; i < node.choices.length; i++) {
+            (function(choice) {
+                var btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.textContent = choice.label;
+                btn.onclick = function() {
+                    if (choice.effects) {
+                        if (choice.effects.money) State.money += choice.effects.money;
+                        if (choice.effects.patience) State.patience += choice.effects.patience;
+                    }
+                    if (choice.receiptLines) State.receipt = State.receipt.concat(choice.receiptLines);
+                    updateStats();
+                    renderNode(choice.nextId);
+                };
+                container.appendChild(btn);
+            })(node.choices[i]);
+        }
+    }
+}
+
+function updateStats() {
+    document.getElementById('stat-money').textContent = '$' + State.money;
+    document.getElementById('stat-patience').textContent = State.patience;
+    document.getElementById('stat-money').style.color = State.money < 20 ? '#ff3333' : '#ffd700';
+    document.getElementById('stat-patience').style.color = State.patience <= 3 ? '#ff3333' : '#ffd700';
+}
+
+function showEnding(node) {
+    document.getElementById('ending-title').textContent = node.endingTitle || 'DATE OVER';
+    document.getElementById('ending-text').textContent = node.endingText || 'Well, that happened.';
+    
+    var items = document.getElementById('receipt-items');
+    items.innerHTML = '';
+    var total = 0;
+    
+    for (var i = 0; i < State.receipt.length; i++) {
+        var item = State.receipt[i];
+        var div = document.createElement('div');
+        div.className = 'receipt-item';
+        div.innerHTML = '<span class="receipt-item-label">'+item.label+'</span><span class="receipt-item-cost">'+(item.cost === 0 ? '---' : '$' + item.cost.toFixed(2))+'</span>';
+        items.appendChild(div);
+        total += item.cost;
+    }
+    
+    var dmg = document.createElement('div');
+    dmg.className = 'receipt-item';
+    dmg.innerHTML = '<span class="receipt-item-label">Emotional Damage</span><span class="receipt-item-cost">∞</span>';
+    items.appendChild(dmg);
+    
+    document.getElementById('receipt-total').textContent = '$' + total.toFixed(2);
+    var balance = 100 - total;
+    document.getElementById('receipt-balance').textContent = '$' + balance.toFixed(2);
+    document.getElementById('receipt-balance').parentElement.className = balance >= 0 ? 'receipt-balance positive' : 'receipt-balance';
+    
+    if (balance < 0) document.getElementById('receipt-message').textContent = "Your card was declined.";
+    else if (balance < 20) document.getElementById('receipt-message').textContent = "Hope you weren't planning to tip.";
+    else document.getElementById('receipt-message').textContent = "Please don't come back.";
+    
+    showScreen('screen-ending');
+}
+
+// ===== INIT =====
+window.onload = function() {
+    // Navigation
+    document.getElementById('btn-start').onclick = function() { showScreen('screen-creator'); updatePreview(); };
+    document.getElementById('btn-back-title').onclick = function() { showScreen('screen-title'); };
+    document.getElementById('btn-confirm-creator').onclick = function() { showScreen('screen-dateselect'); };
+    document.getElementById('btn-back-creator').onclick = function() { showScreen('screen-creator'); };
+    
+    // Date selection
+    var dateButtons = document.querySelectorAll('.btn-select-date');
+    for (var i = 0; i < dateButtons.length; i++) {
+        (function(btn) {
+            btn.onclick = function() { startGame(btn.getAttribute('data-route')); };
+        })(dateButtons[i]);
+    }
+    
+    // Character options
+    var optionButtons = document.querySelectorAll('[data-option]');
+    for (var j = 0; j < optionButtons.length; j++) {
+        (function(btn) {
+            btn.onclick = function() {
+                var opt = btn.getAttribute('data-option');
+                var val = parseInt(btn.getAttribute('data-value'));
+                State.appearance[opt] = val;
+                var siblings = btn.parentElement.querySelectorAll('button');
+                for (var k = 0; k < siblings.length; k++) siblings[k].classList.remove('selected');
+                btn.classList.add('selected');
+                updatePreview();
+            };
+        })(optionButtons[j]);
+    }
+    
+    // Menu
+    document.getElementById('btn-menu').onclick = function() { document.getElementById('menu-modal').classList.remove('hidden'); };
+    document.getElementById('btn-close-menu').onclick = function() { document.getElementById('menu-modal').classList.add('hidden'); };
+    document.getElementById('btn-resume').onclick = function() { document.getElementById('menu-modal').classList.add('hidden'); };
+    document.getElementById('btn-restart').onclick = function() { document.getElementById('menu-modal').classList.add('hidden'); startGame(State.route); };
+    document.getElementById('btn-return-select').onclick = function() { document.getElementById('menu-modal').classList.add('hidden'); showScreen('screen-title'); };
+    
+    // Ending buttons
+    document.getElementById('btn-play-again').onclick = function() { startGame(State.route); };
+    document.getElementById('btn-new-date').onclick = function() { showScreen('screen-dateselect'); };
+    document.getElementById('btn-new-char').onclick = function() { showScreen('screen-creator'); updatePreview(); };
+    
+    console.log('Game ready!');
+};
+</script>
+</body>
+</html>
