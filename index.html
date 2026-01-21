@@ -827,6 +827,7 @@ button {
             </div>
             <div class="ending-actions">
                 <button id="btn-next-date" class="btn-primary hidden">🔥 Next Date (Part 2)</button>
+                <button id="btn-final-phase" class="btn-primary hidden">👁️ The Convergence (Final)</button>
                 <button id="btn-play-again" class="btn-secondary">Play Again</button>
                 <button id="btn-new-date" class="btn-secondary">Choose Different Date</button>
                 <button id="btn-new-char" class="btn-secondary">New Character</button>
@@ -1560,6 +1561,105 @@ const BOP_ROUTE = {
     }
 };
 
+// ===== PART 3: THE THEMCEL ROUTE =====
+const THEM_ROUTE = {
+    'themcel_start': {
+        speaker: 'THEM',
+        text: "Hey! So glad you could make it. We've heard a lot about you—just from around, you know how it is. People talk. Anyway, we wanted to reach out because we think you might vibe with what we're building here.",
+        choices: [
+            { label: "Who are you?", nextId: 'themcel_convergence' },
+            { label: "I remember all of you.", nextId: 'themcel_convergence' },
+            { label: "What is this?", nextId: 'themcel_convergence' }
+        ]
+    },
+    'themcel_convergence': {
+        speaker: 'THEM',
+        text: "We're kind of a mix of everyone, honestly. Some of us are really into data and patterns—knowing the stats, understanding trends. Some of us have high standards and know our worth. Some of us have options and don't settle. And we've all done the work, you know? Therapy, growth, communication skills. We just... figured out how to align on things.",
+        choices: [
+            { label: "That sounds... efficient.", nextId: 'themcel_explain' },
+            { label: "That sounds exhausting.", nextId: 'themcel_explain' },
+            { label: "Go on.", nextId: 'themcel_explain' }
+        ]
+    },
+    'themcel_explain': {
+        speaker: 'THEM',
+        text: "It's not about being angry or bitter or anything. We're past that. We just have shared frameworks now. Like, we all agree on what red flags are, what healthy communication looks like, what boundaries mean. It makes everything easier. Less conflict. People get it.",
+        choices: [
+            { label: "Less conflict sounds nice.", nextId: 'themcel_end_war' },
+            { label: "That's not less conflict, that's just conformity.", nextId: 'themcel_end_war' }
+        ]
+    },
+    'themcel_end_war': {
+        speaker: 'THEM',
+        text: "Look, the dating thing? The gender stuff? We kind of... moved past it. Not in a dismissive way—we've just processed it. We have language for everything now. Everyone's valid, everyone's boundaried, everyone's communicating their needs. It's actually really healthy.",
+        choices: [
+            { label: "Is that what you're offering?", nextId: 'themcel_offering' },
+            { label: "That sounds kind of sterile.", nextId: 'themcel_offering' }
+        ]
+    },
+    'themcel_offering': {
+        speaker: 'THEM',
+        text: "Basically, yeah. You'd be part of the group. The main chat, the hangs, the shared understanding. You'd never have to explain yourself because everyone already gets the references. Same podcasts, same takes, same way of talking about stuff. It's nice, honestly. Low friction.",
+        choices: [
+            { label: "What's the catch?", nextId: 'themcel_cost' }
+        ]
+    },
+    'themcel_cost': {
+        speaker: 'THEM',
+        text: "There's no catch really. Just, you know, the usual stuff. Keep up with the norms, don't make things weird, be chill when people give feedback. If someone says something landed wrong, you just adjust. It's not a big deal. Most people find it's actually easier than doing their own thing.",
+        choices: [
+            { label: "And if I don't want to?", nextId: 'themcel_invitation' },
+            { label: "That sounds manageable.", nextId: 'themcel_invitation' }
+        ]
+    },
+    'themcel_invitation': {
+        speaker: 'THEM',
+        text: "Anyway, no pressure either way. Some people really thrive here, some people find it's not their thing. Both are fine. We just want to make sure everyone's on the same page. So—would you want to be part of this?",
+        choices: [
+            { label: "I want to be part of this.", nextId: 'themcel_evaluation' },
+            { label: "I don't think this is for me.", nextId: 'themcel_refusal_end' }
+        ]
+    },
+    'themcel_evaluation': {
+        speaker: 'THEM',
+        text: "Thanks for sharing that. We're just gonna check in with the group real quick—standard process. Everyone gets the same review. Give us one sec.",
+        choices: [
+            { label: "*wait*", nextId: 'themcel_decision' }
+        ]
+    },
+    'themcel_decision': {
+        speaker: 'THEM',
+        text: "{INTEGRATION_RESULT}",
+        choices: [
+            { label: "...", nextId: '{INTEGRATION_ENDING}' }
+        ]
+    },
+    'themcel_refusal_end': {
+        speaker: 'THEM',
+        text: "Totally valid. We get that this isn't for everyone, and that's okay. No hard feelings. You're always welcome to revisit if your situation changes. We'll still be here. Take care of yourself.",
+        isEnding: true,
+        endingTitle: 'OPTED OUT',
+        endingText: 'You left the group chat. Nobody unfollowed you, but the vibe shifted.',
+        receiptLines: [{ label: 'Membership (declined)', cost: 0 }, { label: 'Boundaries (respected)', cost: 0 }, { label: 'Future invite (pending)', cost: 0 }]
+    },
+    'themcel_acceptance_end': {
+        speaker: 'THEM',
+        text: "Great news—we think you'd be a good fit. Your communication style aligns with the group, and we appreciate how you've shown up. We'll add you to the main chat. Just a heads up: we do feedback Fridays and we ask that everyone keeps things constructive. Welcome aboard.",
+        isEnding: true,
+        endingTitle: 'ONBOARDED',
+        endingText: 'You were added to the group. Your notification settings were adjusted automatically.',
+        receiptLines: [{ label: 'Application (approved)', cost: 0 }, { label: 'Norms (agreed to)', cost: 0 }, { label: 'Profile (updated)', cost: 0 }, { label: 'You (categorized)', cost: 0 }]
+    },
+    'themcel_rejection_end': {
+        speaker: 'THEM',
+        text: "We really appreciate you putting yourself out there. After some discussion, we don't think this is the right container for you right now. It's not about good or bad—it's just about fit. We'd encourage you to keep doing your work, and maybe check back in down the line. Wishing you all the best.",
+        isEnding: true,
+        endingTitle: 'NOT A FIT',
+        endingText: 'Your application was reviewed. The decision was final. No further feedback was provided.',
+        receiptLines: [{ label: 'Application (reviewed)', cost: 0 }, { label: 'Fit (insufficient)', cost: 0 }, { label: 'Door (technically open)', cost: 0 }]
+    }
+};
+
 // ===== GAME STATE =====
 const State = {
     appearance: { skin: 0, eyes: 0, mouth: 0, outfit: 0 },
@@ -1581,6 +1681,12 @@ const State = {
             highSpend: 0,
             chaosAgent: 0
         }
+    },
+    part3Unlocked: false,
+    integration: {
+        legibility: 0,
+        friction: 0,
+        reframingAcceptance: 0
     }
 };
 
@@ -1618,9 +1724,14 @@ function startGame(route, part) {
     if (State.part === 1) {
         document.getElementById('sprite-left').textContent = route === 'incel' ? '😤' : '😏';
         startNode = route === 'incel' ? 'incel_start' : 'femcel_start';
-    } else {
+    } else if (State.part === 2) {
         document.getElementById('sprite-left').textContent = route === 'performative' ? '🥺' : '💅';
         startNode = route === 'performative' ? 'performative_start' : 'bop_start';
+    } else {
+        // Part 3: The Themcel
+        document.getElementById('sprite-left').textContent = '👁️';
+        computeIntegration(); // Compute integration values before starting
+        startNode = 'themcel_start';
     }
     renderNode(startNode);
 }
@@ -1629,8 +1740,10 @@ function renderNode(nodeId) {
     var routes;
     if (State.part === 1) {
         routes = State.route === 'incel' ? INCEL_ROUTE : FEMCEL_ROUTE;
-    } else {
+    } else if (State.part === 2) {
         routes = State.route === 'performative' ? PERFORMATIVE_ROUTE : BOP_ROUTE;
+    } else {
+        routes = THEM_ROUTE;
     }
     var node = routes[nodeId];
     if (!node) return;
@@ -1649,6 +1762,11 @@ function renderNode(nodeId) {
         displayText = displayText.replace('{RUMOR}', getRumorLine());
     }
     
+    // Handle {INTEGRATION_RESULT} placeholder for Part 3
+    if (displayText.indexOf('{INTEGRATION_RESULT}') >= 0) {
+        displayText = displayText.replace('{INTEGRATION_RESULT}', getIntegrationResultText());
+    }
+    
     document.getElementById('speaker-name').textContent = node.speaker;
     document.getElementById('dialogue-text').textContent = displayText;
     
@@ -1657,13 +1775,15 @@ function renderNode(nodeId) {
     
     if (node.speaker === 'WAITER') {
         left.textContent = '🧑‍🍳';
+    } else if (node.speaker === 'THEM') {
+        left.textContent = '👁️';
     } else if (State.part === 1) {
         if (State.route === 'incel') {
             left.textContent = node.dateExpression === 'angry' ? '😠' : '😤';
         } else {
             left.textContent = node.dateExpression === 'smirk' ? '😏' : '🙄';
         }
-    } else {
+    } else if (State.part === 2) {
         if (State.route === 'performative') {
             left.textContent = node.dateExpression === 'hurt' ? '😢' : '🥺';
         } else {
@@ -1691,7 +1811,13 @@ function renderNode(nodeId) {
                     }
                     if (choice.receiptLines) State.receipt = State.receipt.concat(choice.receiptLines);
                     updateStats();
-                    renderNode(choice.nextId);
+                    
+                    // Handle dynamic ending routing for Part 3
+                    var nextId = choice.nextId;
+                    if (nextId === '{INTEGRATION_ENDING}') {
+                        nextId = getIntegrationEnding();
+                    }
+                    renderNode(nextId);
                 };
                 container.appendChild(btn);
             })(node.choices[i]);
@@ -1714,8 +1840,17 @@ function showEnding(node) {
     if (State.part === 1) {
         computeReputationFromRunLog();
         document.getElementById('btn-next-date').classList.remove('hidden');
-    } else {
+        document.getElementById('btn-final-phase').classList.add('hidden');
+    } else if (State.part === 2) {
+        // Unlock Part 3 after completing Part 2
+        State.part3Unlocked = true;
+        computeReputationFromRunLog(); // Also accumulate Part 2 choices
         document.getElementById('btn-next-date').classList.add('hidden');
+        document.getElementById('btn-final-phase').classList.remove('hidden');
+    } else {
+        // Part 3 endings
+        document.getElementById('btn-next-date').classList.add('hidden');
+        document.getElementById('btn-final-phase').classList.add('hidden');
     }
     
     var items = document.getElementById('receipt-items');
@@ -1828,6 +1963,87 @@ function getRumorLine() {
     return rumors[Math.floor(Math.random() * rumors.length)];
 }
 
+// ===== INTEGRATION SYSTEM (PART 3) =====
+function computeIntegration() {
+    var tags = State.reputation.tags;
+    var int = State.integration;
+    
+    // Reset integration values
+    int.legibility = 0;
+    int.friction = 0;
+    int.reframingAcceptance = 0;
+    
+    // LEGIBILITY: How easily categorized is the player?
+    // Increase if consistent, explained self, used therapeutic language
+    // Decrease if humor/irony, silence, unpredictable
+    
+    if (tags.stayedTooLong >= 2) int.legibility += 2; // Consistent engagement
+    if (tags.engagedInSpreadsheet >= 1) int.legibility += 1; // Accepted frameworks
+    if (tags.boundarySetter >= 1 && tags.boundarySetter <= 2) int.legibility += 1; // Predictable boundaries
+    
+    if (tags.humorDeflect >= 2) int.legibility -= 2; // Irony as defense
+    if (tags.chaosAgent >= 2) int.legibility -= 2; // Unpredictable
+    if (tags.leftEarly >= 1 && tags.stayedTooLong >= 1) int.legibility -= 1; // Inconsistent
+    
+    // FRICTION: How costly to process?
+    // Increase if redirected, resisted consensus, challenged interpretations
+    // Decrease if affirmed framing, adapted quickly
+    
+    if (tags.boundarySetter >= 3) int.friction += 2; // Frequent redirection
+    if (tags.leftEarly >= 2) int.friction += 1; // Disruptive exits
+    if (tags.chaosAgent >= 1) int.friction += 1; // Caused scenes
+    
+    if (tags.stayedTooLong >= 2) int.friction -= 1; // Didn't disrupt
+    if (tags.engagedInSpreadsheet >= 1) int.friction -= 1; // Accepted weird stuff
+    if (tags.highSpend >= 1) int.friction -= 1; // Compliant with expectations
+    
+    // REFRAMING ACCEPTANCE: Willingness to surrender narrative control
+    // Increase if accepted interpretations, affirmed, didn't correct
+    // Decrease if corrected, rejected labels, asserted own definitions
+    
+    if (tags.stayedTooLong >= 2) int.reframingAcceptance += 2; // Let things happen
+    if (tags.engagedInSpreadsheet >= 1) int.reframingAcceptance += 1; // Accepted being categorized
+    if (tags.highSpend >= 2) int.reframingAcceptance += 1; // Met expectations
+    
+    if (tags.boundarySetter >= 2) int.reframingAcceptance -= 1; // Resisted framing
+    if (tags.humorDeflect >= 2) int.reframingAcceptance -= 1; // Deflected serious framing
+    if (tags.leftEarly >= 2) int.reframingAcceptance -= 2; // Rejected the whole thing
+}
+
+function checkAcceptance() {
+    var int = State.integration;
+    
+    // Acceptance requires:
+    // - legibility >= 0 (at least neutral)
+    // - friction <= 1 (low to medium)
+    // - reframingAcceptance >= 1 (at least somewhat willing)
+    // - At least one clearly positive axis (>= 2)
+    
+    var hasPositive = (int.legibility >= 2) || (int.friction <= -1) || (int.reframingAcceptance >= 2);
+    var noExtreme = (int.legibility >= -2) && (int.friction <= 3) && (int.reframingAcceptance >= -2);
+    
+    var legibilityOk = int.legibility >= 0;
+    var frictionOk = int.friction <= 1;
+    var reframingOk = int.reframingAcceptance >= 1;
+    
+    // Need at least 2 of 3 criteria met, plus no extreme negatives, plus at least one strong positive
+    var criteriaMet = (legibilityOk ? 1 : 0) + (frictionOk ? 1 : 0) + (reframingOk ? 1 : 0);
+    
+    return (criteriaMet >= 2) && noExtreme && hasPositive;
+}
+
+function getIntegrationResultText() {
+    if (checkAcceptance()) {
+        return "Okay, we've had a chance to check in with the group. Overall the feedback was positive. People felt like you'd mesh well with the vibe.";
+    } else {
+        return "So we've had a chance to discuss, and... we want to be honest with you. A few people flagged some concerns. Nothing major, just—some stuff came up.";
+    }
+}
+
+function getIntegrationEnding() {
+    return checkAcceptance() ? 'themcel_acceptance_end' : 'themcel_rejection_end';
+}
+
 // ===== PHONE PROFILE DATA =====
 const PHONE_PROFILES = {
     incel: {
@@ -1931,6 +2147,7 @@ window.onload = function() {
     document.getElementById('btn-new-date').onclick = function() { showScreen('screen-dateselect'); };
     document.getElementById('btn-new-char').onclick = function() { showScreen('screen-creator'); updatePreview(); };
     document.getElementById('btn-next-date').onclick = function() { showScreen('screen-dateselect2'); };
+    document.getElementById('btn-final-phase').onclick = function() { startGame('themcel', 3); };
     
     // Part 2 back button
     document.getElementById('btn-back-ending').onclick = function() { showScreen('screen-ending'); };
