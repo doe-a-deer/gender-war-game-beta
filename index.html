@@ -324,23 +324,34 @@ button {
     top: 0; left: 0;
     width: 100%; height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-end;
     padding: 0 5%;
     padding-bottom: 220px;
     z-index: 10;
 }
-.sprite-placeholder {
-    width: 180px;
+.sprite-box {
+    width: 200px;
     height: 300px;
-    background: #2a1f24;
-    border: 2px dashed #6b5a52;
-    border-radius: 8px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    font-size: 4rem;
-    transition: opacity 150ms ease;
+    gap: 4px;
+}
+.sprite-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.sprite-box.sprite-them {
+    width: 400px;
+}
+.sprite-box.sprite-them img {
+    width: 24%;
+    max-height: 90%;
+}
+.sprite-box.sprite-hidden {
+    display: none;
 }
 .dialogue-container {
     position: absolute;
@@ -713,7 +724,7 @@ button {
             <p class="screen-subtitle">Select your date for tonight's regrettable evening</p>
             <div class="date-cards">
                 <div class="date-card">
-                    <div class="card-portrait incel-portrait"><img src="sprites/wolf_neutral.png" alt="incel" style="width:100%;height:100%;object-fit:contain;"></div>
+                    <div class="card-portrait incel-portrait"><img src="sprites/incel_neutral.png" alt="incel" style="width:100%;height:100%;object-fit:contain;"></div>
                     <h3 class="card-name">THE INCEL</h3>
                     <p class="card-bio">"I've done the math. Women only date the top 20% of men. I'm a 6 who deserves an 8."</p>
                     <ul class="card-traits">
@@ -724,7 +735,7 @@ button {
                     <button class="btn-select-date" data-route="incel">Date Him</button>
                 </div>
                 <div class="date-card">
-                    <div class="card-portrait femcel-portrait"><img src="sprites/cat_neutral.png" alt="femcel" style="width:100%;height:100%;object-fit:contain;"></div>
+                    <div class="card-portrait femcel-portrait"><img src="sprites/femcel_neutral.png" alt="femcel" style="width:100%;height:100%;object-fit:contain;"></div>
                     <h3 class="card-name">THE FEMCEL</h3>
                     <p class="card-bio">"What's your credit score? Asking for me, not a friend."</p>
                     <ul class="card-traits">
@@ -746,7 +757,7 @@ button {
             <p class="screen-subtitle">Word travels fast. Choose your next disaster.</p>
             <div class="date-cards">
                 <div class="date-card">
-                    <div class="card-portrait" style="background: linear-gradient(135deg, #3d5a80, #293241); border: 3px solid #98c1d9;"><img src="sprites/dog_neutral.png" alt="ally" style="width:100%;height:100%;object-fit:contain;"></div>
+                    <div class="card-portrait" style="background: linear-gradient(135deg, #3d5a80, #293241); border: 3px solid #98c1d9;"><img src="sprites/performative_neutral.png" alt="ally" style="width:100%;height:100%;object-fit:contain;"></div>
                     <h3 class="card-name">THE ALLY</h3>
                     <p class="card-bio">"I've done the work. I go to therapy. I process. Why are you being defensive?"</p>
                     <ul class="card-traits">
@@ -757,7 +768,7 @@ button {
                     <button class="btn-select-date" data-route="performative" data-part="2">Date Him</button>
                 </div>
                 <div class="date-card">
-                    <div class="card-portrait" style="background: linear-gradient(135deg, #e0aaff, #9d4edd); border: 3px solid #c77dff;"><img src="sprites/fox_neutral.png" alt="bop" style="width:100%;height:100%;object-fit:contain;"></div>
+                    <div class="card-portrait" style="background: linear-gradient(135deg, #e0aaff, #9d4edd); border: 3px solid #c77dff;"><img src="sprites/bop_neutral.png" alt="bop" style="width:100%;height:100%;object-fit:contain;"></div>
                     <h3 class="card-name">THE BOP</h3>
                     <p class="card-bio">"Sorry what? *looks up from phone* Oh yeah I'm listening. My Uber is 3 min away btw."</p>
                     <ul class="card-traits">
@@ -788,8 +799,7 @@ button {
         </div>
         <button id="btn-phone" class="btn-phone">📱</button>
         <div class="sprite-layer">
-            <div class="sprite-placeholder" id="sprite-left">😤</div>
-            <div class="sprite-placeholder" id="sprite-right">🙂</div>
+            <div id="spriteBox" class="sprite-box"></div>
         </div>
         <div class="dialogue-container">
             <div class="dialogue-box">
@@ -1693,20 +1703,20 @@ const State = {
 // ===== SPRITE SYSTEM =====
 const SPRITES = {
     incel: {
-        neutral: 'sprites/wolf_neutral.png',
-        angry: 'sprites/wolf_angry.png'
+        neutral: 'sprites/incel_neutral.png',
+        angry: 'sprites/incel_angry.png'
     },
     femcel: {
-        neutral: 'sprites/cat_neutral.png',
-        smirk: 'sprites/cat_smirk.png'
+        neutral: 'sprites/femcel_neutral.png',
+        smirk: 'sprites/femcel_smirk.png'
     },
     performative: {
-        neutral: 'sprites/dog_neutral.png',
-        hurt: 'sprites/dog_hurt.png'
+        neutral: 'sprites/performative_neutral.png',
+        hurt: 'sprites/performative_hurt.png'
     },
     bop: {
-        neutral: 'sprites/fox_neutral.png',
-        present: 'sprites/fox_present.png'
+        neutral: 'sprites/bop_neutral.png',
+        present: 'sprites/bop_present.png'
     },
     waiter: {
         neutral: 'sprites/waiter_neutral.png'
@@ -1717,17 +1727,40 @@ const SPRITES = {
     }
 };
 
-function setSpriteImg(element, src, alt) {
-    element.innerHTML = '<img src="' + src + '" alt="' + alt + '" style="width:100%;height:100%;object-fit:contain;">';
-}
-
-function setThemSprites(element) {
-    element.innerHTML = '<div style="display:flex;align-items:flex-end;justify-content:center;height:100%;gap:-20px;">' +
-        '<img src="' + SPRITES.incel.neutral + '" alt="wolf" style="width:40%;height:80%;object-fit:contain;margin-right:-15%;">' +
-        '<img src="' + SPRITES.femcel.neutral + '" alt="cat" style="width:40%;height:85%;object-fit:contain;margin-right:-15%;">' +
-        '<img src="' + SPRITES.performative.neutral + '" alt="dog" style="width:40%;height:80%;object-fit:contain;margin-right:-15%;">' +
-        '<img src="' + SPRITES.bop.neutral + '" alt="fox" style="width:40%;height:85%;object-fit:contain;">' +
-    '</div>';
+function renderSprite(speaker, expression) {
+    var box = document.getElementById('spriteBox');
+    if (!box) return;
+    
+    // THEM: show all four animal neutrals together
+    if (speaker === 'THEM') {
+        box.innerHTML = 
+            '<img src="' + SPRITES.incel.neutral + '" alt="incel" onerror="this.style.display=\'none\'">' +
+            '<img src="' + SPRITES.femcel.neutral + '" alt="femcel" onerror="this.style.display=\'none\'">' +
+            '<img src="' + SPRITES.performative.neutral + '" alt="performative" onerror="this.style.display=\'none\'">' +
+            '<img src="' + SPRITES.bop.neutral + '" alt="bop" onerror="this.style.display=\'none\'">';
+        box.className = 'sprite-box sprite-them';
+        return;
+    }
+    
+    // Map speaker to sprite key
+    var spriteKey = speaker.toLowerCase();
+    if (!SPRITES[spriteKey]) {
+        box.innerHTML = '';
+        box.className = 'sprite-box sprite-hidden';
+        return;
+    }
+    
+    // Get expression or fallback to neutral
+    var expr = expression || 'neutral';
+    var src = SPRITES[spriteKey][expr] || SPRITES[spriteKey].neutral;
+    if (!src) {
+        box.innerHTML = '';
+        box.className = 'sprite-box sprite-hidden';
+        return;
+    }
+    
+    box.innerHTML = '<img src="' + src + '" alt="' + speaker + '" onerror="this.style.display=\'none\'">';
+    box.className = 'sprite-box';
 }
 
 // ===== SCREEN MANAGEMENT =====
@@ -1761,17 +1794,13 @@ function startGame(route, part) {
     showScreen('screen-game');
     
     var startNode;
-    var leftSprite = document.getElementById('sprite-left');
     if (State.part === 1) {
-        setSpriteImg(leftSprite, SPRITES[route].neutral, route);
         startNode = route === 'incel' ? 'incel_start' : 'femcel_start';
     } else if (State.part === 2) {
-        setSpriteImg(leftSprite, SPRITES[route].neutral, route);
         startNode = route === 'performative' ? 'performative_start' : 'bop_start';
     } else {
         // Part 3: The Themcel
-        setThemSprites(leftSprite);
-        computeIntegration(); // Compute integration values before starting
+        computeIntegration();
         startNode = 'themcel_start';
     }
     renderNode(startNode);
@@ -1811,49 +1840,17 @@ function renderNode(nodeId) {
     document.getElementById('speaker-name').textContent = node.speaker;
     document.getElementById('dialogue-text').textContent = displayText;
     
-    var left = document.getElementById('sprite-left');
-    var right = document.getElementById('sprite-right');
-    
-    // Set left sprite (date character or waiter or THEM)
+    // Render sprite - ONE call site
+    var spriteExpr = node.dateExpression || 'neutral';
     if (node.speaker === 'WAITER') {
-        setSpriteImg(left, SPRITES.waiter.neutral, 'waiter');
+        renderSprite('WAITER', 'neutral');
     } else if (node.speaker === 'THEM') {
-        setThemSprites(left);
+        renderSprite('THEM', null);
     } else if (node.speaker === 'PLAYER') {
-        // Player speaking - show date character faded
-        if (State.part === 1) {
-            setSpriteImg(left, SPRITES[State.route].neutral, State.route);
-        } else if (State.part === 2) {
-            setSpriteImg(left, SPRITES[State.route].neutral, State.route);
-        } else {
-            setThemSprites(left);
-        }
-    } else if (State.part === 1) {
-        if (State.route === 'incel') {
-            var expr = node.dateExpression === 'angry' ? 'angry' : 'neutral';
-            setSpriteImg(left, SPRITES.incel[expr], 'incel');
-        } else {
-            var expr = node.dateExpression === 'smirk' ? 'smirk' : 'neutral';
-            setSpriteImg(left, SPRITES.femcel[expr], 'femcel');
-        }
-    } else if (State.part === 2) {
-        if (State.route === 'performative') {
-            var expr = node.dateExpression === 'hurt' ? 'hurt' : 'neutral';
-            setSpriteImg(left, SPRITES.performative[expr], 'performative');
-        } else {
-            var expr = node.dateExpression === 'present' ? 'present' : 'neutral';
-            setSpriteImg(left, SPRITES.bop[expr], 'bop');
-        }
+        renderSprite(State.route.toUpperCase(), 'neutral');
     } else {
-        setThemSprites(left);
+        renderSprite(State.route.toUpperCase(), spriteExpr);
     }
-    
-    // Set right sprite (player)
-    var playerExpr = node.playerExpression === 'concerned' ? 'concerned' : 'neutral';
-    setSpriteImg(right, SPRITES.player[playerExpr], 'player');
-    
-    left.style.opacity = node.speaker === 'PLAYER' ? '0.5' : '1';
-    right.style.opacity = node.speaker === 'PLAYER' ? '1' : '0.5';
     
     var container = document.getElementById('choices-container');
     container.innerHTML = '';
@@ -2107,28 +2104,28 @@ function getIntegrationEnding() {
 // ===== PHONE PROFILE DATA =====
 const PHONE_PROFILES = {
     incel: {
-        photo: 'sprites/wolf_neutral.png',
+        photo: 'sprites/incel_neutral.png',
         name: 'KEVIN',
         age: '27',
         bio: '"Blackpilled truth-seeker. 6\'0 (why does that matter?). Looking for a woman who appreciates intellectual discourse and hasn\'t been corrupted by modern dating."',
         tags: ['Crypto', 'Gym (starting soon)', 'Anime', 'Philosophy', 'Anti-feminist']
     },
     femcel: {
-        photo: 'sprites/cat_neutral.png',
+        photo: 'sprites/femcel_neutral.png',
         name: 'JESSICA',
         age: '26',
         bio: '"High value woman seeking high value man. 6 figures minimum. If you can\'t afford the lifestyle, don\'t waste my time. Venmo requests are a red flag."',
         tags: ['Luxury', 'Brunch', 'Manifestation', 'Cat mom', 'No 50/50']
     },
     performative: {
-        photo: 'sprites/dog_neutral.png',
+        photo: 'sprites/performative_neutral.png',
         name: 'BRENDAN',
         age: '29',
         bio: '"Emotionally evolved. Feminist ally. I cry and I\'m proud of it. Looking for someone ready to do the work. My love language is processing."',
         tags: ['Therapy', 'Breathwork', 'Men\'s group', 'Journaling', 'Vulnerability']
     },
     bop: {
-        photo: 'sprites/fox_neutral.png',
+        photo: 'sprites/bop_neutral.png',
         name: 'MADISON',
         age: '24',
         bio: '"Chaotic but make it fashion. 200k followers. If you can\'t handle me at my busiest you don\'t deserve me at my... also busiest. DM for collabs."',
