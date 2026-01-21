@@ -567,22 +567,22 @@ button {
                 <div class="date-card">
                     <div class="card-portrait incel-portrait">😤</div>
                     <h3 class="card-name">THE INCEL</h3>
-                    <p class="card-bio">"Actually, you should feel lucky I even swiped right."</p>
+                    <p class="card-bio">"I've done the math. Women only date the top 20% of men. I'm a 6 who deserves an 8."</p>
                     <ul class="card-traits">
-                        <li>🎮 Hobby: "Studying" female psychology</li>
-                        <li>📚 Last read: 4chan /r9k/</li>
-                        <li>🚩 Vibe: Weaponized self-pity</li>
+                        <li>🎮 Hobby: Rating women on spreadsheets</li>
+                        <li>📚 Last read: Andrew Tate tweet thread</li>
+                        <li>🚩 Vibe: Peer-reviewed YouTube videos</li>
                     </ul>
                     <button class="btn-select-date" data-route="incel">Date Him</button>
                 </div>
                 <div class="date-card">
                     <div class="card-portrait femcel-portrait">😏</div>
                     <h3 class="card-name">THE FEMCEL</h3>
-                    <p class="card-bio">"Men are trash but I'm still here hoping one will prove me wrong."</p>
+                    <p class="card-bio">"What's your credit score? Asking for me, not a friend."</p>
                     <ul class="card-traits">
-                        <li>📖 Hobby: Writing poetry about her ex</li>
-                        <li>🎵 Playlist: Breakup songs (never dated)</li>
-                        <li>🚩 Vibe: Preemptive bitterness</li>
+                        <li>💎 Hobby: Screening men's watch collections</li>
+                        <li>📱 Last search: "Is $200k a good salary"</li>
+                        <li>🚩 Vibe: Your net worth is your love language</li>
                     </ul>
                     <button class="btn-select-date" data-route="femcel">Date Her</button>
                 </div>
@@ -668,116 +668,116 @@ button {
 // ===== DIALOGUE DATA =====
 const INCEL_ROUTE = {
     'incel_start': {
-        speaker: 'INCEL', text: "*doesn't stand up when you arrive* You're late. I've been here for 47 minutes. I tracked it.",
+        speaker: 'INCEL', text: "*doesn't stand up* You're 47 minutes late. I have a spreadsheet. Time is money, and statistically, women waste both.",
         dateExpression: 'neutral', playerExpression: 'concerned',
         choices: [
-            { label: "I'm actually 5 minutes early...", nextId: 'incel_early', effects: { patience: -1 } },
-            { label: "Sorry, traffic was bad.", nextId: 'incel_apology' },
-            { label: "Have you considered that clocks can be wrong?", nextId: 'incel_clocks', effects: { patience: -2 } }
+            { label: "I'm literally 5 minutes early.", nextId: 'incel_early', effects: { patience: -1 } },
+            { label: "Sorry, traffic.", nextId: 'incel_apology' },
+            { label: "Your watch might be wrong.", nextId: 'incel_clocks', effects: { patience: -2 } }
         ]
     },
     'incel_early': {
-        speaker: 'INCEL', text: "Typical female manipulation tactics. Gaslighting me about time itself. I expected nothing less.",
+        speaker: 'INCEL', text: "Classic DARVO. Deny, Attack, Reverse Victim and Offender. I learned about this from a 4-hour YouTube essay.",
         dateExpression: 'angry',
         choices: [
-            { label: "Let's just look at the menu.", nextId: 'incel_menu' },
-            { label: "You know what, I'm leaving.", nextId: 'ending_immediate_leave' }
+            { label: "Let's just order food.", nextId: 'incel_menu' },
+            { label: "I'm going to leave now.", nextId: 'ending_immediate_leave' }
         ]
     },
     'incel_apology': {
-        speaker: 'INCEL', text: "At least you acknowledge it. Most females wouldn't even do that. You're... acceptable. For now.",
+        speaker: 'INCEL', text: "Accountability. Rare in a female. You're already in the top 12% of my matches. Don't let it go to your head.",
         choices: [
-            { label: "Thank you?", nextId: 'incel_menu' },
-            { label: "Please stop saying 'females'.", nextId: 'incel_females' }
+            { label: "...thank you?", nextId: 'incel_menu' },
+            { label: "Can you not say 'female'?", nextId: 'incel_females' }
         ]
     },
     'incel_clocks': {
-        speaker: 'INCEL', text: "Oh, so now you're an expert on horology? Let me guess, you learned that from some Chad who collects watches?",
+        speaker: 'INCEL', text: "Interesting. Questioning objective reality. Did your last boyfriend—sorry, 'situationship'—teach you that? Let me guess: 6'2\", finance bro, treated you like garbage?",
         dateExpression: 'angry',
         choices: [
-            { label: "Who is Chad?", nextId: 'incel_chad' },
-            { label: "Can we please just order food?", nextId: 'incel_menu' }
+            { label: "Who hurt you?", nextId: 'incel_chad' },
+            { label: "Can we just order?", nextId: 'incel_menu' }
         ]
     },
     'incel_chad': {
-        speaker: 'INCEL', text: "You don't know who— You know what, never mind. The fact that you don't know proves my point.",
+        speaker: 'INCEL', text: "Society hurt me. The 80/20 rule hurt me. Women choosing the top 20% of men while guys like me—who actually READ—rot. But you wouldn't understand hypergamy.",
         dateExpression: 'angry',
-        choices: [{ label: "I'm going to need a drink for this.", nextId: 'incel_menu', effects: { patience: -1 } }]
+        choices: [{ label: "I need alcohol immediately.", nextId: 'incel_menu', effects: { patience: -1 } }]
     },
     'incel_females': {
-        speaker: 'INCEL', text: "'Female' is the scientific term. What, do you want me to use some made-up woke word?",
+        speaker: 'INCEL', text: "'Female' is biologically accurate. 'Woman' is a social construct. I don't make the rules. Actually, I do make the rules, because I've done the research.",
         dateExpression: 'angry',
         choices: [
-            { label: "'Woman' works fine.", nextId: 'incel_menu', effects: { patience: -1 } },
-            { label: "Let's just look at the menu.", nextId: 'incel_menu' }
+            { label: "'Woman' is fine, actually.", nextId: 'incel_menu', effects: { patience: -1 } },
+            { label: "Menu. Now. Please.", nextId: 'incel_menu' }
         ]
     },
     'incel_menu': {
-        speaker: 'WAITER', text: "Good evening! Can I get you two started with some drinks?",
+        speaker: 'WAITER', text: "Good evening. Can I start you off with drinks, or would you prefer to continue... whatever this is?",
         choices: [
-            { label: "I'll have a glass of wine.", nextId: 'incel_after_order', effects: { money: -12 }, receiptLines: [{ label: 'House Wine (escape juice)', cost: 12 }] },
-            { label: "Just water, please.", nextId: 'incel_after_order' },
-            { label: "The strongest thing you have.", nextId: 'incel_after_order', effects: { money: -18 }, receiptLines: [{ label: 'Quadruple Whiskey', cost: 18 }] }
+            { label: "Wine. Large.", nextId: 'incel_after_order', effects: { money: -12 }, receiptLines: [{ label: 'House Wine (escape juice)', cost: 12 }] },
+            { label: "Just water.", nextId: 'incel_after_order' },
+            { label: "Strongest thing you have. Double.", nextId: 'incel_after_order', effects: { money: -18 }, receiptLines: [{ label: 'Quadruple Whiskey', cost: 18 }] }
         ]
     },
     'incel_after_order': {
-        speaker: 'INCEL', text: "So... I've been working on a spreadsheet about optimal dating strategies. Want to see my data?",
+        speaker: 'INCEL', text: "So. I've developed an algorithm that predicts dating success based on canthal tilt, wrist circumference, and crypto portfolio. Want to see where you rank?",
         choices: [
-            { label: "Sure, show me the spreadsheet.", nextId: 'incel_spreadsheet' },
-            { label: "How about we just talk normally?", nextId: 'incel_normal_talk' },
+            { label: "Sure, show me the algorithm.", nextId: 'incel_spreadsheet' },
+            { label: "Can we have a normal conversation?", nextId: 'incel_normal_talk' },
             { label: "I need to use the restroom.", nextId: 'ending_bathroom_escape' }
         ]
     },
     'incel_spreadsheet': {
-        speaker: 'INCEL', text: "*pulls out laptop* See, I've categorized all my matches by height, income potential, and likelihood of responding. You're in the 'surprisingly replied' column.",
+        speaker: 'INCEL', text: "*opens laptop* See this column? 'Likelihood of responding.' You're highlighted yellow—'statistical anomaly.' Most women in your looksmatch range ghost me within 3 messages.",
         choices: [
-            { label: "I... I'm honored?", nextId: 'ending_spreadsheet' },
-            { label: "This is actually unhinged.", nextId: 'ending_unhinged' }
+            { label: "I'm... flattered?", nextId: 'ending_spreadsheet' },
+            { label: "This is genuinely unhinged.", nextId: 'ending_unhinged' }
         ]
     },
     'incel_normal_talk': {
-        speaker: 'INCEL', text: "Normal? You mean like the mindless small talk that Chad uses? Fine. What's your favorite... color?",
+        speaker: 'INCEL', text: "'Normal conversation.' You mean the bluepilled small talk that Chads use to manipulate women into situationships? Fine. What's your... favorite color, I guess.",
         dateExpression: 'angry',
         choices: [
             { label: "Blue.", nextId: 'ending_unexpected' },
-            { label: "This isn't working.", nextId: 'ending_honest_exit' }
+            { label: "This is not working.", nextId: 'ending_honest_exit' }
         ]
     },
     'ending_immediate_leave': {
-        speaker: 'PLAYER', text: "You stand up, grab your coat, and walk out before the breadsticks even arrive.",
-        isEnding: true, endingTitle: 'SPEED RUN', endingText: 'You set a new personal record for fastest date exit. 47 seconds.',
+        speaker: 'PLAYER', text: "You grab your coat and leave before the bread arrives. A new personal record.",
+        isEnding: true, endingTitle: 'SIGMA GRINDSET', endingText: 'You escaped in 47 seconds. He will make a podcast episode about this.',
         receiptLines: [{ label: 'Valet tip (for running)', cost: 5 }]
     },
     'ending_bathroom_escape': {
-        speaker: 'PLAYER', text: "You excuse yourself, climb out the bathroom window, and contemplate your life choices in the parking lot.",
-        isEnding: true, endingTitle: 'THE CLASSIC', endingText: 'The bathroom window escape: a time-honored tradition.',
+        speaker: 'PLAYER', text: "You climb out the bathroom window. The toilet seat was up. Of course it was.",
+        isEnding: true, endingTitle: 'TACTICAL RETREAT', endingText: 'The bathroom escape: older than feminism, twice as effective.',
         receiptLines: [{ label: 'Dignity (lost)', cost: 0 }, { label: 'Window cleaning fee', cost: 25 }]
     },
     'ending_spreadsheet': {
-        speaker: 'INCEL', text: "*eyes light up* Wait, you're actually interested? This is... unprecedented. I need to update my data.",
-        isEnding: true, endingTitle: 'DATA POINT', endingText: 'You are now a footnote in his research.',
+        speaker: 'INCEL', text: "*stops typing* Wait. You're... actually interested in my methodology? This is unprecedented. I need to add a new column. 'Intellectually curious females.' Population: 1.",
+        isEnding: true, endingTitle: 'DATA POINT', endingText: 'You are now Exhibit A in his manifesto.',
         receiptLines: [{ label: 'Appetizer (never arrived)', cost: 15 }]
     },
     'ending_unhinged': {
-        speaker: 'INCEL', text: "Unhinged? UNHINGED? This is SCIENCE. You just proved exactly why—",
-        isEnding: true, endingTitle: 'THE MELTDOWN', endingText: "He's still yelling about data integrity as security escorts him out.",
+        speaker: 'INCEL', text: "UNHINGED? I have SOURCES. Peer-reviewed YouTube videos. You're just mad because the data doesn't lie and the data says you're a 6 who thinks she's an 8—",
+        isEnding: true, endingTitle: 'MELTDOWN ARC', endingText: 'Security escorted him out. He live-tweeted the whole thing.',
         receiptLines: [{ label: 'Table damage deposit', cost: 50 }]
     },
     'ending_unexpected': {
-        speaker: 'INCEL', text: "Blue? That's... that's my favorite too. *long pause* Do you want to split the chicken tenders?",
-        isEnding: true, endingTitle: 'PLOT TWIST', endingText: 'Against all odds, you found common ground over chicken tenders.',
+        speaker: 'INCEL', text: "Blue? *long pause* That's... my favorite too. It's the color of logic. And sadness. *clears throat* Do you want to split the tendies?",
+        isEnding: true, endingTitle: 'ANOMALY DETECTED', endingText: 'Against all odds, chicken tenders brought you together. Love is statistically improbable.',
         receiptLines: [{ label: 'Chicken tenders (shared)', cost: 14 }, { label: 'Hope (restored)', cost: 0 }]
     },
     'ending_honest_exit': {
-        speaker: 'PLAYER', text: "I appreciate you coming out, but I don't think we're compatible. Good luck with your spreadsheet.",
-        isEnding: true, endingTitle: 'THE ADULT', endingText: 'You left with dignity intact.',
+        speaker: 'PLAYER', text: "I appreciate you coming out, but I think we want different things. Good luck with your algorithm.",
+        isEnding: true, endingTitle: 'GRACEFUL EXIT', endingText: 'You left with dignity. He added you to the "polite rejection" spreadsheet.',
         receiptLines: [{ label: 'Water (dignity intact)', cost: 0 }]
     }
 };
 
 const FEMCEL_ROUTE = {
     'femcel_start': {
-        speaker: 'FEMCEL', text: "*already on phone when you arrive* Oh. You actually showed up. That's... suspicious.",
+        speaker: 'FEMCEL', text: "*looking at phone* Oh. You came. *glances up, scans you head to toe* What's your height? Net worth? Credit score? I'm not shallow, I just have standards.",
         playerExpression: 'concerned',
         choices: [
             { label: "Why would I not show up?", nextId: 'femcel_suspicious' },
@@ -786,7 +786,7 @@ const FEMCEL_ROUTE = {
         ]
     },
     'femcel_suspicious': {
-        speaker: 'FEMCEL', text: "My ex Derek ghosted me 47 times. FORTY-SEVEN. I keep a spreadsheet. So forgive me if I'm cautious.",
+        speaker: 'FEMCEL', text: "Because men with Honda Civics usually flake. What do you drive? Actually, don't tell me. If it's not German, I don't want to know. I'm manifesting abundance.",
         dateExpression: 'smirk',
         choices: [
             { label: "That's... a lot of times to get back together.", nextId: 'femcel_derek' },
@@ -794,7 +794,7 @@ const FEMCEL_ROUTE = {
         ]
     },
     'femcel_sarcasm': {
-        speaker: 'FEMCEL', text: "Sarcasm? I respect that. Most men just cry when I'm mean to them. *puts phone away* Okay, you have my attention.",
+        speaker: 'FEMCEL', text: "Sarcasm. Interesting. Most men just trauma dump or mention crypto within 5 minutes. *puts phone face-down* Is that shirt from Target? Be honest.",
         dateExpression: 'smirk',
         choices: [
             { label: "I'll try to keep it.", nextId: 'femcel_menu' },
@@ -802,22 +802,22 @@ const FEMCEL_ROUTE = {
         ]
     },
     'femcel_leave_offer': {
-        speaker: 'FEMCEL', text: "Wow, not even gonna fight for it? That's either mature or deeply suspicious.",
+        speaker: 'FEMCEL', text: "Not even going to fight for it? That's either low effort or low income. Both are icks. A man who wanted me would stay and order the tasting menu.",
         choices: [
             { label: "I'll stay if you want me to.", nextId: 'femcel_menu' },
             { label: "Okay, bye then.", nextId: 'ending_mutual_disinterest' }
         ]
     },
     'femcel_derek': {
-        speaker: 'FEMCEL', text: "I know what I deserve, and I deserve closure. He still owes me $47 from a Taco Bell order.",
+        speaker: 'FEMCEL', text: "Your car reflects your ambition. My ex drove a BMW but leased it. LEASED. The deception. I deserve a man who owns assets. Preferably appreciating ones.",
         dateExpression: 'angry',
         choices: [
-            { label: "I could cover the $47.", nextId: 'ending_bought_closure', effects: { money: -47 }, receiptLines: [{ label: "Derek's Taco Bell debt", cost: 47 }] },
+            { label: "I could cover the $47.", nextId: 'ending_bought_closure', effects: { money: -47 }, receiptLines: [{ label: "Proving financial stability", cost: 47 }] },
             { label: "Let's talk about something else.", nextId: 'femcel_menu' }
         ]
     },
     'femcel_not_derek': {
-        speaker: 'FEMCEL', text: "*squints* That's exactly what Derek would say. He also had two eyes and a face. Just like you. Coincidence?",
+        speaker: 'FEMCEL', text: "*squints* That's what a man without a 401k would say. What's your ring budget? Hypothetically. Because if it's under 3 months salary, we're done here.",
         dateExpression: 'smirk',
         choices: [
             { label: "I literally don't know Derek.", nextId: 'femcel_menu' },
@@ -825,7 +825,7 @@ const FEMCEL_ROUTE = {
         ]
     },
     'femcel_impressed': {
-        speaker: 'FEMCEL', text: "*actually puts phone down* Okay. I didn't expect that. You might actually be interesting.",
+        speaker: 'FEMCEL', text: "*actually looks up* Okay. A man who doesn't immediately seek my validation? That's either secure attachment or family money. Either way, intriguing.",
         dateExpression: 'smirk',
         choices: [{ label: "I have my moments.", nextId: 'femcel_menu' }]
     },
@@ -838,14 +838,14 @@ const FEMCEL_ROUTE = {
         ]
     },
     'femcel_wine': {
-        speaker: 'FEMCEL', text: "Sharing? Bold. Derek always ordered separate checks. Said it was 'maintaining boundaries.'",
+        speaker: 'FEMCEL', text: "Sharing? Bold. Most men Venmo request me immediately. Which is wild because if he wanted to provide, he would. A woman should never split a check. It's science.",
         choices: [
             { label: "I'm trying to have a nice dinner.", nextId: 'ending_nice_dinner' },
             { label: "Maybe I'm just not Derek.", nextId: 'ending_not_derek_win' }
         ]
     },
     'femcel_water': {
-        speaker: 'FEMCEL', text: "Water? You're either very healthy or very boring. My cat Empress Livia only drinks distilled water.",
+        speaker: 'FEMCEL', text: "Water? *writes something in Notes app* Either you're sober or you're cheap. Both suggest lifestyle limitations. My cat eats high-pH salmon. She lives better than this.",
         dateExpression: 'smirk',
         choices: [
             { label: "Tell me about Empress Livia.", nextId: 'ending_cat_person' },
@@ -853,7 +853,7 @@ const FEMCEL_ROUTE = {
         ]
     },
     'femcel_cocktails': {
-        speaker: 'FEMCEL', text: "Finally, someone who understands that sobriety is for people without trauma. *clinks glass* To bad decisions.",
+        speaker: 'FEMCEL', text: "Finally. A man who understands that the cost of a drink reflects the value he places on my time. *raises glass* To men who invest in experiences.",
         dateExpression: 'smirk',
         choices: [
             { label: "To bad decisions!", nextId: 'ending_chaos' },
@@ -861,49 +861,49 @@ const FEMCEL_ROUTE = {
         ]
     },
     'ending_mutual_disinterest': {
-        speaker: 'PLAYER', text: "You both shrug and go your separate ways. The most amicable non-date in history.",
-        isEnding: true, endingTitle: 'THE NON-EVENT', endingText: 'Sometimes the best date is the one that never happens.',
+        speaker: 'PLAYER', text: "You both shrug. She returns to browsing Hermes resale. You return to your reasonably-priced life.",
+        isEnding: true, endingTitle: 'INSUFFICIENT FUNDS', endingText: 'She needed a provider. You needed a personality. Nobody won.',
         receiptLines: [{ label: 'Parking validation', cost: 0 }]
     },
     'ending_bought_closure': {
-        speaker: 'FEMCEL', text: "*stares at you* You... you paid off Derek's debt? *tears up* No one has ever done that for me.",
-        isEnding: true, endingTitle: 'CLOSURE PURCHASED', endingText: 'You bought her emotional freedom for $47.',
-        receiptLines: [{ label: "Derek's debt", cost: 47 }, { label: 'Emotional baggage (cleared)', cost: 0 }]
+        speaker: 'FEMCEL', text: "*stares at card* You... didn't even hesitate? *voice softens* Do you have a diversified portfolio? A man who spends freely AND invests? I need to sit down. I'm already sitting.",
+        isEnding: true, endingTitle: 'ASSET ACQUIRED', endingText: 'Your willingness to spend signaled abundance. She is now emotionally available.',
+        receiptLines: [{ label: "Proving financial stability", cost: 47 }, { label: 'Emotional walls (liquidated)', cost: 0 }]
     },
     'ending_derek_reveal': {
-        speaker: 'FEMCEL', text: "WHAT. *stands up* DEREK?! *entire restaurant turns* I KNEW IT. FORTY-EIGHT TIMES NOW.",
-        isEnding: true, endingTitle: 'PLOT TWIST', endingText: "You weren't Derek. But the chaos was worth it.",
-        receiptLines: [{ label: 'Scene caused', cost: 0 }, { label: 'Restaurant ban', cost: 0 }]
+        speaker: 'FEMCEL', text: "MILLIONAIRE? *stands up* *entire restaurant turns* WHY DIDN'T YOU LEAD WITH THAT? THE SHIRT THREW ME OFF. WE NEED TO DISCUSS ASSET PROTECTION.",
+        isEnding: true, endingTitle: 'DUE DILIGENCE', endingText: 'You were lying. But she already texted her group chat about your "stealth wealth."',
+        receiptLines: [{ label: 'Scene caused', cost: 0 }, { label: 'Prenup discussion (premature)', cost: 0 }]
     },
     'ending_nice_dinner': {
-        speaker: 'FEMCEL', text: "*pauses* That's... actually nice. I don't know how to respond to sincerity. Want to try the bread?",
-        isEnding: true, endingTitle: 'CAUTIOUS OPTIMISM', endingText: 'Against all expectations, you had an almost-normal dinner.',
-        receiptLines: [{ label: 'Wine (shared)', cost: 30 }, { label: 'Glimmer of hope', cost: 0 }]
+        speaker: 'FEMCEL', text: "*pauses* That's... disarmingly simple. No flex. No agenda. *looks away* The bread here is free, but you could have ordered the $40 appetizer. And yet. Interesting.",
+        isEnding: true, endingTitle: 'DIMINISHING RETURNS', endingText: 'You offered presence over presents. She is confused but intrigued.',
+        receiptLines: [{ label: 'Wine (shared)', cost: 30 }, { label: 'Emotional availability (priceless)', cost: 0 }]
     },
     'ending_not_derek_win': {
-        speaker: 'FEMCEL', text: "*long pause* Maybe you're right. Maybe not everyone is Derek. *whispers* Don't make me regret this.",
-        isEnding: true, endingTitle: 'PROGRESS', endingText: 'You proved that not everyone is Derek.',
-        receiptLines: [{ label: 'Wine (shared)', cost: 30 }, { label: 'Second date (tentative)', cost: 0 }]
+        speaker: 'FEMCEL', text: "*long pause* Like me? Not my aesthetic? Not my potential? Just... me? *quietly* That's not how this usually works. Let me recalibrate.",
+        isEnding: true, endingTitle: 'MARKET CORRECTION', endingText: 'You valued her as a person, not an asset. System error. Recalculating.',
+        receiptLines: [{ label: 'Wine (shared)', cost: 30 }, { label: 'Second date (pending appraisal)', cost: 0 }]
     },
     'ending_cat_person': {
-        speaker: 'FEMCEL', text: "*eyes light up* SHE'S A PERSIAN CALICO WITH HETEROCHROMIA— *three hours later* —and that's why she only eats organic salmon.",
-        isEnding: true, endingTitle: 'CAT CONVERT', endingText: 'You learned more about cats than you ever wanted.',
-        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Cat facts (unlimited)', cost: 0 }]
+        speaker: 'FEMCEL', text: "*eyes light up* Her name is Empress Livia. She eats high-pH salmon and wears Chanel collars— *two hours later* —and her vet costs more than your rent, probably.",
+        isEnding: true, endingTitle: 'LUXURY PET SYNDROME', endingText: 'The cat lives better than you. This was always the outcome.',
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Cat lifestyle envy', cost: 0 }]
     },
     'ending_harsh_truth': {
-        speaker: 'FEMCEL', text: "*stunned silence* Did you just... set a boundary? I... respect that? This is confusing.",
-        isEnding: true, endingTitle: 'REALITY CHECK', endingText: "She'll think about this for weeks.",
-        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Hard truths', cost: 0 }]
+        speaker: 'FEMCEL', text: "*stunned* Did you just... redirect the conversation? Without offering to buy something? *processing* That's either confidence or poverty. I respect it either way.",
+        isEnding: true, endingTitle: 'NON-MATERIAL VALUE', endingText: 'You offered boundaries instead of purchases. She will discuss this with her therapist.',
+        receiptLines: [{ label: 'Water', cost: 0 }, { label: 'Boundary setting (free)', cost: 0 }]
     },
     'ending_chaos': {
-        speaker: 'FEMCEL', text: "*four cocktails later* AND THEN HE SAID— *you both get kicked out* Best date I've ever had.",
-        isEnding: true, endingTitle: 'BEAUTIFUL DISASTER', endingText: "You got banned from the restaurant together. That's basically bonding.",
-        receiptLines: [{ label: 'Cocktails (many)', cost: 56 }, { label: 'Lifelong memory', cost: 0 }]
+        speaker: 'FEMCEL', text: "*five drinks later* AND THEN HE BOUGHT ME CHANEL BUT IT WAS THE WRONG SIZE SO I— *both get escorted out* You're fun. Do you have a Black Amex?",
+        isEnding: true, endingTitle: 'DIMINISHING LIQUIDITY', endingText: 'You got banned together. She expensed the emotional labor.',
+        receiptLines: [{ label: 'Cocktails (many)', cost: 56 }, { label: 'Chaos (bonding)', cost: 0 }]
     },
     'ending_hopeful': {
-        speaker: 'FEMCEL', text: "*softens* New beginnings? That's... really optimistic. *small smile* Okay. I'll try.",
-        isEnding: true, endingTitle: 'CAUTIOUS HOPE', endingText: 'Against all odds, you both agreed to try.',
-        receiptLines: [{ label: 'Cocktails x2', cost: 28 }, { label: 'Future (uncertain but hopeful)', cost: 0 }]
+        speaker: 'FEMCEL', text: "*softens* New beginnings. That's sweet. Financially naive, but sweet. *small smile* Fine. But next date, you're picking the restaurant. Choose wisely. I screenshot menus.",
+        isEnding: true, endingTitle: 'PROBATIONARY PERIOD', endingText: 'Against all odds, she is cautiously optimistic. Your credit score is still being monitored.',
+        receiptLines: [{ label: 'Cocktails x2', cost: 28 }, { label: 'Future (subject to review)', cost: 0 }]
     }
 };
 
