@@ -224,45 +224,20 @@ button {
 /* Rabbit Preview Styles */
 .rabbit-container {
     position: relative;
-    width: 140px;
+    width: 160px;
     height: 200px;
 }
-.rabbit-ear {
+.rabbit-silhouette {
+    width: 100%;
+    height: 100%;
+}
+.rabbit-face {
     position: absolute;
-    width: 28px;
-    height: 70px;
-    border-radius: 50% 50% 40% 40%;
     top: 0;
-}
-.rabbit-ear-left { left: 30px; transform: rotate(-10deg); }
-.rabbit-ear-right { right: 30px; transform: rotate(10deg); }
-.rabbit-ear-inner {
-    position: absolute;
-    width: 12px;
-    height: 45px;
-    background: #ffb6c1;
-    border-radius: 50%;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.rabbit-head {
-    position: absolute;
-    width: 100px;
-    height: 90px;
-    border-radius: 50%;
-    top: 55px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.rabbit-body {
-    position: absolute;
-    width: 90px;
-    height: 80px;
-    border-radius: 50% 50% 45% 45%;
-    top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 .rabbit-eyes {
     position: absolute;
@@ -270,27 +245,27 @@ button {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 24px;
-    font-size: 1.2rem;
+    gap: 20px;
+    font-size: 1.1rem;
     z-index: 10;
 }
 .rabbit-nose {
     position: absolute;
-    top: 112px;
+    top: 108px;
     left: 50%;
     transform: translateX(-50%);
-    width: 10px;
-    height: 8px;
+    width: 8px;
+    height: 6px;
     background: #ffb6c1;
     border-radius: 50%;
     z-index: 10;
 }
 .rabbit-mouth {
     position: absolute;
-    top: 118px;
+    top: 112px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1rem;
+    font-size: 0.9rem;
     z-index: 10;
 }
 .rabbit-cheeks {
@@ -298,14 +273,14 @@ button {
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
-    width: 110px;
+    width: 100px;
     display: flex;
     justify-content: space-between;
     z-index: 5;
 }
 .rabbit-cheek {
-    width: 16px;
-    height: 10px;
+    width: 14px;
+    height: 8px;
     background: rgba(255, 150, 150, 0.4);
     border-radius: 50%;
 }
@@ -1864,10 +1839,10 @@ function updatePreview() {
     const mouthStyles = ['ω', '︿', '○', 'з'];
     const accessories = ['🎀', '🎩', '🌸', '⭐'];
     const accessoryPositions = [
-        { top: '12px', left: '85px' },   // Bow - on right ear
-        { top: '0px', left: '50%', transform: 'translateX(-50%)' },  // Top hat - center top
-        { top: '95px', right: '15px' },  // Flower - by cheek
-        { top: '130px', left: '50%', transform: 'translateX(-50%)' } // Star - on chest
+        { top: '8px', left: '58%' },   // Bow - on right ear
+        { top: '-5px', left: '50%', transform: 'translateX(-50%)' },  // Top hat
+        { top: '95px', right: '25px' },  // Flower
+        { top: '120px', left: '50%', transform: 'translateX(-50%)' } // Star
     ];
     
     const fur = furColors[State.appearance.skin];
@@ -1876,7 +1851,6 @@ function updatePreview() {
     const accessory = accessories[State.appearance.outfit];
     const accPos = accessoryPositions[State.appearance.outfit];
     
-    // Build accessory style string
     let accStyle = 'position:absolute;z-index:15;font-size:1.3rem;';
     if (accPos.top) accStyle += 'top:' + accPos.top + ';';
     if (accPos.left) accStyle += 'left:' + accPos.left + ';';
@@ -1886,27 +1860,57 @@ function updatePreview() {
     const preview = document.getElementById('avatar-preview');
     preview.innerHTML = `
         <div class="rabbit-container">
-            <!-- Ears -->
-            <div class="rabbit-ear rabbit-ear-left" style="background:${fur}">
-                <div class="rabbit-ear-inner"></div>
+            <svg viewBox="0 0 200 280" class="rabbit-silhouette">
+                <path fill="${fur}" d="
+                    M70 75 
+                    C65 70 60 45 62 25 
+                    C64 10 72 5 80 8 
+                    C88 11 92 25 90 45
+                    C89 55 88 65 90 75
+                    
+                    M130 75
+                    C132 65 131 55 130 45
+                    C128 25 132 11 140 8
+                    C148 5 156 10 158 25
+                    C160 45 155 70 150 75
+                    
+                    M100 60
+                    C60 60 40 85 40 115
+                    C40 145 55 165 70 175
+                    C50 180 35 195 35 220
+                    C35 255 60 275 100 275
+                    C140 275 165 255 165 220
+                    C165 195 150 180 130 175
+                    C145 165 160 145 160 115
+                    C160 85 140 60 100 60
+                    
+                    M30 200
+                    C20 195 15 205 18 215
+                    C21 225 30 230 40 225
+                    C45 222 45 215 42 210
+                    C40 205 35 202 30 200
+                    
+                    M170 200
+                    C180 195 185 205 182 215
+                    C179 225 170 230 160 225
+                    C155 222 155 215 158 210
+                    C160 205 165 202 170 200
+                    
+                    M95 50
+                    C92 45 95 40 100 40
+                    C105 40 108 45 105 50
+                    C103 53 97 53 95 50
+                "/>
+            </svg>
+            <div class="rabbit-face">
+                <div class="rabbit-eyes">${eyes}</div>
+                <div class="rabbit-nose"></div>
+                <div class="rabbit-mouth">${mouth}</div>
+                <div class="rabbit-cheeks">
+                    <div class="rabbit-cheek"></div>
+                    <div class="rabbit-cheek"></div>
+                </div>
             </div>
-            <div class="rabbit-ear rabbit-ear-right" style="background:${fur}">
-                <div class="rabbit-ear-inner"></div>
-            </div>
-            <!-- Head -->
-            <div class="rabbit-head" style="background:${fur}"></div>
-            <!-- Body -->
-            <div class="rabbit-body" style="background:${fur}"></div>
-            <!-- Face -->
-            <div class="rabbit-eyes">${eyes}</div>
-            <div class="rabbit-nose"></div>
-            <div class="rabbit-mouth">${mouth}</div>
-            <!-- Cheek blush -->
-            <div class="rabbit-cheeks">
-                <div class="rabbit-cheek"></div>
-                <div class="rabbit-cheek"></div>
-            </div>
-            <!-- Accessory -->
             <div class="rabbit-accessory" style="${accStyle}">${accessory}</div>
         </div>
     `;
