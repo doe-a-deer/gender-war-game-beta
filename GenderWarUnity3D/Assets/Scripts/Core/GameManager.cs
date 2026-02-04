@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
+using GenderWar.Systems;
+using GenderWar.UI;
+using GenderWar.Characters;
+using GenderWar.Dialogue;
 
 namespace GenderWar.Core
 {
