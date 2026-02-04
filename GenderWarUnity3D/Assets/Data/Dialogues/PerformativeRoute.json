@@ -1,0 +1,214 @@
+{
+  "routeName": "The Performative",
+  "routeType": "Performative",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "PERFORMATIVE",
+      "text": "*stands up, opens arms for hug* Hey! So good to finally meet you. {RUMOR} Anyway, I just want to say—I really appreciate you showing up. Vulnerability is so important.",
+      "choices": [
+        { "label": "Nice to meet you too.", "nextId": "performative_nice" },
+        { "label": "We just met, no hug.", "nextId": "performative_no_hug", "effects": { "tags": ["boundarySetter"] } },
+        { "label": "What do you mean you 'heard'?", "nextId": "performative_heard" }
+      ]
+    },
+    {
+      "id": "performative_nice",
+      "speaker": "PERFORMATIVE",
+      "text": "I love that energy. Positive vibes only, you know? I've been doing a lot of work on myself lately. Therapy, journaling, breathwork. I'm basically a different person than I was six months ago.",
+      "choices": [
+        { "label": "That's great.", "nextId": "performative_menu" },
+        { "label": "What were you like before?", "nextId": "performative_before" }
+      ]
+    },
+    {
+      "id": "performative_no_hug",
+      "speaker": "PERFORMATIVE",
+      "text": "*steps back, hands up* Totally valid. Boundaries. I respect that. *pauses* Though I do think physical touch is how humans connect, but I'm not going to push. That would be toxic.",
+      "choices": [
+        { "label": "Thanks for understanding.", "nextId": "performative_menu" },
+        { "label": "You're still talking about it.", "nextId": "performative_still_talking", "effects": { "patienceChange": -1 } }
+      ]
+    },
+    {
+      "id": "performative_heard",
+      "speaker": "PERFORMATIVE",
+      "text": "Oh, just... the apps, you know? People talk. Nothing bad! I just heard you were... *air quotes* intense. Which I think is great. Women should take up space.",
+      "choices": [
+        { "label": "I'm not 'intense.'", "nextId": "performative_intense", "effects": { "patienceChange": -1 } },
+        { "label": "Let's just order.", "nextId": "performative_menu" }
+      ]
+    },
+    {
+      "id": "performative_before",
+      "speaker": "PERFORMATIVE",
+      "text": "Oh man, I was a mess. Total nice guy syndrome. But I've deconstructed all that. Now I lead with empathy. I actually cry now. Like, a lot. It's beautiful.",
+      "choices": [
+        { "label": "That's... good?", "nextId": "performative_menu" },
+        { "label": "Crying isn't a personality.", "nextId": "performative_crying", "effects": { "patienceChange": -1, "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "performative_still_talking",
+      "speaker": "PERFORMATIVE",
+      "text": "Wow. Okay. I'm sensing some defensiveness. That's okay. We all have armor. I just hope you can let me in eventually. No pressure though. *intense eye contact*",
+      "choices": [
+        { "label": "Can we order food?", "nextId": "performative_menu" },
+        { "label": "Please stop analyzing me.", "nextId": "performative_analyzing", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "performative_intense",
+      "speaker": "PERFORMATIVE",
+      "text": "I hear you. And I validate that. Maybe 'intense' was the wrong word. You just seem like someone who... knows what she wants. Which intimidates lesser men. Not me though.",
+      "choices": [
+        { "label": "Okay, menu time.", "nextId": "performative_menu" }
+      ]
+    },
+    {
+      "id": "performative_crying",
+      "speaker": "PERFORMATIVE",
+      "text": "*hurt expression* That's... I'm going to be honest, that felt dismissive. I'm sharing something vulnerable and you're minimizing it. Is this a pattern for you?",
+      "dateExpression": "hurt",
+      "choices": [
+        { "label": "I didn't mean—", "nextId": "performative_menu", "effects": { "patienceChange": -1 } },
+        { "label": "I'm leaving.", "nextId": "performative_buffer_exit", "effects": { "tags": ["leftEarly"] } }
+      ]
+    },
+    {
+      "id": "performative_analyzing",
+      "speaker": "PERFORMATIVE",
+      "text": "I'm not analyzing, I'm just... attuned. Emotional intelligence is my superpower. But if you need me to mask that, I can try. For you.",
+      "choices": [
+        { "label": "Just... menu.", "nextId": "performative_menu" },
+        { "label": "That's manipulative.", "nextId": "performative_manipulative" }
+      ]
+    },
+    {
+      "id": "performative_manipulative",
+      "speaker": "PERFORMATIVE",
+      "text": "*deep breath* Okay. I'm going to sit with that accusation. *long pause* I think you might be projecting. But I forgive you. Growth isn't linear.",
+      "choices": [
+        { "label": "ORDER. FOOD. NOW.", "nextId": "performative_menu" },
+        { "label": "I can't do this.", "nextId": "performative_buffer_exit", "effects": { "tags": ["leftEarly"] } }
+      ]
+    },
+    {
+      "id": "performative_buffer_exit",
+      "speaker": "WAITER",
+      "text": "Can I get you two anything or— oh, is everything okay?",
+      "choices": [
+        { "label": "Just the check for... nothing.", "nextId": "ending_performative_escape" },
+        { "label": "*already standing*", "nextId": "ending_performative_escape" }
+      ]
+    },
+    {
+      "id": "performative_menu",
+      "speaker": "WAITER",
+      "text": "Good evening. What can I get you started with?",
+      "choices": [
+        { "label": "Wine, please.", "nextId": "performative_wine", "effects": { "moneyChange": -15 }, "receiptLines": [{ "label": "Wine (coping)", "cost": 15 }] },
+        { "label": "Just water.", "nextId": "performative_water" },
+        { "label": "Something strong.", "nextId": "performative_strong", "effects": { "moneyChange": -20 }, "receiptLines": [{ "label": "Double whiskey (medicinal)", "cost": 20 }] }
+      ]
+    },
+    {
+      "id": "performative_wine",
+      "speaker": "PERFORMATIVE",
+      "text": "Nice choice. I'm doing a dry month actually. For clarity. But you do you. No judgment. *clearly judging*",
+      "choices": [
+        { "label": "Cool.", "nextId": "performative_topic" },
+        { "label": "You're judging.", "nextId": "performative_judging" }
+      ]
+    },
+    {
+      "id": "performative_water",
+      "speaker": "PERFORMATIVE",
+      "text": "Hydration! Love it. I do cold plunges every morning. Wim Hof method. It's really helped me access my emotions. Have you tried breathwork?",
+      "choices": [
+        { "label": "No.", "nextId": "performative_topic" },
+        { "label": "I'm not interested in breathwork.", "nextId": "performative_breathwork", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "performative_strong",
+      "speaker": "PERFORMATIVE",
+      "text": "Whoa. Rough day? You know, alcohol is actually a depressant. I can recommend some adaptogens if you want to regulate without substances.",
+      "choices": [
+        { "label": "I'm fine.", "nextId": "performative_topic" },
+        { "label": "Please don't.", "nextId": "performative_please_dont", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "performative_judging",
+      "speaker": "PERFORMATIVE",
+      "text": "I'm not judging! I'm observing. There's a difference. My therapist says I have highly developed pattern recognition. It's a gift and a curse.",
+      "choices": [
+        { "label": "Okay.", "nextId": "performative_topic" }
+      ]
+    },
+    {
+      "id": "performative_breathwork",
+      "speaker": "PERFORMATIVE",
+      "text": "Totally valid. Not everyone is ready to heal. I just hope you find what works for you. Whenever you're ready. No timeline.",
+      "choices": [
+        { "label": "I don't need to heal.", "nextId": "performative_topic", "effects": { "patienceChange": -1 } }
+      ]
+    },
+    {
+      "id": "performative_please_dont",
+      "speaker": "PERFORMATIVE",
+      "text": "*wounded* I'm just trying to help. But okay. Walls up. I see you. I still see you though. Behind the armor.",
+      "dateExpression": "hurt",
+      "choices": [
+        { "label": "Please just talk normally.", "nextId": "performative_topic" }
+      ]
+    },
+    {
+      "id": "performative_topic",
+      "speaker": "PERFORMATIVE",
+      "text": "So what do you do for self-care? I do yoga, meditation, men's group on Thursdays. We cry and drum. It's incredibly healing.",
+      "choices": [
+        { "label": "I watch TV.", "nextId": "ending_performative_tv" },
+        { "label": "That sounds nice.", "nextId": "ending_performative_nice", "effects": { "tags": ["stayedTooLong"] } },
+        { "label": "Men's group? Like Fight Club?", "nextId": "ending_performative_fight", "effects": { "tags": ["humorDeflect"] } }
+      ]
+    },
+    {
+      "id": "ending_performative_escape",
+      "speaker": "PERFORMATIVE",
+      "text": "*calls after you* I hope you find peace! I'll be here if you ever want to process this! *posts Instagram story about 'honoring my journey'*",
+      "isEnding": true,
+      "endingTitle": "SELF-CARE SPEEDRUN",
+      "endingText": "You escaped before he could recommend his therapist.",
+      "endingReceiptLines": [{ "label": "Emotional labor (his)", "cost": 0 }, { "label": "Your sanity (preserved)", "cost": 0 }]
+    },
+    {
+      "id": "ending_performative_tv",
+      "speaker": "PERFORMATIVE",
+      "text": "*long pause* TV. Okay. That's... valid. Dissociation can be a coping mechanism. Have you considered why you might be numbing? *reaches for your hand*",
+      "isEnding": true,
+      "endingTitle": "PATHOLOGIZED",
+      "endingText": "He diagnosed your Netflix habit as trauma.",
+      "endingReceiptLines": [{ "label": "Wine", "cost": 15 }, { "label": "Unsolicited therapy", "cost": 0 }]
+    },
+    {
+      "id": "ending_performative_nice",
+      "speaker": "PERFORMATIVE",
+      "text": "*beaming* Right? Men need spaces to be vulnerable. I'm basically the only emotionally evolved one in my friend group. It's lonely at the top of consciousness.",
+      "isEnding": true,
+      "endingTitle": "ENLIGHTENED",
+      "endingText": "He talked about himself for 3 more hours. You learned nothing.",
+      "endingReceiptLines": [{ "label": "Water", "cost": 0 }, { "label": "Time (wasted)", "cost": 0 }, { "label": "His self-image (reinforced)", "cost": 0 }]
+    },
+    {
+      "id": "ending_performative_fight",
+      "speaker": "PERFORMATIVE",
+      "text": "*offended* Fight Club is toxic masculinity. We PROCESS. We hold space. Last week Marcus cried about his dad for 90 minutes and we just... witnessed him.",
+      "isEnding": true,
+      "endingTitle": "WITNESSED",
+      "endingText": "You will never get those 90 minutes back. Neither will Marcus.",
+      "endingReceiptLines": [{ "label": "Drink", "cost": 20 }, { "label": "Secondhand processing", "cost": 0 }]
+    }
+  ]
+}

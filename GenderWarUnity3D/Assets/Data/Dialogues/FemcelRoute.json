@@ -1,0 +1,222 @@
+{
+  "routeName": "The Femcel",
+  "routeType": "Femcel",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "FEMCEL",
+      "text": "*looking at phone* Oh. You came. *glances up, scans you head to toe* What's your height? Net worth? Credit score? I'm not shallow, I just have standards.",
+      "playerExpression": "concerned",
+      "choices": [
+        { "label": "Why would I not show up?", "nextId": "femcel_suspicious" },
+        { "label": "Nice to meet you too.", "nextId": "femcel_sarcasm" },
+        { "label": "Should I leave?", "nextId": "femcel_leave_offer" }
+      ]
+    },
+    {
+      "id": "femcel_suspicious",
+      "speaker": "FEMCEL",
+      "text": "Because men with Honda Civics usually flake. What do you drive? Actually, don't tell me. If it's not German, I don't want to know. I'm manifesting abundance.",
+      "dateExpression": "smirk",
+      "choices": [
+        { "label": "That's... a lot.", "nextId": "femcel_derek" },
+        { "label": "I'm not Derek.", "nextId": "femcel_not_derek" }
+      ]
+    },
+    {
+      "id": "femcel_sarcasm",
+      "speaker": "FEMCEL",
+      "text": "Sarcasm. Interesting. Most men just trauma dump or mention crypto within 5 minutes. *puts phone face-down* Is that shirt from Target? Be honest.",
+      "dateExpression": "smirk",
+      "choices": [
+        { "label": "I'll try to keep it.", "nextId": "femcel_menu" },
+        { "label": "I don't need your attention.", "nextId": "femcel_impressed", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "femcel_leave_offer",
+      "speaker": "FEMCEL",
+      "text": "Not even going to fight for it? That's either low effort or low income. Both are icks. A man who wanted me would stay and order the tasting menu.",
+      "choices": [
+        { "label": "I'll stay if you want me to.", "nextId": "femcel_menu", "effects": { "tags": ["stayedTooLong"] } },
+        { "label": "Okay, bye then.", "nextId": "femcel_buffer_friction_exit", "effects": { "tags": ["leftEarly"] } }
+      ]
+    },
+    {
+      "id": "femcel_buffer_friction_exit",
+      "speaker": "WAITER",
+      "text": "Good evening, can I start you off with— leaving already?",
+      "choices": [
+        { "label": "Just the exit, thanks.", "nextId": "ending_mutual_disinterest" },
+        { "label": "*already walking away*", "nextId": "ending_mutual_disinterest" }
+      ]
+    },
+    {
+      "id": "femcel_derek",
+      "speaker": "FEMCEL",
+      "text": "Your car reflects your ambition. My ex drove a BMW but leased it. LEASED. The deception. I deserve a man who owns assets. Preferably appreciating ones.",
+      "dateExpression": "angry",
+      "choices": [
+        { "label": "I could cover the $47.", "nextId": "femcel_buffer_friction_closure", "effects": { "moneyChange": -47, "tags": ["highSpend"] }, "receiptLines": [{ "label": "Proving financial stability", "cost": 47 }] },
+        { "label": "Let's talk about something else.", "nextId": "femcel_menu" }
+      ]
+    },
+    {
+      "id": "femcel_buffer_friction_closure",
+      "speaker": "WAITER",
+      "text": "I'll just... give you two a moment. *steps back*",
+      "choices": [
+        { "label": "We're having a moment.", "nextId": "ending_bought_closure" },
+        { "label": "*slides card across table*", "nextId": "ending_bought_closure" }
+      ]
+    },
+    {
+      "id": "femcel_not_derek",
+      "speaker": "FEMCEL",
+      "text": "*squints* That's what a man without a 401k would say. What's your ring budget? Hypothetically. Because if it's under 3 months salary, we're done here.",
+      "dateExpression": "smirk",
+      "choices": [
+        { "label": "I literally don't know Derek.", "nextId": "femcel_menu" },
+        { "label": "Maybe I AM Derek.", "nextId": "femcel_buffer_friction_reveal", "effects": { "tags": ["chaosAgent", "humorDeflect"] } }
+      ]
+    },
+    {
+      "id": "femcel_buffer_friction_reveal",
+      "speaker": "WAITER",
+      "text": "Ma'am, please, the other guests are— ma'am?",
+      "choices": [
+        { "label": "This doesn't concern you.", "nextId": "ending_derek_reveal" },
+        { "label": "*chaos escalates*", "nextId": "ending_derek_reveal" }
+      ]
+    },
+    {
+      "id": "femcel_impressed",
+      "speaker": "FEMCEL",
+      "text": "*actually looks up* Okay. A man who doesn't immediately seek my validation? That's either secure attachment or family money. Either way, intriguing.",
+      "dateExpression": "smirk",
+      "choices": [
+        { "label": "I have my moments.", "nextId": "femcel_menu" }
+      ]
+    },
+    {
+      "id": "femcel_menu",
+      "speaker": "WAITER",
+      "text": "Good evening! What can I get you started with?",
+      "choices": [
+        { "label": "A bottle of wine to share?", "nextId": "femcel_wine", "effects": { "moneyChange": -30 }, "receiptLines": [{ "label": "Wine (trust exercise)", "cost": 30 }] },
+        { "label": "I'll just have water.", "nextId": "femcel_water" },
+        { "label": "Two of your strongest cocktails.", "nextId": "femcel_cocktails", "effects": { "moneyChange": -28 }, "receiptLines": [{ "label": "Survival cocktails x2", "cost": 28 }] }
+      ]
+    },
+    {
+      "id": "femcel_wine",
+      "speaker": "FEMCEL",
+      "text": "Sharing? Bold. Most men Venmo request me immediately. Which is wild because if he wanted to provide, he would. A woman should never split a check. It's science.",
+      "choices": [
+        { "label": "I'm trying to have a nice dinner.", "nextId": "ending_nice_dinner" },
+        { "label": "Maybe I'm just not Derek.", "nextId": "ending_not_derek_win" }
+      ]
+    },
+    {
+      "id": "femcel_water",
+      "speaker": "FEMCEL",
+      "text": "Water? *writes something in Notes app* Either you're sober or you're cheap. Both suggest lifestyle limitations. My cat eats high-pH salmon. She lives better than this.",
+      "dateExpression": "smirk",
+      "choices": [
+        { "label": "Tell me about Empress Livia.", "nextId": "ending_cat_person", "effects": { "tags": ["stayedTooLong"] } },
+        { "label": "Can we talk about something other than Derek and your cat?", "nextId": "ending_harsh_truth", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "femcel_cocktails",
+      "speaker": "FEMCEL",
+      "text": "Finally. A man who understands that the cost of a drink reflects the value he places on my time. *raises glass* To men who invest in experiences.",
+      "dateExpression": "smirk",
+      "choices": [
+        { "label": "To bad decisions!", "nextId": "ending_chaos", "effects": { "tags": ["chaosAgent"] } },
+        { "label": "To... new beginnings?", "nextId": "ending_hopeful" }
+      ]
+    },
+    {
+      "id": "ending_mutual_disinterest",
+      "speaker": "PLAYER",
+      "text": "You both shrug. She returns to browsing Hermes resale. You return to your reasonably-priced life.",
+      "isEnding": true,
+      "endingTitle": "INSUFFICIENT FUNDS",
+      "endingText": "She needed a provider. You needed a personality. Nobody won.",
+      "endingReceiptLines": [{ "label": "Parking validation", "cost": 0 }]
+    },
+    {
+      "id": "ending_bought_closure",
+      "speaker": "FEMCEL",
+      "text": "*stares at card* You... didn't even hesitate? *voice softens* Do you have a diversified portfolio? A man who spends freely AND invests? I need to sit down. I'm already sitting.",
+      "isEnding": true,
+      "endingTitle": "ASSET ACQUIRED",
+      "endingText": "Your willingness to spend signaled abundance. She is now emotionally available.",
+      "endingReceiptLines": [{ "label": "Proving financial stability", "cost": 47 }, { "label": "Emotional walls (liquidated)", "cost": 0 }]
+    },
+    {
+      "id": "ending_derek_reveal",
+      "speaker": "FEMCEL",
+      "text": "MILLIONAIRE? *stands up* *entire restaurant turns* WHY DIDN'T YOU LEAD WITH THAT? THE SHIRT THREW ME OFF. WE NEED TO DISCUSS ASSET PROTECTION.",
+      "isEnding": true,
+      "endingTitle": "DUE DILIGENCE",
+      "endingText": "You were lying. But she already texted her group chat about your 'stealth wealth.'",
+      "endingReceiptLines": [{ "label": "Scene caused", "cost": 0 }, { "label": "Prenup discussion (premature)", "cost": 0 }]
+    },
+    {
+      "id": "ending_nice_dinner",
+      "speaker": "FEMCEL",
+      "text": "*pauses* That's... disarmingly simple. No flex. No agenda. *looks away* The bread here is free, but you could have ordered the $40 appetizer. And yet. Interesting.",
+      "isEnding": true,
+      "endingTitle": "DIMINISHING RETURNS",
+      "endingText": "You offered presence over presents. She is confused but intrigued.",
+      "endingReceiptLines": [{ "label": "Wine (shared)", "cost": 30 }, { "label": "Emotional availability (priceless)", "cost": 0 }]
+    },
+    {
+      "id": "ending_not_derek_win",
+      "speaker": "FEMCEL",
+      "text": "*long pause* Like me? Not my aesthetic? Not my potential? Just... me? *quietly* That's not how this usually works. Let me recalibrate.",
+      "isEnding": true,
+      "endingTitle": "MARKET CORRECTION",
+      "endingText": "You valued her as a person, not an asset. System error. Recalculating.",
+      "endingReceiptLines": [{ "label": "Wine (shared)", "cost": 30 }, { "label": "Second date (pending appraisal)", "cost": 0 }]
+    },
+    {
+      "id": "ending_cat_person",
+      "speaker": "FEMCEL",
+      "text": "*eyes light up* Her name is Empress Livia. She eats high-pH salmon and wears Chanel collars— *two hours later* —and her vet costs more than your rent, probably.",
+      "isEnding": true,
+      "endingTitle": "LUXURY PET SYNDROME",
+      "endingText": "The cat lives better than you. This was always the outcome.",
+      "endingReceiptLines": [{ "label": "Water", "cost": 0 }, { "label": "Cat lifestyle envy", "cost": 0 }]
+    },
+    {
+      "id": "ending_harsh_truth",
+      "speaker": "FEMCEL",
+      "text": "*stunned* Did you just... redirect the conversation? Without offering to buy something? *processing* That's either confidence or poverty. I respect it either way.",
+      "isEnding": true,
+      "endingTitle": "NON-MATERIAL VALUE",
+      "endingText": "You offered boundaries instead of purchases. She will discuss this with her therapist.",
+      "endingReceiptLines": [{ "label": "Water", "cost": 0 }, { "label": "Boundary setting (free)", "cost": 0 }]
+    },
+    {
+      "id": "ending_chaos",
+      "speaker": "FEMCEL",
+      "text": "*five drinks later* AND THEN HE BOUGHT ME CHANEL BUT IT WAS THE WRONG SIZE SO I— *both get escorted out* You're fun. Do you have a Black Amex?",
+      "isEnding": true,
+      "endingTitle": "DIMINISHING LIQUIDITY",
+      "endingText": "You got banned together. She expensed the emotional labor.",
+      "endingReceiptLines": [{ "label": "Cocktails (many)", "cost": 56 }, { "label": "Chaos (bonding)", "cost": 0 }]
+    },
+    {
+      "id": "ending_hopeful",
+      "speaker": "FEMCEL",
+      "text": "*softens* New beginnings. That's sweet. Financially naive, but sweet. *small smile* Fine. But next date, you're picking the restaurant. Choose wisely. I screenshot menus.",
+      "isEnding": true,
+      "endingTitle": "PROBATIONARY PERIOD",
+      "endingText": "Against all odds, she is cautiously optimistic. Your credit score is still being monitored.",
+      "endingReceiptLines": [{ "label": "Cocktails x2", "cost": 28 }, { "label": "Future (subject to review)", "cost": 0 }]
+    }
+  ]
+}
