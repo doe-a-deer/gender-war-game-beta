@@ -3,157 +3,137 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
 
-namespace GenderWar.Core
+/// <summary>
+/// Controls the title screen with video background
+/// </summary>
+public class TitleScreenController : MonoBehaviour
 {
-    /// <summary>
-    /// Controls the title screen with video background
-    /// </summary>
-    public class TitleScreenController : MonoBehaviour
+    [Header("Title Elements")]
+    public TextMeshProUGUI TitleText;
+    public TextMeshProUGUI SubtitleText;
+    public Button StartButton;
+    public Button CreditsButton;
+    public Button QuitButton;
+
+    [Header("Video Background")]
+    public VideoPlayer BackgroundVideo;
+    public RawImage VideoDisplay;
+    public RenderTexture VideoRenderTexture;
+
+    [Header("Audio")]
+    public AudioSource TitleMusic;
+    public AudioClip TitleTrack;
+
+    [Header("Animation")]
+    public Animator TitleAnimator;
+    public float FadeInDuration = 1f;
+    public CanvasGroup TitleCanvasGroup;
+
+    private void Start()
     {
-        [Header("Title Elements")]
-        public TextMeshProUGUI TitleText;
-        public TextMeshProUGUI SubtitleText;
-        public Button StartButton;
-        public Button CreditsButton;
-        public Button QuitButton;
+        SetupTitleScreen();
+        SetupButtons();
+        PlayTitleSequence();
+    }
 
-        [Header("Video Background")]
-        public VideoPlayer BackgroundVideo;
-        public RawImage VideoDisplay;
-        public RenderTexture VideoRenderTexture;
+    private void SetupTitleScreen()
+    {
+        if (TitleText != null)
+            TitleText.text = "GENDER WAR";
 
-        [Header("Audio")]
-        public AudioSource TitleMusic;
-        public AudioClip TitleTrack;
+        if (SubtitleText != null)
+            SubtitleText.text = "A Dating Disaster Simulator";
 
-        [Header("Animation")]
-        public Animator TitleAnimator;
-        public float FadeInDuration = 1f;
-        public CanvasGroup TitleCanvasGroup;
-
-        private void Start()
+        if (BackgroundVideo != null && VideoRenderTexture != null)
         {
-            SetupTitleScreen();
-            SetupButtons();
-            PlayTitleSequence();
+            BackgroundVideo.targetTexture = VideoRenderTexture;
+            BackgroundVideo.isLooping = true;
+            BackgroundVideo.Play();
         }
 
-        private void SetupTitleScreen()
+        if (TitleMusic != null && TitleTrack != null)
         {
-            // Set title text
-            if (TitleText != null)
-            {
-                TitleText.text = "GENDER WAR";
-            }
-
-            if (SubtitleText != null)
-            {
-                SubtitleText.text = "A Dating Disaster Simulator";
-            }
-
-            // Setup video background
-            if (BackgroundVideo != null && VideoRenderTexture != null)
-            {
-                BackgroundVideo.targetTexture = VideoRenderTexture;
-                BackgroundVideo.isLooping = true;
-                BackgroundVideo.Play();
-            }
-
-            // Start music
-            if (TitleMusic != null && TitleTrack != null)
-            {
-                TitleMusic.clip = TitleTrack;
-                TitleMusic.loop = true;
-                TitleMusic.Play();
-            }
+            TitleMusic.clip = TitleTrack;
+            TitleMusic.loop = true;
+            TitleMusic.Play();
         }
+    }
 
-        private void SetupButtons()
+    private void SetupButtons()
+    {
+        StartButton?.onClick.AddListener(OnStartClicked);
+        CreditsButton?.onClick.AddListener(OnCreditsClicked);
+        QuitButton?.onClick.AddListener(OnQuitClicked);
+    }
+
+    private void PlayTitleSequence()
+    {
+        if (TitleCanvasGroup != null)
         {
-            StartButton?.onClick.AddListener(OnStartClicked);
-            CreditsButton?.onClick.AddListener(OnCreditsClicked);
-            QuitButton?.onClick.AddListener(OnQuitClicked);
+            TitleCanvasGroup.alpha = 0f;
+            StartCoroutine(FadeIn());
         }
+        TitleAnimator?.SetTrigger("PlayIntro");
+    }
 
-        private void PlayTitleSequence()
+    private System.Collections.IEnumerator FadeIn()
+    {
+        float elapsed = 0f;
+        while (elapsed < FadeInDuration)
         {
-            // Fade in title
-            if (TitleCanvasGroup != null)
-            {
-                TitleCanvasGroup.alpha = 0f;
-                StartCoroutine(FadeIn());
-            }
-
-            TitleAnimator?.SetTrigger("PlayIntro");
+            elapsed += Time.deltaTime;
+            TitleCanvasGroup.alpha = elapsed / FadeInDuration;
+            yield return null;
         }
+        TitleCanvasGroup.alpha = 1f;
+    }
 
-        private System.Collections.IEnumerator FadeIn()
+    private void OnStartClicked()
+    {
+        UIManager.Instance?.PlayButtonSound();
+
+        if (TitleMusic != null)
+            StartCoroutine(FadeOutMusic());
+
+        GameManager.Instance?.StartNewGame();
+        UIManager.Instance?.ShowCharacterCreator();
+    }
+
+    private System.Collections.IEnumerator FadeOutMusic()
+    {
+        float startVolume = TitleMusic.volume;
+        float elapsed = 0f;
+        float duration = 0.5f;
+
+        while (elapsed < duration)
         {
-            float elapsed = 0f;
-            while (elapsed < FadeInDuration)
-            {
-                elapsed += Time.deltaTime;
-                TitleCanvasGroup.alpha = elapsed / FadeInDuration;
-                yield return null;
-            }
-            TitleCanvasGroup.alpha = 1f;
+            elapsed += Time.deltaTime;
+            TitleMusic.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
+            yield return null;
         }
+        TitleMusic.Stop();
+    }
 
-        private void OnStartClicked()
-        {
-            UI.UIManager.Instance?.PlayButtonSound();
+    private void OnCreditsClicked()
+    {
+        UIManager.Instance?.PlayButtonSound();
+        Debug.Log("Credits clicked - implement credits panel");
+    }
 
-            // Fade out music
-            if (TitleMusic != null)
-            {
-                StartCoroutine(FadeOutMusic());
-            }
+    private void OnQuitClicked()
+    {
+        UIManager.Instance?.PlayButtonSound();
 
-            // Transition to character creator
-            GameManager.Instance?.StartNewGame();
-            UI.UIManager.Instance?.ShowCharacterCreator();
-        }
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
+    }
 
-        private System.Collections.IEnumerator FadeOutMusic()
-        {
-            float startVolume = TitleMusic.volume;
-            float elapsed = 0f;
-            float duration = 0.5f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                TitleMusic.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
-                yield return null;
-            }
-
-            TitleMusic.Stop();
-        }
-
-        private void OnCreditsClicked()
-        {
-            UI.UIManager.Instance?.PlayButtonSound();
-            // Show credits panel
-            Debug.Log("Credits clicked - implement credits panel");
-        }
-
-        private void OnQuitClicked()
-        {
-            UI.UIManager.Instance?.PlayButtonSound();
-
-            #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-            #else
-            Application.Quit();
-            #endif
-        }
-
-        private void OnDestroy()
-        {
-            if (BackgroundVideo != null)
-            {
-                BackgroundVideo.Stop();
-            }
-        }
+    private void OnDestroy()
+    {
+        if (BackgroundVideo != null)
+            BackgroundVideo.Stop();
     }
 }
