@@ -1,0 +1,113 @@
+{
+  "routeName": "The Themcel",
+  "routeType": "Themcel",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "THEM",
+      "text": "Hey! So glad you could make it. We've heard a lot about you—just from around, you know how it is. People talk. Anyway, we wanted to reach out because we think you might vibe with what we're building here.",
+      "choices": [
+        { "label": "Who are you?", "nextId": "themcel_convergence" },
+        { "label": "I remember all of you.", "nextId": "themcel_convergence" },
+        { "label": "What is this?", "nextId": "themcel_convergence" }
+      ]
+    },
+    {
+      "id": "themcel_convergence",
+      "speaker": "THEM",
+      "text": "We're kind of a mix of everyone, honestly. Some of us are really into data and patterns—knowing the stats, understanding trends. Some of us have high standards and know our worth. Some of us have options and don't settle. And we've all done the work, you know? Therapy, growth, communication skills. We just... figured out how to align on things.",
+      "choices": [
+        { "label": "That sounds... efficient.", "nextId": "themcel_explain" },
+        { "label": "That sounds exhausting.", "nextId": "themcel_explain" },
+        { "label": "Go on.", "nextId": "themcel_explain" }
+      ]
+    },
+    {
+      "id": "themcel_explain",
+      "speaker": "THEM",
+      "text": "It's not about being angry or bitter or anything. We're past that. We just have shared frameworks now. Like, we all agree on what red flags are, what healthy communication looks like, what boundaries mean. It makes everything easier. Less conflict. People get it.",
+      "choices": [
+        { "label": "Less conflict sounds nice.", "nextId": "themcel_end_war" },
+        { "label": "That's not less conflict, that's just conformity.", "nextId": "themcel_end_war", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "themcel_end_war",
+      "speaker": "THEM",
+      "text": "Look, the dating thing? The gender stuff? We kind of... moved past it. Not in a dismissive way—we've just processed it. We have language for everything now. Everyone's valid, everyone's boundaried, everyone's communicating their needs. It's actually really healthy.",
+      "choices": [
+        { "label": "Is that what you're offering?", "nextId": "themcel_offering" },
+        { "label": "That sounds kind of sterile.", "nextId": "themcel_offering", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "themcel_offering",
+      "speaker": "THEM",
+      "text": "Basically, yeah. You'd be part of the group. The main chat, the hangs, the shared understanding. You'd never have to explain yourself because everyone already gets the references. Same podcasts, same takes, same way of talking about stuff. It's nice, honestly. Low friction.",
+      "choices": [
+        { "label": "What's the catch?", "nextId": "themcel_cost" }
+      ]
+    },
+    {
+      "id": "themcel_cost",
+      "speaker": "THEM",
+      "text": "There's no catch really. Just, you know, the usual stuff. Keep up with the norms, don't make things weird, be chill when people give feedback. If someone says something landed wrong, you just adjust. It's not a big deal. Most people find it's actually easier than doing their own thing.",
+      "choices": [
+        { "label": "And if I don't want to?", "nextId": "themcel_invitation", "effects": { "tags": ["boundarySetter"] } },
+        { "label": "That sounds manageable.", "nextId": "themcel_invitation", "effects": { "tags": ["stayedTooLong"] } }
+      ]
+    },
+    {
+      "id": "themcel_invitation",
+      "speaker": "THEM",
+      "text": "Anyway, no pressure either way. Some people really thrive here, some people find it's not their thing. Both are fine. We just want to make sure everyone's on the same page. So—would you want to be part of this?",
+      "choices": [
+        { "label": "I want to be part of this.", "nextId": "themcel_evaluation", "effects": { "tags": ["stayedTooLong"] } },
+        { "label": "I don't think this is for me.", "nextId": "themcel_refusal_end", "effects": { "tags": ["leftEarly", "boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "themcel_evaluation",
+      "speaker": "THEM",
+      "text": "Thanks for sharing that. We're just gonna check in with the group real quick—standard process. Everyone gets the same review. Give us one sec.",
+      "choices": [
+        { "label": "*wait*", "nextId": "themcel_decision" }
+      ]
+    },
+    {
+      "id": "themcel_decision",
+      "speaker": "THEM",
+      "text": "{INTEGRATION_RESULT}",
+      "choices": [
+        { "label": "...", "nextId": "{INTEGRATION_ENDING}" }
+      ]
+    },
+    {
+      "id": "themcel_refusal_end",
+      "speaker": "THEM",
+      "text": "Totally valid. We get that this isn't for everyone, and that's okay. No hard feelings. You're always welcome to revisit if your situation changes. We'll still be here. Take care of yourself.",
+      "isEnding": true,
+      "endingTitle": "OPTED OUT",
+      "endingText": "You left the group chat. Nobody unfollowed you, but the vibe shifted.",
+      "endingReceiptLines": [{ "label": "Membership (declined)", "cost": 0 }, { "label": "Boundaries (respected)", "cost": 0 }, { "label": "Future invite (pending)", "cost": 0 }]
+    },
+    {
+      "id": "ending_onboarded",
+      "speaker": "THEM",
+      "text": "Great news—we think you'd be a good fit. Your communication style aligns with the group, and we appreciate how you've shown up. We'll add you to the main chat. Just a heads up: we do feedback Fridays and we ask that everyone keeps things constructive. Welcome aboard.",
+      "isEnding": true,
+      "endingTitle": "ONBOARDED",
+      "endingText": "You were added to the group. Your notification settings were adjusted automatically.",
+      "endingReceiptLines": [{ "label": "Application (approved)", "cost": 0 }, { "label": "Norms (agreed to)", "cost": 0 }, { "label": "Profile (updated)", "cost": 0 }, { "label": "You (categorized)", "cost": 0 }]
+    },
+    {
+      "id": "ending_not_a_fit",
+      "speaker": "THEM",
+      "text": "We really appreciate you putting yourself out there. After some discussion, we don't think this is the right container for you right now. It's not about good or bad—it's just about fit. We'd encourage you to keep doing your work, and maybe check back in down the line. Wishing you all the best.",
+      "isEnding": true,
+      "endingTitle": "NOT A FIT",
+      "endingText": "Your application was reviewed. The decision was final. No further feedback was provided.",
+      "endingReceiptLines": [{ "label": "Application (reviewed)", "cost": 0 }, { "label": "Fit (insufficient)", "cost": 0 }, { "label": "Door (technically open)", "cost": 0 }]
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "routeName": "The Incel",
+  "routeType": "Incel",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "INCEL",
+      "text": "*doesn't stand up* You're 47 minutes late. I have a spreadsheet. Time is money, and statistically, women waste both.",
+      "dateExpression": "neutral",
+      "playerExpression": "concerned",
+      "choices": [
+        { "label": "I'm literally 5 minutes early.", "nextId": "incel_early", "effects": { "patienceChange": -1 } },
+        { "label": "Sorry, traffic.", "nextId": "incel_apology" },
+        { "label": "Your watch might be wrong.", "nextId": "incel_clocks", "effects": { "patienceChange": -2 } }
+      ]
+    },
+    {
+      "id": "incel_early",
+      "speaker": "INCEL",
+      "text": "Classic DARVO. Deny, Attack, Reverse Victim and Offender. I learned about this from a 4-hour YouTube essay.",
+      "dateExpression": "angry",
+      "choices": [
+        { "label": "Let's just order food.", "nextId": "incel_menu" },
+        { "label": "I'm going to leave now.", "nextId": "incel_buffer_friction" }
+      ]
+    },
+    {
+      "id": "incel_buffer_friction",
+      "speaker": "WAITER",
+      "text": "Good evening, can I get you two start— oh. Is everything okay here?",
+      "choices": [
+        { "label": "We're done.", "nextId": "ending_immediate_leave" },
+        { "label": "*already grabbing coat*", "nextId": "ending_immediate_leave" }
+      ]
+    },
+    {
+      "id": "incel_apology",
+      "speaker": "INCEL",
+      "text": "Accountability. Rare in a female. You're already in the top 12% of my matches. Don't let it go to your head.",
+      "choices": [
+        { "label": "...thank you?", "nextId": "incel_menu" },
+        { "label": "Can you not say 'female'?", "nextId": "incel_females" }
+      ]
+    },
+    {
+      "id": "incel_clocks",
+      "speaker": "INCEL",
+      "text": "Interesting. Questioning objective reality. Did your last boyfriend—sorry, 'situationship'—teach you that? Let me guess: 6'2\", finance bro, treated you like garbage?",
+      "dateExpression": "angry",
+      "choices": [
+        { "label": "Who hurt you?", "nextId": "incel_chad" },
+        { "label": "Can we just order?", "nextId": "incel_menu" }
+      ]
+    },
+    {
+      "id": "incel_chad",
+      "speaker": "INCEL",
+      "text": "Society hurt me. The 80/20 rule hurt me. Women choosing the top 20% of men while guys like me—who actually READ—rot. But you wouldn't understand hypergamy.",
+      "dateExpression": "angry",
+      "choices": [
+        { "label": "I need alcohol immediately.", "nextId": "incel_menu", "effects": { "patienceChange": -1 } }
+      ]
+    },
+    {
+      "id": "incel_females",
+      "speaker": "INCEL",
+      "text": "'Female' is biologically accurate. 'Woman' is a social construct. I don't make the rules. Actually, I do make the rules, because I've done the research.",
+      "dateExpression": "angry",
+      "choices": [
+        { "label": "'Woman' is fine, actually.", "nextId": "incel_menu", "effects": { "patienceChange": -1 } },
+        { "label": "Menu. Now. Please.", "nextId": "incel_menu" }
+      ]
+    },
+    {
+      "id": "incel_menu",
+      "speaker": "WAITER",
+      "text": "Good evening. Can I start you off with drinks, or would you prefer to continue... whatever this is?",
+      "choices": [
+        { "label": "Wine. Large.", "nextId": "incel_after_order", "effects": { "moneyChange": -12 }, "receiptLines": [{ "label": "House Wine (escape juice)", "cost": 12 }] },
+        { "label": "Just water.", "nextId": "incel_after_order" },
+        { "label": "Strongest thing you have. Double.", "nextId": "incel_after_order", "effects": { "moneyChange": -18 }, "receiptLines": [{ "label": "Quadruple Whiskey", "cost": 18 }] }
+      ]
+    },
+    {
+      "id": "incel_after_order",
+      "speaker": "INCEL",
+      "text": "So. I've developed an algorithm that predicts dating success based on canthal tilt, wrist circumference, and crypto portfolio. Want to see where you rank?",
+      "choices": [
+        { "label": "Sure, show me the algorithm.", "nextId": "incel_spreadsheet", "effects": { "tags": ["engagedInSpreadsheet"] } },
+        { "label": "Can we have a normal conversation?", "nextId": "incel_normal_talk" },
+        { "label": "I need to use the restroom.", "nextId": "ending_bathroom_escape", "effects": { "tags": ["leftEarly"] } }
+      ]
+    },
+    {
+      "id": "incel_spreadsheet",
+      "speaker": "INCEL",
+      "text": "*opens laptop* See this column? 'Likelihood of responding.' You're highlighted yellow—'statistical anomaly.' Most women in your looksmatch range ghost me within 3 messages.",
+      "choices": [
+        { "label": "I'm... flattered?", "nextId": "ending_spreadsheet", "effects": { "tags": ["stayedTooLong", "engagedInSpreadsheet"] } },
+        { "label": "This is genuinely unhinged.", "nextId": "ending_unhinged", "effects": { "tags": ["chaosAgent"] } }
+      ]
+    },
+    {
+      "id": "incel_normal_talk",
+      "speaker": "INCEL",
+      "text": "'Normal conversation.' You mean the bluepilled small talk that Chads use to manipulate women into situationships? Fine. What's your... favorite color, I guess.",
+      "dateExpression": "angry",
+      "choices": [
+        { "label": "Blue.", "nextId": "ending_unexpected" },
+        { "label": "This is not working.", "nextId": "ending_honest_exit", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "ending_immediate_leave",
+      "speaker": "PLAYER",
+      "text": "You grab your coat and leave before the bread arrives. A new personal record.",
+      "isEnding": true,
+      "endingTitle": "SIGMA GRINDSET",
+      "endingText": "You escaped in 47 seconds. He will make a podcast episode about this.",
+      "endingReceiptLines": [{ "label": "Valet tip (for running)", "cost": 5 }]
+    },
+    {
+      "id": "ending_bathroom_escape",
+      "speaker": "PLAYER",
+      "text": "You climb out the bathroom window. The toilet seat was up. Of course it was.",
+      "isEnding": true,
+      "endingTitle": "TACTICAL RETREAT",
+      "endingText": "The bathroom escape: older than feminism, twice as effective.",
+      "endingReceiptLines": [{ "label": "Dignity (lost)", "cost": 0 }, { "label": "Window cleaning fee", "cost": 25 }]
+    },
+    {
+      "id": "ending_spreadsheet",
+      "speaker": "INCEL",
+      "text": "*stops typing* Wait. You're... actually interested in my methodology? This is unprecedented. I need to add a new column. 'Intellectually curious females.' Population: 1.",
+      "isEnding": true,
+      "endingTitle": "DATA POINT",
+      "endingText": "You are now Exhibit A in his manifesto.",
+      "endingReceiptLines": [{ "label": "Appetizer (never arrived)", "cost": 15 }]
+    },
+    {
+      "id": "ending_unhinged",
+      "speaker": "INCEL",
+      "text": "UNHINGED? I have SOURCES. Peer-reviewed YouTube videos. You're just mad because the data doesn't lie and the data says you're a 6 who thinks she's an 8—",
+      "isEnding": true,
+      "endingTitle": "MELTDOWN ARC",
+      "endingText": "Security escorted him out. He live-tweeted the whole thing.",
+      "endingReceiptLines": [{ "label": "Table damage deposit", "cost": 50 }]
+    },
+    {
+      "id": "ending_unexpected",
+      "speaker": "INCEL",
+      "text": "Blue? *long pause* That's... my favorite too. It's the color of logic. And sadness. *clears throat* Do you want to split the tendies?",
+      "isEnding": true,
+      "endingTitle": "ANOMALY DETECTED",
+      "endingText": "Against all odds, chicken tenders brought you together. Love is statistically improbable.",
+      "endingReceiptLines": [{ "label": "Chicken tenders (shared)", "cost": 14 }, { "label": "Hope (restored)", "cost": 0 }]
+    },
+    {
+      "id": "ending_honest_exit",
+      "speaker": "PLAYER",
+      "text": "I appreciate you coming out, but I think we want different things. Good luck with your algorithm.",
+      "isEnding": true,
+      "endingTitle": "GRACEFUL EXIT",
+      "endingText": "You left with dignity. He added you to the 'polite rejection' spreadsheet.",
+      "endingReceiptLines": [{ "label": "Water (dignity intact)", "cost": 0 }]
+    }
+  ]
+}

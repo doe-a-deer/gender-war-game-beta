@@ -1,0 +1,80 @@
+{
+  "characters": [
+    {
+      "id": "incel",
+      "name": "Kevin",
+      "age": 27,
+      "routeType": "Incel",
+      "bio": [
+        "Blackpilled truth-seeker",
+        "Rating women on spreadsheets",
+        "The algorithm doesn't lie"
+      ],
+      "tags": ["Data-driven", "Spreadsheet enthusiast", "Sigma male"],
+      "expressions": ["neutral", "angry"],
+      "color": "#4a3f4f"
+    },
+    {
+      "id": "femcel",
+      "name": "Jessica",
+      "age": 26,
+      "routeType": "Femcel",
+      "bio": [
+        "High value woman seeking high value man",
+        "Standards are not negotiable",
+        "My cat lives better than you"
+      ],
+      "tags": ["High standards", "Financially literate", "Cat mom"],
+      "expressions": ["neutral", "smirk"],
+      "color": "#5f3f4f"
+    },
+    {
+      "id": "performative",
+      "name": "Brendan",
+      "age": 29,
+      "routeType": "Performative",
+      "bio": [
+        "Emotionally evolved feminist ally",
+        "I've done the work",
+        "Vulnerability is my superpower"
+      ],
+      "tags": ["Therapy veteran", "Breathwork certified", "Men's group regular"],
+      "expressions": ["neutral", "hurt"],
+      "color": "#3f4f5f"
+    },
+    {
+      "id": "bop",
+      "name": "Madison",
+      "age": 24,
+      "routeType": "Bop",
+      "bio": [
+        "Chaotic but make it fashion",
+        "200k followers can't be wrong",
+        "My phone is an extension of my soul"
+      ],
+      "tags": ["Influencer", "Gemini rising", "Chronically online"],
+      "expressions": ["neutral", "present"],
+      "color": "#5f4f3f"
+    },
+    {
+      "id": "waiter",
+      "name": "The Waiter",
+      "age": 0,
+      "routeType": "None",
+      "bio": ["Just trying to get through the shift"],
+      "tags": ["Patient", "Underpaid", "Seen things"],
+      "expressions": ["neutral"],
+      "color": "#4f4f4f"
+    },
+    {
+      "id": "player",
+      "name": "You",
+      "age": 0,
+      "routeType": "None",
+      "bio": ["A brave soul entering the dating scene"],
+      "tags": ["Hopeful", "Probably regretting this"],
+      "expressions": ["neutral", "concerned"],
+      "color": "#7fa07f"
+    }
+  ]
+}

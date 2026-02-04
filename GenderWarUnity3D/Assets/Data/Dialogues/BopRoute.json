@@ -1,0 +1,268 @@
+{
+  "routeName": "The Bop",
+  "routeType": "Bop",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "BOP",
+      "text": "*looking at phone, looks up, smiles* Oh hey! Sorry, just finishing a— *phone buzzes* one sec. *texts* Okay hi! {RUMOR} So like, what's your vibe?",
+      "choices": [
+        { "label": "My vibe?", "nextId": "bop_vibe" },
+        { "label": "Should I wait until you're done?", "nextId": "bop_wait" },
+        { "label": "Where did you hear that?", "nextId": "bop_hear" }
+      ]
+    },
+    {
+      "id": "bop_vibe",
+      "speaker": "BOP",
+      "text": "Yeah like... *phone buzzes* sorry— like what are you about? I'm a Gemini rising Scorpio moon so I need intellectual stimulation but also chaos, you know?",
+      "choices": [
+        { "label": "I don't know my chart.", "nextId": "bop_chart" },
+        { "label": "I'm about food. Can we order?", "nextId": "bop_menu" }
+      ]
+    },
+    {
+      "id": "bop_wait",
+      "speaker": "BOP",
+      "text": "*laughs* Oh you're like... direct. That's cute. No I'm here, I'm present. *phone lights up* It's just my group chat, they're SO funny. Okay what were you saying?",
+      "choices": [
+        { "label": "I didn't say anything yet.", "nextId": "bop_nothing" },
+        { "label": "Let's just order.", "nextId": "bop_menu" }
+      ]
+    },
+    {
+      "id": "bop_hear",
+      "speaker": "BOP",
+      "text": "Oh my god, everyone talks. Like, the dating scene is so small. *phone buzzes* Hold on— *voice note plays audibly* OMG. Sorry. My friend is going through it. Where were we?",
+      "choices": [
+        { "label": "Rumors about me.", "nextId": "bop_rumors" },
+        { "label": "Nowhere. Menu?", "nextId": "bop_menu" }
+      ]
+    },
+    {
+      "id": "bop_chart",
+      "speaker": "BOP",
+      "text": "Wait you DON'T? Okay we have to do your chart. What time were you born? *already opening app* This is so important for compatibility.",
+      "choices": [
+        { "label": "I don't know.", "nextId": "bop_dont_know" },
+        { "label": "Can we eat first?", "nextId": "bop_menu" }
+      ]
+    },
+    {
+      "id": "bop_nothing",
+      "speaker": "BOP",
+      "text": "Oh. *giggles* Right. Well say something! I hate awkward silences. Tell me something interesting about yourself. You have like thirty seconds go.",
+      "choices": [
+        { "label": "I'm hungry.", "nextId": "bop_menu" },
+        { "label": "That's a lot of pressure.", "nextId": "bop_pressure" }
+      ]
+    },
+    {
+      "id": "bop_rumors",
+      "speaker": "BOP",
+      "text": "It's nothing bad! Just like... you're intense? Or like, you have boundaries? Which is actually really hot in theory. *phone buzzes* Sorry one sec—",
+      "choices": [
+        { "label": "I'll wait.", "nextId": "bop_wait_2", "effects": { "tags": ["stayedTooLong"] } },
+        { "label": "MENU.", "nextId": "bop_menu", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "bop_dont_know",
+      "speaker": "BOP",
+      "text": "Text your mom! She'll know. Moms remember everything. My mom has my birth chart framed. It's a lot but also goals?",
+      "choices": [
+        { "label": "I'm not texting my mom.", "nextId": "bop_menu", "effects": { "patienceChange": -1, "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "bop_pressure",
+      "speaker": "BOP",
+      "text": "Aw no pressure! I just have like... a lot going on so I need to know if this is worth my time, you know? Not in a mean way. In an honest way.",
+      "choices": [
+        { "label": "Fair enough.", "nextId": "bop_menu" },
+        { "label": "Is this worth MY time?", "nextId": "bop_your_time", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "bop_wait_2",
+      "speaker": "BOP",
+      "text": "*texts for 45 seconds* Okay sorry my ex is being weird. Not like EX ex, just like... we still talk. It's mature. Anyway! Food?",
+      "choices": [
+        { "label": "Sure.", "nextId": "bop_menu" }
+      ]
+    },
+    {
+      "id": "bop_your_time",
+      "speaker": "BOP",
+      "text": "*surprised* Oh wow. Okay. *puts phone face down* That was kind of hot actually. Most guys just let me walk all over them. Okay you have my attention. For now.",
+      "dateExpression": "present",
+      "choices": [
+        { "label": "Let's order.", "nextId": "bop_menu" }
+      ]
+    },
+    {
+      "id": "bop_menu",
+      "speaker": "WAITER",
+      "text": "What can I get you?",
+      "choices": [
+        { "label": "Whatever's fast.", "nextId": "bop_fast", "effects": { "moneyChange": -18 }, "receiptLines": [{ "label": "Quick appetizer", "cost": 18 }] },
+        { "label": "Wine for the table.", "nextId": "bop_wine", "effects": { "moneyChange": -35, "tags": ["highSpend"] }, "receiptLines": [{ "label": "Nice wine (impressively)", "cost": 35 }] },
+        { "label": "Just water.", "nextId": "bop_water" }
+      ]
+    },
+    {
+      "id": "bop_fast",
+      "speaker": "BOP",
+      "text": "Efficient. I like it. My schedule is insane so I respect people who value time. *phone rings* Oh my god I have to take this— *walks away*",
+      "choices": [
+        { "label": "*waits*", "nextId": "bop_wait_call", "effects": { "tags": ["stayedTooLong"] } },
+        { "label": "*leaves*", "nextId": "bop_buffer_exit", "effects": { "tags": ["leftEarly"] } }
+      ]
+    },
+    {
+      "id": "bop_wine",
+      "speaker": "BOP",
+      "text": "Ooh nice choice. My last date ordered the house wine. I knew it wouldn't work. You can tell a lot about someone from what they order. *phone buzzes but she ignores it*",
+      "dateExpression": "present",
+      "choices": [
+        { "label": "You ignored your phone.", "nextId": "bop_ignored" },
+        { "label": "What does my order say?", "nextId": "bop_order_meaning" }
+      ]
+    },
+    {
+      "id": "bop_water",
+      "speaker": "BOP",
+      "text": "Just water? *looks at you* Are you like... broke? Or healthy? I can't tell. Both are valid. One is more attractive though.",
+      "choices": [
+        { "label": "Healthy.", "nextId": "bop_healthy" },
+        { "label": "Does it matter?", "nextId": "bop_matter", "effects": { "tags": ["boundarySetter"] } }
+      ]
+    },
+    {
+      "id": "bop_wait_call",
+      "speaker": "BOP",
+      "text": "*returns after 10 minutes* Sorry! Crisis averted. My friend needed advice. I'm like the therapist of my group. Anyway where were we? Oh right, you.",
+      "choices": [
+        { "label": "I was just sitting here.", "nextId": "ending_bop_sitting" },
+        { "label": "Tell me about you.", "nextId": "ending_bop_about" }
+      ]
+    },
+    {
+      "id": "bop_buffer_exit",
+      "speaker": "WAITER",
+      "text": "Will your date be returning or— oh, you're leaving too?",
+      "choices": [
+        { "label": "She made her choice.", "nextId": "ending_bop_ghost" },
+        { "label": "*already gone*", "nextId": "ending_bop_ghost" }
+      ]
+    },
+    {
+      "id": "bop_ignored",
+      "speaker": "BOP",
+      "text": "*surprised* Oh. Yeah. I guess I did. *looks at you* Weird. I never do that. What are you doing to me? *actually present for the first time*",
+      "dateExpression": "present",
+      "choices": [
+        { "label": "Just being here.", "nextId": "ending_bop_present" },
+        { "label": "Mind control.", "nextId": "ending_bop_joke", "effects": { "tags": ["humorDeflect"] } }
+      ]
+    },
+    {
+      "id": "bop_order_meaning",
+      "speaker": "BOP",
+      "text": "It says you're confident. Generous. Maybe trying to impress me. *smiles* It's working a little. Don't tell anyone I said that.",
+      "dateExpression": "present",
+      "choices": [
+        { "label": "Your secret's safe.", "nextId": "ending_bop_secret" }
+      ]
+    },
+    {
+      "id": "bop_healthy",
+      "speaker": "BOP",
+      "text": "Healthy. Okay. I respect that. *phone buzzes, she looks at it, looks back at you* Actually you know what, this can wait. Tell me something real.",
+      "dateExpression": "present",
+      "choices": [
+        { "label": "Like what?", "nextId": "ending_bop_real" }
+      ]
+    },
+    {
+      "id": "bop_matter",
+      "speaker": "BOP",
+      "text": "*pauses* Does it matter? *tilts head* I... don't know actually. That's a good question. Usually money stuff matters to me but you asked it weird.",
+      "choices": [
+        { "label": "Weird how?", "nextId": "ending_bop_weird" }
+      ]
+    },
+    {
+      "id": "ending_bop_ghost",
+      "speaker": "PLAYER",
+      "text": "She's still on the phone when you walk out. She might not notice for another hour.",
+      "isEnding": true,
+      "endingTitle": "MUTUAL GHOSTING",
+      "endingText": "Neither of you texted. Both of you were relieved.",
+      "endingReceiptLines": [{ "label": "Appetizer (untouched)", "cost": 18 }, { "label": "Time (unvalued)", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_sitting",
+      "speaker": "BOP",
+      "text": "Wow that sounded bitter. *laughs* Okay I deserve that. I'm a lot. I know I'm a lot. Most people can't handle it. *shrugs* Their loss usually.",
+      "isEnding": true,
+      "endingTitle": "SELF-AWARE CHAOS",
+      "endingText": "She knows what she is. She will not change.",
+      "endingReceiptLines": [{ "label": "Appetizer", "cost": 18 }, { "label": "Honesty (rare)", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_about",
+      "speaker": "BOP",
+      "text": "*actually pauses* Me? *phone buzzes, she silences it* Nobody asks that. They just react to me. *genuine smile* Okay. What do you want to know?",
+      "isEnding": true,
+      "endingTitle": "BREAKTHROUGH?",
+      "endingText": "For one moment, she was actually curious about being known. The phone buzzed 47 more times.",
+      "endingReceiptLines": [{ "label": "Appetizer", "cost": 18 }, { "label": "Momentary connection", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_present",
+      "speaker": "BOP",
+      "text": "*puts phone in purse* Just... being here. God that's annoying. Why is that working? *laughs* Okay fine. You have my attention. Actually.",
+      "isEnding": true,
+      "endingTitle": "NOTIFICATION SILENCED",
+      "endingText": "She put the phone away. This may be the first time ever. It will probably not last.",
+      "endingReceiptLines": [{ "label": "Wine (shared)", "cost": 35 }, { "label": "Presence (rare)", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_joke",
+      "speaker": "BOP",
+      "text": "*laughs* Mind control. Okay, funny. I like funny. My ex wasn't funny. He was hot but like, zero personality. You're like the opposite. Wait that came out wrong—",
+      "isEnding": true,
+      "endingTitle": "BACKHANDED",
+      "endingText": "She tried to compliment you. It was objectively an insult. She did not notice.",
+      "endingReceiptLines": [{ "label": "Wine", "cost": 35 }, { "label": "Ego damage", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_secret",
+      "speaker": "BOP",
+      "text": "*smiles genuinely* I like you. That's weird. I usually don't like people until the third date. *phone buzzes* Ugh. *silences it* Where were we?",
+      "isEnding": true,
+      "endingTitle": "UNEXPECTED",
+      "endingText": "Against all odds, you got a second date. She was only on her phone 60% of the time.",
+      "endingReceiptLines": [{ "label": "Wine", "cost": 35 }, { "label": "Second date (pending)", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_real",
+      "speaker": "BOP",
+      "text": "Like... anything. *leans in* Everyone performs for me. It's exhausting. I just want someone to be weird and normal at the same time. Is that you?",
+      "isEnding": true,
+      "endingTitle": "BENEATH THE SURFACE",
+      "endingText": "Under the chaos, she wanted connection. Her phone remained silent for almost five minutes.",
+      "endingReceiptLines": [{ "label": "Water", "cost": 0 }, { "label": "Vulnerability (glimpse)", "cost": 0 }]
+    },
+    {
+      "id": "ending_bop_weird",
+      "speaker": "BOP",
+      "text": "Like you actually don't care about impressing me? Which is... impressive? God, that's messed up. *laughs at herself* I need therapy.",
+      "isEnding": true,
+      "endingTitle": "SELF-DIAGNOSIS",
+      "endingText": "She realized something about herself. She will forget it by tomorrow.",
+      "endingReceiptLines": [{ "label": "Water", "cost": 0 }, { "label": "Growth (temporary)", "cost": 0 }]
+    }
+  ]
+}
